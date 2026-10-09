@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// shortcut: build.format 'file' + relative links so the preview also works as a Claude Artifact; switch to 'directory' and absolute links at production deploy
+// directory format + absolute links: clean URLs on Vercel (the Claude Artifact preview is retired)
 export default defineConfig({
   site: 'https://cuiabainsulfilm.com.br',
-  build: { format: 'file', inlineStylesheets: 'always' },
+  build: { format: 'directory', inlineStylesheets: 'always' },
   integrations: [sitemap()],
 });

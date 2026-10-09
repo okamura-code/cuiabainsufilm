@@ -9,7 +9,7 @@ import GalleryPro from '../components/GalleryPro.astro';
 import Process from '../components/Process.astro';
 import Reviews from '../components/Reviews.astro';
 import Faq from '../components/Faq.astro';
-import { site, wa, services, faq, mapsLink } from '../data/site';
+import { site, wa, services, faq, mapsLink, srcset } from '../data/site';
 import '../styles/preview.css';
 
 const faqLd = {
@@ -22,7 +22,7 @@ const perks = [['sun', 'Conforto térmico'], ['shieldcheck', 'Mais segurança'],
 ---
 <Base title={site.name} path="" jsonLd={[faqLd]}>
   <section class="hero hero--v2">
-    <img class="hero__img" src="media/hero.webp" alt="SUV preto com vidros escurecidos ao pôr do sol em Cuiabá" width="1920" height="1080" fetchpriority="high" decoding="async" />
+    <img class="hero__img" src="/media/hero.webp" srcset="/media/hero-640.webp 640w, /media/hero-1200.webp 1200w, /media/hero.webp 1920w" sizes="100vw" alt="SUV preto com vidros escurecidos ao pôr do sol em Cuiabá" width="1920" height="1080" fetchpriority="high" decoding="async" />
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="wrap hero__content">
       <p class="eyebrow">Películas automotivas e acessórios · {site.address.neighborhood}, Cuiabá-MT</p>
@@ -43,7 +43,7 @@ const perks = [['sun', 'Conforto térmico'], ['shieldcheck', 'Mais segurança'],
   <section class="proof-band" aria-label="Destaques">
     <div class="wrap proof-band__grid">
       <a class="proof-item" href={mapsLink} target="_blank" rel="noopener"><Icons name="star" class="proof-item__icon" /><span><strong>5,0 no Google</strong><small>{site.rating.count} avaliações</small></span></a>
-      <a class="proof-item" href="contato.html"><Icons name="pin" class="proof-item__icon" /><span><strong>{site.address.street}</strong><small>{site.address.neighborhood}, Cuiabá · {site.address.reference}</small></span></a>
+      <a class="proof-item" href="/contato/"><Icons name="pin" class="proof-item__icon" /><span><strong>{site.address.street}</strong><small>{site.address.neighborhood}, Cuiabá · {site.address.reference}</small></span></a>
       <a class="proof-item" href={site.whatsapp} target="_blank" rel="noopener"><Icons name="wa" class="proof-item__icon" /><span><strong>{site.phoneDisplay}</strong><small>Só WhatsApp · seg–sex 8h–18h, sáb 8h–12h</small></span></a>
     </div>
   </section>
@@ -56,15 +56,15 @@ const perks = [['sun', 'Conforto térmico'], ['shieldcheck', 'Mais segurança'],
           <h2>Nossos serviços<span class="dot">.</span></h2>
           <p class="muted">Qualidade, tecnologia e as melhores marcas para o seu carro, em um só lugar.</p>
         </div>
-        <a class="link-arrow" href="servicos.html">Ver todos os serviços <span aria-hidden="true">→</span></a>
+        <a class="link-arrow" href="/servicos/">Ver todos os serviços <span aria-hidden="true">→</span></a>
       </div>
       <div class="grid grid--3">
         {flagship.map((s) => (
           <article class="scard">
-            <img src={s.image} alt={s.alt} width="800" height="600" loading="lazy" decoding="async" />
+            <img src={s.image} srcset={srcset(s.image)} sizes="(max-width: 760px) 100vw, 33vw" alt={s.alt} width="800" height="600" loading="lazy" decoding="async" />
             <div class="scard__body">
               <span class="bar" aria-hidden="true"></span>
-              <h3><a href={`servicos.html#${s.slug}`}>{s.title}</a></h3>
+              <h3><a href={`/servicos/#${s.slug}`}>{s.title}</a></h3>
               <p>{s.short}</p>
               <ul class="tags">{s.tags.map((t) => <li><Icons name={t.icon} /> {t.label}</li>)}</ul>
               <a class="btn btn--dark btn--block" href={wa(s.wa)} target="_blank" rel="noopener">Pedir orçamento <span class="lime" aria-hidden="true">↗</span></a>

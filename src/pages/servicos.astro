@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icons from '../components/Icons.astro';
-import { wa, services } from '../data/site';
+import { wa, services, srcset } from '../data/site';
 
 const shades = [
   { name: 'G70', vlt: '70%', front: 'ok', rear: 'ok', note: 'Quase transparente. Para-brisa e dianteiros.' },
@@ -13,7 +13,7 @@ const shades = [
 ];
 const label = { ok: ['tag tag--ok', 'Permitido'], no: ['tag', 'Não permitido'] } as const;
 ---
-<Base title="Serviços" description="Insulfilm automotivo, PPF, envelopamento, som e multimídia, alarmes, engates e teto solar em Cuiabá. Tonalidades dentro da lei e aplicação com hora marcada." path="servicos.html">
+<Base title="Serviços" description="Insulfilm automotivo, PPF, envelopamento, som e multimídia, alarmes, engates e teto solar em Cuiabá. Tonalidades dentro da lei e aplicação com hora marcada." path="servicos/">
   <section class="page-head">
     <div class="wrap">
       <p class="eyebrow">Serviços</p>
@@ -26,7 +26,7 @@ const label = { ok: ['tag tag--ok', 'Permitido'], no: ['tag', 'Não permitido'] 
     {services.map((s) => (
       <article class="svc" id={s.slug}>
         <div class="svc__media">
-          <img src={s.image} alt={s.alt} width="900" height="900" loading="lazy" decoding="async" />
+          <img src={s.image} srcset={srcset(s.image)} sizes="(max-width: 760px) 100vw, 50vw" alt={s.alt} width="900" height="900" loading="lazy" decoding="async" />
         </div>
         <div>
           <h2>{s.title}</h2>

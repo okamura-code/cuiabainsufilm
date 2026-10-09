@@ -25,7 +25,7 @@ const views = [
           ))}
         </div>
         <div class="vlt__photo">
-          <img class="vlt__base" id="vlt-base" src={`media/porsche/frames/${views[0].id}/g35.webp`} alt={views[0].alt} width="1500" height="750" decoding="async" />
+          <img class="vlt__base" id="vlt-base" src={`/media/porsche/frames/${views[0].id}/g35.webp`} alt={views[0].alt} width="1500" height="750" decoding="async" />
         </div>
         <p class="vlt__caption">Simulação visual. A aparência real varia conforme o vidro e a iluminação.</p>
       </div>
@@ -72,12 +72,12 @@ const views = [
         ? 'Permitida em todos os vidros, inclusive para-brisa e dianteiros. Resolução CONTRAN 960/2022.'
         : 'Permitida nos vidros traseiros e vigia. Para-brisa e dianteiros exigem mínimo de 70% de luz (G70). Resolução CONTRAN 960/2022.';
       range.setAttribute('aria-valuetext', s.g + ', ' + s.vlt + '% de luz passa');
-      base.src = 'media/porsche/frames/' + view.dataset.view + '/' + s.g.toLowerCase() + '.webp';
+      base.src = '/media/porsche/frames/' + view.dataset.view + '/' + s.g.toLowerCase() + '.webp';
       if (cta) cta.href = ctaBase + '?text=' + encodeURIComponent('Olá! Simulei a tonalidade ' + s.g + ' no site e quero orientação para meu carro.');
     }
     range.addEventListener('input', update);
     update();
-    function preload(v) { if (v.dataset.loaded) return; v.dataset.loaded = '1'; shades.forEach(function (s) { new Image().src = 'media/porsche/frames/' + v.dataset.view + '/' + s.g.toLowerCase() + '.webp'; }); }
+    function preload(v) { if (v.dataset.loaded) return; v.dataset.loaded = '1'; shades.forEach(function (s) { new Image().src = '/media/porsche/frames/' + v.dataset.view + '/' + s.g.toLowerCase() + '.webp'; }); }
     preload(view); // only the active view; the others load when selected
     buttons.forEach(function (b) {
       b.addEventListener('click', function () {

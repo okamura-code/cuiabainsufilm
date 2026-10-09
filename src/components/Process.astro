@@ -1,11 +1,11 @@
 ---
 /* Scheduling + care in one section: three steps with the real photos the project has (no videos yet, so no play buttons). */
 import Icons from './Icons.astro';
-import { wa } from '../data/site';
+import { wa, srcset } from '../data/site';
 const steps = [
-  { n: '01', icon: 'chat', title: 'Orçamento e agendamento', text: 'Mande o modelo do carro no WhatsApp. Respondemos com valor e horário; atendemos só com hora marcada, na loja ou a domicílio.', img: 'media/sobre.jpg', alt: 'Oficina com técnicos preparando um SUV' },
-  { n: '02', icon: 'spray', title: 'Preparação e aplicação', text: 'Limpeza cuidadosa do vidro antes da película, corte sob medida e aplicação sem bolhas. Reserve meio período.', img: 'media/process-aplicacao.jpg', alt: 'Aplicador passando o rodo na película do vidro de uma caminhonete' },
-  { n: '03', icon: 'eye', title: 'Acabamento e inspeção', text: 'Atenção às bordas e aos encaixes, conferência final e entrega com chancela nos dianteiros e certificado de garantia vitalícia Window Blue.', img: 'media/svc-insulfilm.jpg', alt: 'Detalhe da película sendo pressionada no vidro' },
+  { n: '01', icon: 'chat', title: 'Orçamento e agendamento', text: 'Mande o modelo do carro no WhatsApp. Respondemos com valor e horário; atendemos só com hora marcada, na loja ou a domicílio.', img: '/media/sobre.webp', alt: 'Oficina com técnicos preparando um SUV' },
+  { n: '02', icon: 'spray', title: 'Preparação e aplicação', text: 'Limpeza cuidadosa do vidro antes da película, corte sob medida e aplicação sem bolhas. Reserve meio período.', img: '/media/process-aplicacao.webp', alt: 'Aplicador passando o rodo na película do vidro de uma caminhonete' },
+  { n: '03', icon: 'eye', title: 'Acabamento e inspeção', text: 'Atenção às bordas e aos encaixes, conferência final e entrega com chancela nos dianteiros e certificado de garantia vitalícia Window Blue.', img: '/media/svc-insulfilm.webp', alt: 'Detalhe da película sendo pressionada no vidro' },
 ];
 ---
 <section class="section light-2" id="processo">
@@ -21,7 +21,7 @@ const steps = [
     <ol class="pcards">
       {steps.map((s) => (
         <li class="pcard">
-          <img src={s.img} alt={s.alt} width="1200" height="800" loading="lazy" decoding="async" />
+          <img src={s.img} srcset={srcset(s.img)} sizes="(max-width: 760px) 100vw, 33vw" alt={s.alt} width="1200" height="800" loading="lazy" decoding="async" />
           <div class="pcard__body">
             <div class="pcard__top"><span class="pcard__num">{s.n}</span><span class="pcard__sep" aria-hidden="true"></span><Icons name={s.icon} class="pcard__icon" /></div>
             <h3>{s.title}</h3>

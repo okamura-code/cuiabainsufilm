@@ -1,7 +1,7 @@
 ---
 /* One gallery: filters by service and by vehicle type, lightbox (<dialog>) with the item's info and a contextual WhatsApp CTA. */
 import Icons from './Icons.astro';
-import { gallery, site } from '../data/site';
+import { gallery, site, srcset } from '../data/site';
 const services = [['todos', 'Todos'], ['peliculas', 'Películas'], ['ppf', 'PPF'], ['som', 'Som e multimídia'], ['outros', 'Acessórios']];
 const vehicles = [['todos', 'Todos'], ['suv', 'SUV'], ['caminhonete', 'Caminhonete'], ['sedan', 'Sedã'], ['outros', 'Outros']];
 ---
@@ -24,7 +24,7 @@ const vehicles = [['todos', 'Todos'], ['suv', 'SUV'], ['caminhonete', 'Caminhone
       {gallery.map((g, i) => (
         <figure class="gp-item" data-cat={g.cat} data-vehicle={g.vehicle}>
           <button type="button" class="gp-item__btn" data-index={i} aria-label={`Ampliar: ${g.caption}`}>
-            <img src={g.src} alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
+            <img src={g.src} srcset={srcset(g.src)} sizes="(max-width: 760px) 100vw, 33vw" alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
           </button>
           <figcaption class="gp-item__meta"><span>{g.service}</span><span class="muted">{g.vehicleLabel}</span></figcaption>
         </figure>

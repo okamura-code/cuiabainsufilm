@@ -1,5 +1,5 @@
 ---
-import { gallery } from '../data/site';
+import { gallery, srcset } from '../data/site';
 interface Props { items?: typeof gallery; filters?: boolean; id?: string }
 const { items = gallery, filters = true, id = 'bento' } = Astro.props;
 const cats = [
@@ -17,9 +17,9 @@ const cats = [
 <div class="bento" id={id}>
   {items.map((g, i) => (
     <figure class:list={['bento__item', { 'is-big': i === 0 }]} data-cat={g.cat}>
-      <img src={g.src} alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
+      <img src={g.src} srcset={srcset(g.src)} sizes="(max-width: 760px) 100vw, 33vw" alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
       <figcaption class="bento__cap">{g.caption}</figcaption>
-      <a class="bento__arrow" href="galeria.html" aria-label={`Ver mais: ${g.caption}`}><span aria-hidden="true">→</span></a>
+      <a class="bento__arrow" href="/galeria/" aria-label={`Ver mais: ${g.caption}`}><span aria-hidden="true">→</span></a>
     </figure>
   ))}
 </div>

@@ -7,10 +7,10 @@ import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { site, services } from '../data/site';
 
 interface Props { title: string; description?: string; image?: string; path?: string; jsonLd?: object[] }
-const { title, description = site.description, image = 'media/hero.webp', path = '', jsonLd = [] } = Astro.props;
+const { title, description = site.description, image = '/media/hero.webp', path = '', jsonLd = [] } = Astro.props;
 const fullTitle = title === site.name ? `${site.name} | Película térmica, PPF e acessórios em Cuiabá` : `${title} | ${site.name}`;
 const canonical = `${site.url}/${path}`;
-const ogImage = `${site.url}/${image}`;
+const ogImage = `${site.url}${image}`;
 const a = site.address;
 const business = {
   '@context': 'https://schema.org',
@@ -38,7 +38,7 @@ const business = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#0b0d10" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
@@ -48,11 +48,10 @@ const business = {
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="pt_BR" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preload" as="image" href="media/hero.webp" fetchpriority="high" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" /></noscript>
+    <link rel="preload" as="image" href="/media/hero.webp" imagesrcset="/media/hero-640.webp 640w, /media/hero-1200.webp 1200w, /media/hero.webp 1920w" imagesizes="100vw" fetchpriority="high" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/open-sans.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/montserrat.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/kaushan-script.woff2" crossorigin />
     <script type="application/ld+json" set:html={JSON.stringify([business, ...jsonLd])} />
     <slot name="head" />
   </head>
@@ -80,11 +79,13 @@ const business = {
           entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
         }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
         var pending = [];
-        targets.forEach(function (el) {
-          if (el.closest('.hero')) return;
+        targets = targets.filter(function (el) { return !el.closest('.hero'); });
+        // read every position first, then write classes: interleaving the two forces a layout per element
+        var onScreen = targets.map(function (el) { return el.getBoundingClientRect().top < innerHeight; });
+        targets.forEach(function (el, i) {
           el.classList.add('reveal');
           // already on screen at load: show at once, keep the stagger
-          if (el.getBoundingClientRect().top < innerHeight) { requestAnimationFrame(function () { el.classList.add('is-in'); }); }
+          if (onScreen[i]) { requestAnimationFrame(function () { el.classList.add('is-in'); }); }
           else { io.observe(el); pending.push(el); }
         });
         // fallback for browsers that throttle IntersectionObserver (background/hidden views): reveal on scroll too

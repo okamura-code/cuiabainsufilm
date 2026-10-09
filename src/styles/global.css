@@ -1,3 +1,7 @@
+/* self-hosted Google Fonts (latin subset, variable weight): preloaded in Base.astro so text lays out once */
+@font-face { font-family: 'Montserrat'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/montserrat.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Open Sans'; font-style: normal; font-weight: 300 800; font-display: swap; src: url(/fonts/open-sans.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Kaushan Script'; font-style: normal; font-weight: 400; font-display: swap; src: url(/fonts/kaushan-script.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 :root {
   --ink: #0b0d10;
   --asphalt: #15181d;
@@ -44,6 +48,8 @@ p { margin: 0 0 1em; }
 
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .section { padding: clamp(56px, 9vw, 104px) 0; }
+/* below-the-fold sections skip style/layout until scrolled near: cuts first-layout time on mobile (reveal + anchors still work) */
+#questionario, #galeria, #processo, #avaliacoes, #duvidas, .cta-band, .footer { content-visibility: auto; contain-intrinsic-size: auto 700px; }
 .dark { background: var(--ink); color: var(--fog); }
 .dark .muted { color: var(--mist); }
 .light { background: var(--paper); }

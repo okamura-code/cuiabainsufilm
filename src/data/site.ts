@@ -28,6 +28,8 @@ export const site = {
 };
 
 export const wa = (text: string) => `${site.whatsapp}?text=${encodeURIComponent(text)}`;
+// 640w + 1200w WebP pair made by scripts/webp.mjs
+export const srcset = (src: string) => `${src.replace(/.webp$/, "-640.webp")} 640w, ${src} 1200w`;
 export const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.mapsQuery)}`;
 
 export type Service = {
@@ -57,7 +59,7 @@ export const services: Service[] = [
       'Remoção de película antiga sem danificar o desembaçador',
     ],
     ideal: 'Carros de passeio, SUVs e caminhonetes de qualquer marca.',
-    image: 'media/svc-insulfilm.jpg',
+    image: '/media/svc-insulfilm.webp',
     alt: 'Rodo pressionando película térmica escura no vidro de um carro',
     wa: 'Olá! Quero um orçamento de película térmica Window Blue para meu carro.',
     tags: [{ icon: 'sun', label: 'Conforto térmico' }, { icon: 'lock', label: 'Privacidade' }, { icon: 'shield', label: 'Garantia vitalícia' }],
@@ -70,7 +72,7 @@ export const services: Service[] = [
       'O PPF (Paint Protection Film) é uma película transparente e espessa aplicada sobre a pintura. Absorve impactos de pedras e cascalho, resiste a riscos de lavagem e se regenera com o calor. No acabamento, fica invisível.',
     includes: ['Frente completa, capô, para-choques ou carro inteiro', 'Película autorregenerativa com calor', 'Acabamento invisível, sem alterar a cor'],
     ideal: 'Carros zero km, caminhonetes de estrada e quem roda em cascalho.',
-    image: 'media/svc-ppf.jpg',
+    image: '/media/svc-ppf.webp',
     alt: 'Película transparente de proteção sendo aplicada no capô de um SUV',
     wa: 'Olá! Quero um orçamento de PPF (película de proteção de pintura).',
     tags: [{ icon: 'shield', label: 'Proteção' }, { icon: 'sparkle', label: 'Acabamento' }],
@@ -83,7 +85,7 @@ export const services: Service[] = [
       'Instalação de central multimídia com Android Auto e CarPlay, alto-falantes, módulos, subwoofer e câmera de ré. Tudo com chicote original e acabamento de fábrica, sem gambiarra na fiação.',
     includes: ['Centrais multimídia com Android Auto e CarPlay', 'Alto-falantes, módulos e subwoofer', 'Câmera de ré e sensor de estacionamento'],
     ideal: 'Quem quer atualizar o carro sem perder a garantia de fábrica.',
-    image: 'media/svc-som.jpg',
+    image: '/media/svc-som.webp',
     alt: 'Técnico instalando central multimídia no painel de uma caminhonete',
     wa: 'Olá! Quero um orçamento de som / central multimídia.',
     tags: [{ icon: 'music', label: 'Multimídia' }, { icon: 'speaker', label: 'Áudio' }],
@@ -96,7 +98,7 @@ export const services: Service[] = [
       'Envelopamento total ou parcial: teto, capô, retrovisores, colunas ou o carro inteiro. O vinil protege a pintura original e sai sem deixar marcas quando você quiser voltar ao original.',
     includes: ['Envelopamento total ou parcial', 'Preto fosco, acetinado e cores sólidas', 'Remoção limpa, sem danificar a pintura'],
     ideal: 'Personalização e proteção da pintura.',
-    image: 'media/svc-envelopamento.jpg',
+    image: '/media/svc-envelopamento.webp',
     alt: 'Aplicador esticando vinil preto acetinado na porta de um carro',
     wa: 'Olá! Quero um orçamento de envelopamento.',
     tags: [{ icon: 'palette', label: 'Estilo' }, { icon: 'shield', label: 'Proteção da pintura' }],
@@ -109,7 +111,7 @@ export const services: Service[] = [
       'Alarmes, travas elétricas, engates e capotas marítimas para caminhonetes. Instalação com acabamento original e peças de procedência.',
     includes: ['Alarmes e travas elétricas', 'Engates e capotas marítimas', 'Instalação com acabamento original'],
     ideal: 'Caminhonetes e carros de trabalho.',
-    image: 'media/svc-acessorios.jpg',
+    image: '/media/svc-acessorios.webp',
     alt: 'Caminhonete com capota marítima e engate em frente à loja',
     wa: 'Olá! Quero um orçamento de alarme / trava / engate / capota marítima.',
     tags: [{ icon: 'lock', label: 'Segurança' }, { icon: 'wrench', label: 'Instalação original' }],
@@ -122,7 +124,7 @@ export const services: Service[] = [
       'Teto solar que travou, vaza ou faz barulho tem conserto. Limpamos e lubrificamos os trilhos, trocamos vedações e diagnosticamos motor e comandos.',
     includes: ['Limpeza e lubrificação dos trilhos', 'Troca de vedação', 'Diagnóstico de motor e comandos'],
     ideal: 'Carros com teto solar que travou, vaza ou faz barulho.',
-    image: 'media/svc-teto.jpg',
+    image: '/media/svc-teto.webp',
     alt: 'Interior de carro com vidros escurecidos sob sol forte',
     wa: 'Olá! Preciso de manutenção no teto solar.',
     tags: [{ icon: 'droplet', label: 'Vedação' }, { icon: 'wrench', label: 'Mecânica' }],
@@ -167,13 +169,13 @@ export const faq = [
 ];
 
 export const gallery = [
-  { src: 'media/gal-1.jpg', alt: 'SUV preto com película térmica recém-aplicada', cat: 'peliculas', caption: 'Proteção e privacidade', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
-  { src: 'media/gal-2.jpg', alt: 'Caminhonete branca com vidros escurecidos', cat: 'peliculas', caption: 'Cuidado em cada detalhe', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Película automotiva' },
-  { src: 'media/gal-3.jpg', alt: 'Visão interna de carro com vidros escurecidos sob sol forte', cat: 'peliculas', caption: 'Conforto ao dirigir', vehicle: 'outros', vehicleLabel: 'Interior', service: 'Película automotiva' },
-  { src: 'media/svc-ppf.jpg', alt: 'PPF sendo aplicado no capô', cat: 'ppf', caption: 'Proteção invisível', vehicle: 'suv', vehicleLabel: 'SUV', service: 'PPF' },
-  { src: 'media/svc-envelopamento.jpg', alt: 'Envelopamento preto acetinado', cat: 'outros', caption: 'Envelopamento acetinado', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Acessórios' },
-  { src: 'media/svc-insulfilm.jpg', alt: 'Aplicação de película térmica', cat: 'peliculas', caption: 'Aplicação de película', vehicle: 'outros', vehicleLabel: 'Detalhe', service: 'Película automotiva' },
-  { src: 'media/sobre.jpg', alt: 'Oficina com dois técnicos aplicando película em um SUV', cat: 'peliculas', caption: 'Oficina em ação', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
-  { src: 'media/svc-som.jpg', alt: 'Instalação de central multimídia', cat: 'som', caption: 'Central multimídia', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Som e multimídia' },
-  { src: 'media/svc-acessorios.jpg', alt: 'Caminhonete com capota marítima', cat: 'outros', caption: 'Capota marítima e engate', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Acessórios' },
+  { src: '/media/gal-1.webp', alt: 'SUV preto com película térmica recém-aplicada', cat: 'peliculas', caption: 'Proteção e privacidade', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
+  { src: '/media/gal-2.webp', alt: 'Caminhonete branca com vidros escurecidos', cat: 'peliculas', caption: 'Cuidado em cada detalhe', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Película automotiva' },
+  { src: '/media/gal-3.webp', alt: 'Visão interna de carro com vidros escurecidos sob sol forte', cat: 'peliculas', caption: 'Conforto ao dirigir', vehicle: 'outros', vehicleLabel: 'Interior', service: 'Película automotiva' },
+  { src: '/media/svc-ppf.webp', alt: 'PPF sendo aplicado no capô', cat: 'ppf', caption: 'Proteção invisível', vehicle: 'suv', vehicleLabel: 'SUV', service: 'PPF' },
+  { src: '/media/svc-envelopamento.webp', alt: 'Envelopamento preto acetinado', cat: 'outros', caption: 'Envelopamento acetinado', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Acessórios' },
+  { src: '/media/svc-insulfilm.webp', alt: 'Aplicação de película térmica', cat: 'peliculas', caption: 'Aplicação de película', vehicle: 'outros', vehicleLabel: 'Detalhe', service: 'Película automotiva' },
+  { src: '/media/sobre.webp', alt: 'Oficina com dois técnicos aplicando película em um SUV', cat: 'peliculas', caption: 'Oficina em ação', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
+  { src: '/media/svc-som.webp', alt: 'Instalação de central multimídia', cat: 'som', caption: 'Central multimídia', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Som e multimídia' },
+  { src: '/media/svc-acessorios.webp', alt: 'Caminhonete com capota marítima', cat: 'outros', caption: 'Capota marítima e engate', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Acessórios' },
 ];
