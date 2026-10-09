@@ -10,7 +10,7 @@
   --ink-on-paper: #15181d;
   --muted: #5d646e;
   --lime: #a4e52e;
-  --lime-deep: #4f8a00;
+  --lime-deep: #3d6b00;
   --star: #e0a800;
   --ok: #2e9e5b;
   --no: #d64545;
@@ -39,6 +39,8 @@ p { margin: 0 0 1em; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 :focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
 [hidden] { display: none !important; }
+.skip { position: absolute; left: 1rem; top: -3rem; z-index: 100; background: var(--lime); color: var(--ink); padding: 0.6rem 1rem; border-radius: 8px; font-weight: 700; text-decoration: none; }
+.skip:focus { top: 1rem; }
 
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .section { padding: clamp(56px, 9vw, 104px) 0; }

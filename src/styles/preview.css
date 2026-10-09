@@ -54,6 +54,7 @@
 .quiz-side { background: #15181d; border: 1px solid var(--line); border-radius: 18px; padding: clamp(20px, 3vw, 36px); display: grid; gap: 0.5rem; align-content: start; }
 .quiz-side h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
 .quiz-side img { border-radius: 14px; margin-top: 0.6rem; aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+.quiz .muted { color: var(--muted); }
 .quiz { background: var(--paper); color: var(--ink-on-paper); border-radius: 18px; padding: clamp(20px, 3.5vw, 44px); display: grid; gap: 0.8rem; align-content: start; }
 .quiz__progress { display: flex; align-items: center; gap: 1rem; font-family: var(--display); font-weight: 700; font-size: 0.9rem; color: var(--muted); }
 .quiz__bars { display: flex; gap: 0.4rem; flex: 1; max-width: 380px; }

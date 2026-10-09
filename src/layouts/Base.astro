@@ -7,7 +7,7 @@ import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { site, services } from '../data/site';
 
 interface Props { title: string; description?: string; image?: string; path?: string; jsonLd?: object[] }
-const { title, description = site.description, image = 'media/hero.jpg', path = '', jsonLd = [] } = Astro.props;
+const { title, description = site.description, image = 'media/hero.webp', path = '', jsonLd = [] } = Astro.props;
 const fullTitle = title === site.name ? `${site.name} | Película térmica, PPF e acessórios em Cuiabá` : `${title} | ${site.name}`;
 const canonical = `${site.url}/${path}`;
 const ogImage = `${site.url}/${image}`;
@@ -48,13 +48,16 @@ const business = {
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="pt_BR" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" as="image" href="media/hero.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" /></noscript>
     <script type="application/ld+json" set:html={JSON.stringify([business, ...jsonLd])} />
     <slot name="head" />
   </head>
   <body>
+    <a class="skip" href="#conteudo">Pular para o conteúdo</a>
     <Header />
     <main id="conteudo">
       <slot />
