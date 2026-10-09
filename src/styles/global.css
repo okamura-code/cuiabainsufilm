@@ -49,7 +49,7 @@ p { margin: 0 0 1em; }
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .section { padding: clamp(56px, 9vw, 104px) 0; }
 /* below-the-fold sections skip style/layout until scrolled near: cuts first-layout time on mobile (reveal + anchors still work) */
-#questionario, #galeria, #processo, #avaliacoes, #duvidas, .cta-band, .footer { content-visibility: auto; contain-intrinsic-size: auto 700px; }
+#servicos, #simulador, #questionario, #galeria, #processo, #avaliacoes, #duvidas, .cta-band, .footer { content-visibility: auto; contain-intrinsic-size: auto 700px; }
 .dark { background: var(--ink); color: var(--fog); }
 .dark .muted { color: var(--mist); }
 .light { background: var(--paper); }

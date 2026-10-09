@@ -78,7 +78,7 @@ const views = [
     range.addEventListener('input', update);
     update();
     function preload(v) { if (v.dataset.loaded) return; v.dataset.loaded = '1'; shades.forEach(function (s) { new Image().src = '/media/porsche/frames/' + v.dataset.view + '/' + s.g.toLowerCase() + '.webp'; }); }
-    preload(view); // only the active view; the others load when selected
+    addEventListener('load', function () { preload(view); }); // after fonts/hero: only the active view, others load when selected
     buttons.forEach(function (b) {
       b.addEventListener('click', function () {
         preload(b);

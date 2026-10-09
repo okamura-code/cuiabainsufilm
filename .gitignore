@@ -26,3 +26,5 @@ pnpm-debug.log*
 # generated source PNGs (downloaded from Higgsfield)
 raw/
 dist-artifact/
+
+.vercel
