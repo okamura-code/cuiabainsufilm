@@ -1,7 +1,7 @@
 export const site = {
   name: 'Cuiabá Insulfilm',
   legalName: 'Cuiabá Insulfilm Som e Acessórios',
-  url: 'https://cuiabainsulfilm.com.br',
+  url: 'https://cuiaba-insulfilm.vercel.app',
   description:
     'Película térmica Window Blue com garantia vitalícia, PPF, som e acessórios automotivos em Cuiabá-MT. Revenda autorizada em Dom Aquino, ao lado da Av. Miguel Sutil. Orçamento pelo WhatsApp.',
   phoneDisplay: '(65) 99340-1663',
