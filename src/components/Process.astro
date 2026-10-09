@@ -1,0 +1,37 @@
+---
+/* Scheduling + care in one section: three steps with the real photos the project has (no videos yet, so no play buttons). */
+import Icons from './Icons.astro';
+import { wa } from '../data/site';
+const steps = [
+  { n: '01', icon: 'chat', title: 'Orçamento e agendamento', text: 'Mande o modelo do carro no WhatsApp. Respondemos com valor e horário; atendemos só com hora marcada, na loja ou a domicílio.', img: 'media/sobre.jpg', alt: 'Oficina com técnicos preparando um SUV' },
+  { n: '02', icon: 'spray', title: 'Preparação e aplicação', text: 'Limpeza cuidadosa do vidro antes da película, corte sob medida e aplicação sem bolhas. Reserve meio período.', img: 'media/process-aplicacao.jpg', alt: 'Aplicador passando o rodo na película do vidro de uma caminhonete' },
+  { n: '03', icon: 'eye', title: 'Acabamento e inspeção', text: 'Atenção às bordas e aos encaixes, conferência final e entrega com chancela nos dianteiros e certificado de garantia vitalícia Window Blue.', img: 'media/svc-insulfilm.jpg', alt: 'Detalhe da película sendo pressionada no vidro' },
+];
+---
+<section class="section light-2" id="processo">
+  <div class="wrap">
+    <div class="process-head">
+      <div class="section-head">
+        <p class="eyebrow">Nosso processo</p>
+        <h2>Por dentro do cuidado<span class="dot">.</span></h2>
+        <p class="muted">Um bom resultado começa nos detalhes que você nem sempre vê.</p>
+      </div>
+      <p class="process-aside">Mais que película,<br />é tranquilidade<br />em cada detalhe.</p>
+    </div>
+    <ol class="pcards">
+      {steps.map((s) => (
+        <li class="pcard">
+          <img src={s.img} alt={s.alt} width="1200" height="800" loading="lazy" decoding="async" />
+          <div class="pcard__body">
+            <div class="pcard__top"><span class="pcard__num">{s.n}</span><span class="pcard__sep" aria-hidden="true"></span><Icons name={s.icon} class="pcard__icon" /></div>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <div class="center-cta">
+      <a class="btn btn--dark" href={wa('Olá! Quero falar com a equipe sobre uma aplicação.')} target="_blank" rel="noopener">Fale com nossa equipe <span class="lime" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>

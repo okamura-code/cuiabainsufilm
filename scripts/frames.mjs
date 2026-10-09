@@ -18,3 +18,10 @@ for (const f of readdirSync(inDir)) {
   await sharp(await frame.composite([{ input: patch, left: box.left, top: box.top }]).toBuffer()).extract(crop).resize(1500).webp({ quality: 80 }).toFile(`${outDir}/${g}.webp`);
   console.log('ok', g, `${w}x${h}`);
 }
+// clean source photo with the same crop, used by the before/after comparator
+{
+  const { width: w, height: h } = await sharp(`raw/porsche/${src}`).metadata();
+  const crop = { left: Math.round(w * CROP.left), top: Math.round(h * CROP.top), width: Math.round(w * CROP.width), height: Math.round(h * CROP.height) };
+  await sharp(`raw/porsche/${src}`).extract(crop).resize(1500).webp({ quality: 80 }).toFile(`${outDir}/original.webp`);
+  console.log('ok original');
+}

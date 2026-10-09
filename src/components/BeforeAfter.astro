@@ -1,0 +1,39 @@
+---
+/* Before/after comparator on the same photo and framing: clean source vs. G5 frame.
+   The divider is a native range input, so mouse, touch and keyboard all work. */
+import Icons from './Icons.astro';
+import { wa } from '../data/site';
+const before = 'media/porsche/frames/lateral-esquerda/original.webp';
+const after = 'media/porsche/frames/lateral-esquerda/g5.webp';
+---
+<section class="section light" id="antes-depois">
+  <div class="wrap">
+    <div class="section-head section-head--center">
+      <p class="eyebrow eyebrow--center">Antes e depois</p>
+      <h2>Arraste. Veja a diferença<span class="dot">.</span></h2>
+      <p class="muted">Compare o visual do seu carro com e sem película.</p>
+    </div>
+    <div class="ba" id="ba" style="--pos:50%">
+      <img class="ba__img" src={before} alt="Porsche 911 branco sem película, lateral esquerda" width="1500" height="750" loading="lazy" decoding="async" />
+      <img class="ba__img ba__img--after" src={after} alt="O mesmo carro com película G5" width="1500" height="750" loading="lazy" decoding="async" />
+      <span class="ba__tag ba__tag--before">Sem película</span>
+      <span class="ba__tag ba__tag--after">Com película</span>
+      <span class="ba__line" aria-hidden="true"><span class="ba__knob"><Icons name="arrows" /></span></span>
+      <label for="ba-range" class="sr-only">Posição da divisória entre sem película e com película</label>
+      <input class="ba__range" id="ba-range" type="range" min="0" max="100" value="50" step="1" />
+    </div>
+    <p class="muted small">Comparação ilustrativa, com película G5 sobre a mesma foto.</p>
+    <div class="center-cta">
+      <a class="btn btn--dark" href={wa('Olá! Vi o comparador no site e quero esse resultado no meu carro.')} target="_blank" rel="noopener">Quero esse resultado <span class="lime" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    var box = document.getElementById('ba'), r = document.getElementById('ba-range');
+    if (!box || !r) return;
+    var update = function () { box.style.setProperty('--pos', r.value + '%'); };
+    r.addEventListener('input', update);
+    update();
+  })();
+</script>

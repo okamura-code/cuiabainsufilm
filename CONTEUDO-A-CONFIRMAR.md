@@ -30,3 +30,9 @@
 - Formulário envia para WhatsApp (sem e-mail), conforme pedido do cliente.
 - Vídeo do hero: adiado (2026-10-09). Opções com custo verificado no conector Higgsfield: Cinema Studio 4.0 8 s/720p = 56 créditos; 5 s sem áudio = 35; Kling 3.0 5 s = 10; crossfade CSS dos frames G70→G5 = 0. Saldo na data: 202,56 créditos. Base preferida: foto real da loja.
 - Deploy: Vercel (`npx vercel`), após registrar domínio.
+
+## Prévia do redesign (branch `redesign-v2`, rota `preview.html`)
+- Pendente: fotos e vídeos reais da loja (galeria e processo usam imagens ilustrativas de IA, sinalizadas; sem vídeos não há botões de reprodução).
+- Pendente: cenários de iluminação do simulador (sol/fim de tarde/noite) só com fotos geradas por cenário; não implementado.
+- Pendente: comparador usa Porsche de divulgação (original × G5 sobre a mesma foto); trocar pela foto de um carro do cliente.
+- Pendente: nomes reais dos avaliadores (hoje "Cliente no Google"), se o dono autorizar.

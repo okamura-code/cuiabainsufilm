@@ -1,0 +1,82 @@
+---
+/* Three-step questionnaire. Answers live in the radio inputs, so going back never loses them.
+   The summary only repeats the answers; the shop recommends the shade on WhatsApp. */
+import Icons from './Icons.astro';
+import { site } from '../data/site';
+const steps = [
+  { name: 'incomoda', q: 'O que mais incomoda ao dirigir?', opts: [['Calor', 'sun'], ['Claridade', 'glare'], ['Falta de privacidade', 'window']] },
+  { name: 'noite', q: 'Dirige bastante à noite?', opts: [['Sim, com frequência', 'moon'], ['Às vezes', 'clock'], ['Quase nunca', 'sun']] },
+  { name: 'aparencia', q: 'Prefere aparência clara ou escura?', opts: [['Mais clara', 'sunlow'], ['Equilibrada', 'half'], ['Mais escura', 'window']] },
+];
+---
+<section class="section dark" id="questionario">
+  <div class="wrap quiz-grid">
+    <div class="quiz-side">
+      <p class="eyebrow">Conforto que te acompanha</p>
+      <h2>Sua escolha começa pelo <span class="lime">conforto.</span></h2>
+      <p class="muted">Mais bem-estar, proteção e privacidade para o seu dia a dia em Cuiabá e em qualquer destino.</p>
+      <img src="media/gal-3.jpg" alt="Interior de carro com vidros escurecidos sob sol forte" width="1200" height="900" loading="lazy" decoding="async" />
+    </div>
+    <form class="quiz" id="quiz" data-wa={site.whatsapp} novalidate>
+      <div class="quiz__progress" aria-hidden="true"><span class="quiz__count" id="quiz-count">1 de 3</span><span class="quiz__bars"><i class="is-on"></i><i></i><i></i></span></div>
+      <h3 class="quiz__title">Vamos encontrar sua película?</h3>
+      <p class="muted">Conte o que importa para você.</p>
+      {steps.map((s, i) => (
+        <fieldset class="quiz__step" data-step={i} hidden={i !== 0}>
+          <legend>{s.q}</legend>
+          <div class="quiz__opts">
+            {s.opts.map(([label, icon]) => (
+              <label class="quiz__opt"><input type="radio" name={s.name} value={label} /><span class="quiz__card"><Icons name={icon} /><span>{label}</span></span></label>
+            ))}
+          </div>
+        </fieldset>
+      ))}
+      <div class="quiz__step quiz__summary" data-step="3" hidden>
+        <h4>Seu resumo</h4>
+        <ul id="quiz-summary"></ul>
+        <p class="muted small">Nossa equipe indica a tonalidade ideal pelo WhatsApp, considerando o vidro do seu carro e a legislação.</p>
+      </div>
+      <p class="quiz__error" id="quiz-error" role="alert" hidden>Escolha uma opção para continuar.</p>
+      <div class="quiz__nav">
+        <span class="muted small"><Icons name="info" /> Uma orientação inicial para conversar com nossa equipe.</span>
+        <div class="quiz__btns">
+          <button class="btn btn--ghost" type="button" id="quiz-back" hidden>← Voltar</button>
+          <button class="btn btn--dark quiz__next" type="button" id="quiz-next">Continuar →</button>
+          <a class="btn" id="quiz-wa" href={site.whatsapp} target="_blank" rel="noopener" hidden><Icons name="wa" /> Enviar pelo WhatsApp</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    var form = document.getElementById('quiz');
+    if (!form) return;
+    var steps = form.querySelectorAll('.quiz__step'), bars = form.querySelectorAll('.quiz__bars i');
+    var back = document.getElementById('quiz-back'), next = document.getElementById('quiz-next'), waBtn = document.getElementById('quiz-wa');
+    var count = document.getElementById('quiz-count'), err = document.getElementById('quiz-error'), summary = document.getElementById('quiz-summary');
+    var names = ['incomoda', 'noite', 'aparencia'], labels = ['Incomoda', 'Dirige à noite', 'Aparência'];
+    var i = 0;
+    function answer(n) { var el = form.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : ''; }
+    function show() {
+      steps.forEach(function (s, k) { s.hidden = k !== i; });
+      bars.forEach(function (b, k) { b.classList.toggle('is-on', k <= Math.min(i, 2)); });
+      count.textContent = (Math.min(i, 2) + 1) + ' de 3';
+      back.hidden = i === 0;
+      next.hidden = i === 3;
+      waBtn.hidden = i !== 3;
+      err.hidden = true;
+      if (i === 3) {
+        summary.innerHTML = '';
+        var lines = names.map(function (n, k) { var li = document.createElement('li'); li.textContent = labels[k] + ': ' + answer(n); summary.appendChild(li); return labels[k] + ': ' + answer(n); });
+        waBtn.href = form.dataset.wa + '?text=' + encodeURIComponent('Olá! Respondi o questionário do site. ' + lines.join('. ') + '. Qual tonalidade vocês indicam para meu carro?');
+      }
+    }
+    next.addEventListener('click', function () {
+      if (!answer(names[i])) { err.hidden = false; return; }
+      i++; show();
+    });
+    back.addEventListener('click', function () { i--; show(); });
+    show();
+  })();
+</script>

@@ -77,10 +77,11 @@ const views = [
     }
     range.addEventListener('input', update);
     update();
+    function preload(v) { if (v.dataset.loaded) return; v.dataset.loaded = '1'; shades.forEach(function (s) { new Image().src = 'media/porsche/frames/' + v.dataset.view + '/' + s.g.toLowerCase() + '.webp'; }); }
+    preload(view); // only the active view; the others load when selected
     buttons.forEach(function (b) {
-      // preload so switching is instant
-      shades.forEach(function (s) { new Image().src = 'media/porsche/frames/' + b.dataset.view + '/' + s.g.toLowerCase() + '.webp'; });
       b.addEventListener('click', function () {
+        preload(b);
         buttons.forEach(function (o) { o.classList.remove('is-active'); o.setAttribute('aria-pressed', 'false'); });
         b.classList.add('is-active');
         b.setAttribute('aria-pressed', 'true');

@@ -167,13 +167,13 @@ export const faq = [
 ];
 
 export const gallery = [
-  { src: 'media/gal-1.jpg', alt: 'SUV preto com película térmica recém-aplicada', cat: 'peliculas', caption: 'Proteção e privacidade' },
-  { src: 'media/gal-2.jpg', alt: 'Caminhonete branca com vidros escurecidos', cat: 'peliculas', caption: 'Cuidado em cada detalhe' },
-  { src: 'media/gal-3.jpg', alt: 'Visão interna de carro com vidros escurecidos sob sol forte', cat: 'peliculas', caption: 'Conforto ao dirigir' },
-  { src: 'media/svc-ppf.jpg', alt: 'PPF sendo aplicado no capô', cat: 'ppf', caption: 'Proteção invisível' },
-  { src: 'media/svc-envelopamento.jpg', alt: 'Envelopamento preto acetinado', cat: 'outros', caption: 'Envelopamento acetinado' },
-  { src: 'media/svc-insulfilm.jpg', alt: 'Aplicação de película térmica', cat: 'peliculas', caption: 'Aplicação de película' },
-  { src: 'media/sobre.jpg', alt: 'Oficina com dois técnicos aplicando película em um SUV', cat: 'peliculas', caption: 'Oficina em ação' },
-  { src: 'media/svc-som.jpg', alt: 'Instalação de central multimídia', cat: 'som', caption: 'Central multimídia' },
-  { src: 'media/svc-acessorios.jpg', alt: 'Caminhonete com capota marítima', cat: 'outros', caption: 'Capota marítima e engate' },
+  { src: 'media/gal-1.jpg', alt: 'SUV preto com película térmica recém-aplicada', cat: 'peliculas', caption: 'Proteção e privacidade', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
+  { src: 'media/gal-2.jpg', alt: 'Caminhonete branca com vidros escurecidos', cat: 'peliculas', caption: 'Cuidado em cada detalhe', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Película automotiva' },
+  { src: 'media/gal-3.jpg', alt: 'Visão interna de carro com vidros escurecidos sob sol forte', cat: 'peliculas', caption: 'Conforto ao dirigir', vehicle: 'outros', vehicleLabel: 'Interior', service: 'Película automotiva' },
+  { src: 'media/svc-ppf.jpg', alt: 'PPF sendo aplicado no capô', cat: 'ppf', caption: 'Proteção invisível', vehicle: 'suv', vehicleLabel: 'SUV', service: 'PPF' },
+  { src: 'media/svc-envelopamento.jpg', alt: 'Envelopamento preto acetinado', cat: 'outros', caption: 'Envelopamento acetinado', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Acessórios' },
+  { src: 'media/svc-insulfilm.jpg', alt: 'Aplicação de película térmica', cat: 'peliculas', caption: 'Aplicação de película', vehicle: 'outros', vehicleLabel: 'Detalhe', service: 'Película automotiva' },
+  { src: 'media/sobre.jpg', alt: 'Oficina com dois técnicos aplicando película em um SUV', cat: 'peliculas', caption: 'Oficina em ação', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
+  { src: 'media/svc-som.jpg', alt: 'Instalação de central multimídia', cat: 'som', caption: 'Central multimídia', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Som e multimídia' },
+  { src: 'media/svc-acessorios.jpg', alt: 'Caminhonete com capota marítima', cat: 'outros', caption: 'Capota marítima e engate', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Acessórios' },
 ];
