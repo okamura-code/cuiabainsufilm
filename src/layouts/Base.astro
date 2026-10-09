@@ -1,0 +1,101 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { site, services } from '../data/site';
+
+interface Props { title: string; description?: string; image?: string; path?: string; jsonLd?: object[] }
+const { title, description = site.description, image = 'media/hero.jpg', path = '', jsonLd = [] } = Astro.props;
+const fullTitle = title === site.name ? `${site.name} | Película térmica, PPF e acessórios em Cuiabá` : `${title} | ${site.name}`;
+const canonical = `${site.url}/${path}`;
+const ogImage = `${site.url}/${image}`;
+const a = site.address;
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'AutoPartsStore',
+  name: site.legalName,
+  alternateName: site.name,
+  url: site.url,
+  image: ogImage,
+  telephone: site.phoneE164,
+  priceRange: '$$',
+  address: { '@type': 'PostalAddress', streetAddress: a.street, addressLocality: a.city, addressRegion: a.state, postalCode: a.zip, addressCountry: 'BR' },
+  areaServed: ['Cuiabá', 'Várzea Grande', 'Região de Cuiabá'],
+  brand: { '@type': 'Brand', name: site.brand },
+  openingHoursSpecification: site.hours.filter((h) => h.schema.length).map((h) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: h.schema, opens: h.opens, closes: h.closes })),
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: String(site.rating.value), reviewCount: String(site.rating.count) },
+  sameAs: [site.instagram],
+  makesOffer: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.short } })),
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0b0d10" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <script type="application/ld+json" set:html={JSON.stringify([business, ...jsonLd])} />
+  </head>
+  <body>
+    <Header />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+    <script is:inline>
+      (function () {
+        if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var groups = ['.grid', '.steps', '.masonry', '.values', '.faq .wrap', '.contact', '.footer .wrap'];
+        var singles = document.querySelectorAll('.section-head, .svc, .vlt__stage, .vlt__panel, .cta-band .wrap > *, .about > *, .notice');
+        var targets = [];
+        groups.forEach(function (sel) {
+          document.querySelectorAll(sel).forEach(function (g) {
+            Array.prototype.forEach.call(g.children, function (el, i) { el.style.setProperty('--i', String(i % 8)); targets.push(el); });
+          });
+        });
+        singles.forEach(function (el) { targets.push(el); });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+        var pending = [];
+        targets.forEach(function (el) {
+          if (el.closest('.hero')) return;
+          el.classList.add('reveal');
+          // already on screen at load: show at once, keep the stagger
+          if (el.getBoundingClientRect().top < innerHeight) { requestAnimationFrame(function () { el.classList.add('is-in'); }); }
+          else { io.observe(el); pending.push(el); }
+        });
+        // fallback for browsers that throttle IntersectionObserver (background/hidden views): reveal on scroll too
+        var ticking = false;
+        addEventListener('scroll', function () {
+          if (ticking || !pending.length) return;
+          ticking = true;
+          requestAnimationFrame(function () {
+            pending = pending.filter(function (el) {
+              if (el.getBoundingClientRect().top < innerHeight * 0.92) { el.classList.add('is-in'); io.unobserve(el); return false; }
+              return true;
+            });
+            ticking = false;
+          });
+        }, { passive: true });
+      })();
+    </script>
+  </body>
+</html>

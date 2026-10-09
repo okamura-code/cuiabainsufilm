@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import Icons from '../components/Icons.astro';
+import { wa, gallery } from '../data/site';
+---
+<Base title="Galeria" description="Fotos de aplicações de película térmica, PPF, envelopamento e acessórios feitas pela Cuiabá Insulfilm em Cuiabá-MT." path="galeria.html">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">Galeria</p>
+      <h1>Trabalhos recentes.</h1>
+      <p>Película térmica, PPF, envelopamento e acessórios. Quer ver um carro parecido com o seu? Pergunte no WhatsApp.</p>
+    </div>
+  </section>
+  <section class="section light">
+    <div class="wrap">
+      <div class="masonry">
+        {gallery.map((g) => (
+          <figure>
+            <img src={g.src} alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
+            <figcaption>{g.alt}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="cta-band">
+    <div class="wrap">
+      <h2>Quer o seu aqui?</h2>
+      <a class="btn" href={wa('Olá! Vi a galeria e quero um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a>
+    </div>
+  </section>
+</Base>

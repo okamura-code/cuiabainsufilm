@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import Icons from '../components/Icons.astro';
+import { site, wa, mapsLink } from '../data/site';
+const a = site.address;
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuery)}&output=embed`;
+---
+<Base title="Sobre a loja" description="Cuiabá Insulfilm Som e Acessórios: loja de película térmica, PPF e acessórios em Dom Aquino, Cuiabá-MT. Conheça a equipe e onde estamos." path="sobre.html" image="media/sobre.jpg">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">Sobre</p>
+      <h1>Uma loja de bairro que entende de calor.</h1>
+      <p>Na esquina da Av. Carmindo de Campos com a Miguel Sutil, em Dom Aquino. Fácil de chegar, fácil de estacionar.</p>
+    </div>
+  </section>
+
+  <section class="section light">
+    <div class="wrap about">
+      <img src="media/sobre.jpg" alt="Oficina da loja com dois técnicos aplicando película em um SUV" width="1600" height="900" loading="lazy" decoding="async" />
+      <div>
+        <h2>Revenda autorizada Window Blue, com atendimento de um carro por vez.</h2>
+        <p>A Cuiabá Insulfilm nasceu com uma ideia simples: fazer bem feito o que o calor de Cuiabá exige. Somos revenda autorizada Window Blue, com película em todas as tonalidades e garantia vitalícia certificada. Em volta disso, PPF, som e multimídia, envelopamento, alarmes, engates, capotas marítimas e teto solar.</p>
+        <p>A equipe tem vários aplicadores, e o atendimento é personalizado: hora marcada, um carro por vez, orçamento fechado antes de começar. Atendemos na loja ou a domicílio, em Cuiabá e região.</p>
+        <div class="actions">
+          <a class="btn" href={wa('Olá! Quero conhecer a loja e pedir um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Falar com a loja</a>
+          <a class="btn btn--ghost" href={site.instagram} target="_blank" rel="noopener"><Icons name="ig" /> {site.instagramHandle}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section light-2">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Como trabalhamos</p>
+        <h2>Três coisas que não abrimos mão.</h2>
+      </div>
+      <ul class="values">
+        <li><h3>Garantia vitalícia</h3><p>Película Window Blue com certificado entregue na aplicação. Se der problema, é com a gente.</p></li>
+        <li><h3>Atendimento exclusivo</h3><p>Hora marcada e um carro por vez. Valor fechado no WhatsApp é o valor que você paga.</p></li>
+        <li><h3>Dentro da lei</h3><p>Tonalidades conforme a Resolução CONTRAN 960/2022 e chancela nos vidros dianteiros.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section light">
+    <div class="wrap contact">
+      <div>
+        <div class="section-head">
+          <p class="eyebrow">Onde estamos</p>
+          <h2>Dom Aquino, Cuiabá.</h2>
+        </div>
+        <div class="nap">
+          <div class="nap__row"><Icons name="pin" /><p>{a.street}, {a.neighborhood}<br />{a.city} - {a.state}, CEP {a.zip}<br /><span class="muted">{a.reference}</span><br /><a href={mapsLink} target="_blank" rel="noopener">Abrir no Google Maps</a></p></div>
+          <div class="nap__row"><Icons name="clock" /><p>{site.hours.map((h) => <>{h.days}: {h.time}<br /></>)}</p></div>
+          <div class="nap__row"><Icons name="wa" /><p><a href={site.whatsapp} target="_blank" rel="noopener">{site.phoneDisplay}</a> · só WhatsApp</p></div>
+        </div>
+      </div>
+      <iframe class="map" src={mapSrc} loading="lazy" title="Mapa com a localização da loja" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </section>
+</Base>
