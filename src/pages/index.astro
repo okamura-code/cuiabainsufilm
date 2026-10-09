@@ -21,6 +21,7 @@ const flagship = services.filter((s) => ['insulfilm-automotivo', 'ppf', 'som-e-m
 const perks = [['sun', 'Conforto térmico'], ['shieldcheck', 'Mais segurança'], ['eye', 'Privacidade no seu dia a dia'], ['sparkle', 'Estilo e valorização']];
 ---
 <Base title={site.name} path="" jsonLd={[faqLd]}>
+  <Fragment slot="head">    <link rel="preload" as="image" href="/media/hero.webp" imagesrcset="/media/hero-640.webp 640w, /media/hero-1200.webp 1200w, /media/hero.webp 1920w" imagesizes="100vw" fetchpriority="high" /></Fragment>
   <section class="hero hero--v2">
     <img class="hero__img" src="/media/hero.webp" srcset="/media/hero-640.webp 640w, /media/hero-1200.webp 1200w, /media/hero.webp 1920w" sizes="100vw" alt="SUV preto com vidros escurecidos ao pôr do sol em Cuiabá" width="1920" height="1080" fetchpriority="high" decoding="async" />
     <div class="hero__shade" aria-hidden="true"></div>

@@ -165,7 +165,7 @@ p { margin: 0 0 1em; }
 .shade-table th, .shade-table td { text-align: left; padding: 0.55rem 0.6rem; border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 .shade-table th { font-family: var(--display); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 .tag { display: inline-block; padding: 0.15rem 0.55rem; border-radius: 6px; font-size: 0.78rem; font-weight: 600; }
-.tag--ok { background: rgba(46, 158, 91, 0.14); color: #1f7a44; }
+.tag--ok { background: rgba(46, 158, 91, 0.14); color: #17633a; }
 .tag--rear { background: rgba(164, 229, 46, 0.22); color: var(--lime-deep); }
 
 /* contact */
