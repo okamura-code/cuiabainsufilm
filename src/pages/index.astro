@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icons from '../components/Icons.astro';
 import VltSimulator from '../components/VltSimulator.astro';
+import Gallery from '../components/Gallery.astro';
 import { site, wa, services, reviews, faq, gallery, mapsLink } from '../data/site';
 
 const faqLd = {
@@ -9,43 +10,48 @@ const faqLd = {
   '@type': 'FAQPage',
   mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
 };
+const homeGallery = [gallery[0], gallery[3], gallery[7], gallery[2], gallery[1]];
 ---
 <Base title={site.name} path="" jsonLd={[faqLd]}>
   <section class="hero">
-    <img class="hero__img" src="media/hero.jpg" alt="Aplicador de película térmica trabalhando no vidro de uma caminhonete" width="1920" height="1080" fetchpriority="high" decoding="async" />
+    <img class="hero__img" src="media/hero.jpg" alt="SUV preto com vidros escurecidos ao pôr do sol em Cuiabá" width="1920" height="1080" fetchpriority="high" decoding="async" />
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="wrap hero__content">
-      <p class="eyebrow">Dom Aquino · Cuiabá-MT</p>
-      <h1>Cuiabá a 40&nbsp;°C. <span>Dentro do seu carro, não.</span></h1>
-      <p class="lead">Película Window Blue com garantia vitalícia, PPF e som, aplicados por quem vive o calor daqui. Orçamento em minutos pelo WhatsApp.</p>
+      <p class="eyebrow">Dom Aquino • Cuiabá-MT</p>
+      <h1>Mais conforto. <span>Menos calor.</span></h1>
+      <p class="lead">Películas automotivas, proteção de pintura e som. Cuidado com o seu carro em cada detalhe.</p>
       <div class="actions">
-        <a class="btn" href={wa('Olá! Quero um orçamento de película térmica.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento no WhatsApp</a>
-        <a class="btn btn--ghost" href="servicos.html">Ver serviços</a>
+        <a class="btn" href={wa('Olá! Quero um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a>
+        <a class="btn btn--ghost" href="#servicos">Explorar serviços <span aria-hidden="true">›</span></a>
       </div>
-      <ul class="proof">
-        <li><strong>5,0</strong> no Google · {site.rating.count} avaliações</li>
-        <li><strong>Dom Aquino</strong> · ao lado da Av. Miguel Sutil</li>
-        <li><strong>Revenda autorizada</strong> Window Blue · garantia vitalícia</li>
-      </ul>
     </div>
-    <div class="vlt-bar" aria-hidden="true"><span>70%</span><span>50%</span><span>35%</span><span>20%</span><span>5%</span></div>
+  </section>
+
+  <section class="proof-band" aria-label="Destaques">
+    <div class="wrap proof-band__grid">
+      <a class="proof-item" href={mapsLink} target="_blank" rel="noopener"><Icons name="star" class="proof-item__icon" /><span><strong>5,0 no Google</strong><small>{site.rating.count} avaliações</small></span></a>
+      <a class="proof-item" href="contato.html"><Icons name="pin" class="proof-item__icon" /><span><strong>Atendimento em Cuiabá</strong><small>{site.address.neighborhood}</small></span></a>
+      <a class="proof-item" href="#servicos"><Icons name="car" class="proof-item__icon" /><span><strong>Películas · PPF · Som</strong><small>Tudo no mesmo lugar</small></span></a>
+    </div>
   </section>
 
   <section class="section light" id="servicos">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">Serviços</p>
-        <h2>Do vidro à pintura, tudo no mesmo lugar.</h2>
-        <p class="muted">Película térmica, PPF e som são o carro-chefe. Em volta deles, o que um carro de passeio ou uma caminhonete precisa para rodar em Cuiabá. Qualquer marca, qualquer modelo.</p>
+        <p class="eyebrow eyebrow--after">Serviços</p>
+        <h2>Proteção, conforto e tecnologia<span class="dot">.</span></h2>
+        <p class="muted">O cuidado que seu carro merece, em um só lugar.</p>
       </div>
       <div class="grid grid--3">
         {services.map((s) => (
-          <article class="card">
-            <img src={s.image} alt={s.alt} width="800" height="800" loading="lazy" decoding="async" />
-            <div class="card__body">
+          <article class="scard">
+            <img src={s.image} alt={s.alt} width="800" height="600" loading="lazy" decoding="async" />
+            <div class="scard__body">
+              <span class="bar" aria-hidden="true"></span>
               <h3><a href={`servicos.html#${s.slug}`}>{s.title}</a></h3>
               <p>{s.short}</p>
-              <a class="btn btn--ghost btn--sm" href={wa(s.wa)} target="_blank" rel="noopener">Pedir orçamento</a>
+              <ul class="tags">{s.tags.map((t) => <li><Icons name={t.icon} /> {t.label}</li>)}</ul>
+              <a class="btn btn--dark btn--block" href={wa(s.wa)} target="_blank" rel="noopener">Pedir orçamento <span class="lime" aria-hidden="true">↗</span></a>
             </div>
           </article>
         ))}
@@ -55,26 +61,45 @@ const faqLd = {
 
   <section class="section light-2" id="como-funciona">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Como funciona</p>
-        <h2>Três mensagens e o carro está agendado.</h2>
+      <div class="section-head section-head--center">
+        <p class="eyebrow eyebrow--center">Como funciona</p>
+        <h2>Seu próximo upgrade começa aqui<span class="dot">.</span></h2>
+        <p class="muted">Do orçamento ao agendamento, tudo pelo WhatsApp.</p>
       </div>
       <ol class="steps">
-        <li><h3>Mande o modelo do carro</h3><p>No WhatsApp, diga o carro e o serviço. Respondemos com valor e tonalidades em horário comercial.</p></li>
-        <li><h3>Escolha dia e hora</h3><p>Atendemos só com hora marcada, na loja ou a domicílio em Cuiabá e região. Sem fila, sem espera.</p></li>
-        <li><h3>Aplicação e certificado</h3><p>Reserve meio período. Você sai com a chancela nos vidros dianteiros e o certificado de garantia vitalícia Window Blue.</p></li>
+        <li><span class="steps__num" aria-hidden="true">01</span><span class="steps__icon"><Icons name="chat" /></span><h3>Conte o que seu carro precisa</h3><p>Envie o modelo do veículo e o serviço desejado. Nossa equipe orienta você sobre as opções.</p></li>
+        <li><span class="steps__num" aria-hidden="true">02</span><span class="steps__icon"><Icons name="calendar" /></span><h3>Escolha o melhor horário</h3><p>Combine dia, horário e local do atendimento com nossa equipe. Na loja ou a domicílio.</p></li>
+        <li><span class="steps__num" aria-hidden="true">03</span><span class="steps__icon"><Icons name="shieldcheck" /></span><h3>Pronto. É só aproveitar.</h3><p>Aplicação cuidadosa em meio período, com chancela nos dianteiros e certificado de garantia vitalícia.</p></li>
       </ol>
+      <div class="center-cta">
+        <a class="btn btn--dark" href={wa('Olá! Quero começar um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" class="ico lime" /> Começar pelo WhatsApp <span class="lime" aria-hidden="true">↗</span></a>
+        <p class="muted small">Simples, direto e com atendimento próximo.</p>
+      </div>
     </div>
   </section>
 
   <VltSimulator />
+
+  <section class="section light" id="galeria">
+    <div class="wrap">
+      <div class="gallery-head">
+        <div class="section-head">
+          <p class="eyebrow">Galeria</p>
+          <h2>Trabalhos que falam por nós<span class="dot">.</span></h2>
+          <p class="muted">Veja de perto o cuidado com cada detalhe.</p>
+        </div>
+        <a class="btn btn--dark" href="galeria.html">Ver galeria completa <span class="lime" aria-hidden="true">↗</span></a>
+      </div>
+      <Gallery items={homeGallery} id="bento-home" />
+    </div>
+  </section>
 
   <section class="section light" id="avaliacoes">
     <div class="wrap">
       <div class="reviews-head">
         <div class="section-head">
           <p class="eyebrow eyebrow--line">Avaliações</p>
-          <h2>Quem confia, recomenda.</h2>
+          <h2>Quem confia, recomenda<span class="dot">.</span></h2>
           <p class="muted">Veja o que nossos clientes dizem sobre o atendimento e os serviços.</p>
         </div>
         <a class="gcard" href={mapsLink} target="_blank" rel="noopener" aria-label={`Nota 5,0 com ${site.rating.count} avaliações no Google`}>
@@ -96,31 +121,16 @@ const faqLd = {
         ))}
       </div>
       <div class="reviews-cta">
-        <a class="btn btn--dark" href={mapsLink} target="_blank" rel="noopener">Ver todas as avaliações no Google <span aria-hidden="true">↗</span></a>
+        <a class="btn btn--dark" href={mapsLink} target="_blank" rel="noopener">Ver todas as avaliações no Google <span class="lime" aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
 
-  <section class="section light-2" id="galeria">
+  <section class="section light-2 faq" id="duvidas">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">Galeria</p>
-        <h2>Trabalhos recentes.</h2>
-      </div>
-      <div class="masonry">
-        {gallery.slice(0, 3).map((g) => (
-          <figure><img src={g.src} alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" /></figure>
-        ))}
-      </div>
-      <div class="actions"><a class="btn btn--ghost" href="galeria.html">Ver galeria completa</a></div>
-    </div>
-  </section>
-
-  <section class="section light faq" id="duvidas">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Dúvidas frequentes</p>
-        <h2>Antes de perguntar no WhatsApp.</h2>
+        <p class="eyebrow eyebrow--after">Dúvidas frequentes</p>
+        <h2>Antes de perguntar no WhatsApp<span class="dot">.</span></h2>
       </div>
       {faq.map((f) => (
         <details>

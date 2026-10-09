@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icons from '../components/Icons.astro';
-import { wa, gallery } from '../data/site';
+import Gallery from '../components/Gallery.astro';
+import { wa } from '../data/site';
 ---
 <Base title="Galeria" description="Fotos de aplicações de película térmica, PPF, envelopamento e acessórios feitas pela Cuiabá Insulfilm em Cuiabá-MT." path="galeria.html">
   <section class="page-head">
@@ -13,14 +14,7 @@ import { wa, gallery } from '../data/site';
   </section>
   <section class="section light">
     <div class="wrap">
-      <div class="masonry">
-        {gallery.map((g) => (
-          <figure>
-            <img src={g.src} alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
-            <figcaption>{g.alt}</figcaption>
-          </figure>
-        ))}
-      </div>
+      <Gallery id="bento-all" />
     </div>
   </section>
   <section class="cta-band">
