@@ -37,7 +37,9 @@
 /* before / after */
 .ba { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 2 / 1; background: var(--paper-2); user-select: none; }
 .ba__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.ba__img--after { clip-path: inset(0 0 0 var(--pos)); }
+/* right-side window onto the "after" photo; overflow instead of clip-path (iOS Safari rendered the clip reversed) */
+.ba__after { position: absolute; top: 0; bottom: 0; right: 0; left: var(--pos); overflow: hidden; }
+.ba__after .ba__img { left: auto; right: 0; width: auto; max-width: none; height: 100%; }
 .ba__tag { position: absolute; top: 1rem; font-family: var(--display); font-weight: 700; font-size: 0.9rem; padding: 0.5rem 1rem; border-radius: 999px; z-index: 2; }
 .ba__tag--before { left: 1rem; background: rgba(21, 24, 29, 0.85); color: #fff; }
 .ba__tag--after { right: 1rem; background: var(--lime); color: var(--ink); }
