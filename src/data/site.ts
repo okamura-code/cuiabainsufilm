@@ -171,11 +171,12 @@ export const faq = [
 export const gallery = [
   { src: '/media/gal-1.webp', alt: 'SUV preto com película térmica recém-aplicada', cat: 'peliculas', caption: 'Proteção e privacidade', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
   { src: '/media/gal-2.webp', alt: 'Caminhonete branca com vidros escurecidos', cat: 'peliculas', caption: 'Cuidado em cada detalhe', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Película automotiva' },
-  { src: '/media/gal-3.webp', alt: 'Visão interna de carro com vidros escurecidos sob sol forte', cat: 'peliculas', caption: 'Conforto ao dirigir', vehicle: 'outros', vehicleLabel: 'Interior', service: 'Película automotiva' },
-  { src: '/media/svc-ppf.webp', alt: 'PPF sendo aplicado no capô', cat: 'ppf', caption: 'Proteção invisível', vehicle: 'suv', vehicleLabel: 'SUV', service: 'PPF' },
-  { src: '/media/svc-envelopamento.webp', alt: 'Envelopamento preto acetinado', cat: 'outros', caption: 'Envelopamento acetinado', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Acessórios' },
+  { src: '/media/quiz-conforto.webp', alt: 'Vidro lateral com película e retrovisor refletindo palmeiras ao entardecer', cat: 'peliculas', caption: 'Conforto ao dirigir', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Película automotiva' },
+  { src: '/media/svc-ppf.webp', alt: 'Película transparente PPF sendo assentada no capô preto', cat: 'ppf', caption: 'Proteção invisível', vehicle: 'suv', vehicleLabel: 'SUV', service: 'PPF' },
+  { src: '/media/svc-envelopamento.webp', alt: 'Vinil grafite acetinado sendo assentado com espátula de feltro', cat: 'outros', caption: 'Envelopamento acetinado', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Acessórios' },
   { src: '/media/svc-insulfilm.webp', alt: 'Aplicação de película térmica', cat: 'peliculas', caption: 'Aplicação de película', vehicle: 'outros', vehicleLabel: 'Detalhe', service: 'Película automotiva' },
   { src: '/media/sobre.webp', alt: 'Oficina com dois técnicos aplicando película em um SUV', cat: 'peliculas', caption: 'Oficina em ação', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
-  { src: '/media/svc-som.webp', alt: 'Instalação de central multimídia', cat: 'som', caption: 'Central multimídia', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Som e multimídia' },
+  { src: '/media/svc-som.webp', alt: 'Ajuste final de central multimídia no painel', cat: 'som', caption: 'Central multimídia', vehicle: 'sedan', vehicleLabel: 'Compacto', service: 'Som e multimídia' },
+  { src: '/media/processo-inspecao.webp', alt: 'Inspeção final da película com luminária portátil', cat: 'peliculas', caption: 'Inspeção final', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
   { src: '/media/svc-acessorios.webp', alt: 'Caminhonete com capota marítima', cat: 'outros', caption: 'Capota marítima e engate', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Acessórios' },
 ];
