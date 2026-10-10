@@ -96,22 +96,20 @@ p { margin: 0 0 1em; }
 .hero__media { position: absolute; inset: 0; z-index: -2; }
 .hero__img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; display: block; }
 .hero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(11, 13, 16, 0.96) 0%, rgba(11, 13, 16, 0.82) 40%, rgba(11, 13, 16, 0.25) 70%, rgba(11, 13, 16, 0.05) 100%); }
-/* mobile hero: stacked layout, the photo gets its own 4:3 block (right-cropped so the whole car shows) instead of covering the tall section */
+/* mobile hero: same overlay as desktop, but on a portrait photo (car in the lower half, dark sky above for the text) */
 @media (max-width: 767px) {
-  .hero { display: grid; grid-template-columns: 100%; min-height: 0; padding: 0 20px 96px; gap: 0; } /* bottom room for the quick-quote card that overlaps by 64px */
-  .hero__content { display: contents; }
-  .hero__shade { display: none; }
-  .hero .eyebrow { order: 2; margin: 0 0 0.6rem; }
-  .hero h1 { order: 3; font-size: clamp(2rem, 9.5vw, 2.6rem); margin: 0 0 0.6rem; }
-  .hero .lead { order: 4; font-size: 1rem; line-height: 1.55; margin: 0 0 1.1rem; }
-  .hero .actions { order: 5; display: grid; grid-template-columns: 1fr; gap: 0.6rem; margin: 0 0 1.4rem; }
+  .hero { min-height: min(100svh, 900px); align-items: stretch; }
+  .hero__content { padding: 28px 20px 120px; }
+  .hero__img { object-position: 50% 100%; }
+  .hero__shade { background: linear-gradient(180deg, rgba(11, 13, 16, 0.6) 0%, rgba(11, 13, 16, 0.3) 28%, rgba(11, 13, 16, 0) 45%, rgba(11, 13, 16, 0.05) 62%, rgba(11, 13, 16, 0.65) 82%, rgba(11, 13, 16, 0.92) 100%); }
+  .hero .eyebrow { margin: 0 0 0.6rem; }
+  .hero h1 { font-size: clamp(2rem, 9.5vw, 2.6rem); margin: 0 0 0.6rem; }
+  .hero .lead { font-size: 1rem; line-height: 1.55; margin: 0 0 1.1rem; }
+  .hero .actions { display: grid; grid-template-columns: 1fr; gap: 0.6rem; }
   .hero .actions .btn { justify-content: center; min-height: 48px; }
-  /* full-bleed photo first: cancels the 20px gutters, fades into the dark background where the text starts */
-  .hero__media { order: 1; position: relative; inset: auto; z-index: 0; aspect-ratio: 4 / 3; margin: 0 -20px 1.2rem; overflow: hidden; }
-  .hero__img { object-position: 100% 50%; }
-  .hero__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 13, 16, 0.15) 0%, rgba(11, 13, 16, 0) 30%, rgba(11, 13, 16, 0) 65%, rgba(11, 13, 16, 1) 100%); pointer-events: none; }
-  .hero .perks { order: 6; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 0.9rem; margin: 0; padding: 0; }
-  .hero .perks li { margin: 0; max-width: none; }
+  .hero .perks { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 0.9rem; margin-top: auto; padding-top: 2.2rem; }
+  .hero__content { display: flex; flex-direction: column; }
+  .hero .perks li { max-width: none; }
 }
 .hero__content { padding-top: clamp(64px, 10vw, 120px); padding-bottom: clamp(72px, 10vw, 120px); }
 .hero h1 { max-width: 13ch; }
