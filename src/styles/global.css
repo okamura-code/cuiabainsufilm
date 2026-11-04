@@ -63,6 +63,10 @@ p { margin: 0 0 1em; }
 
 .btn { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--display); font-weight: 700; font-size: 0.98rem; padding: 0.95rem 1.4rem; border-radius: 999px; background: var(--lime); color: var(--ink); text-decoration: none; border: 2px solid var(--lime); transition: transform 0.15s ease, background 0.15s ease; }
 .btn:hover { background: #b8f04a; transform: translateY(-1px); }
+a.btn--wa, .nav a.btn--wa { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; font-family: var(--display); font-weight: 600; font-size: 16px; line-height: 1.2; letter-spacing: 0.5px; background: var(--lime); color: var(--ink); border: 2px solid var(--ink); box-shadow: 0 3px 0 var(--ink); transition: all 0.2s ease; }
+.btn--wa:hover, .nav a.btn--wa:hover { transform: translateY(2px); box-shadow: 0 1px 0 var(--ink); background: var(--lime); color: var(--ink); }
+.btn--wa:active { transform: translateY(3px); box-shadow: none; }
+.btn--wa__ico { width: 21px; height: 21px; flex: none; }
 .btn--ghost { background: transparent; color: inherit; border-color: currentColor; }
 .btn--ghost:hover { background: rgba(255, 255, 255, 0.08); }
 .light .btn--ghost:hover, .light-2 .btn--ghost:hover { background: rgba(0, 0, 0, 0.05); }
