@@ -132,9 +132,10 @@ export const services: Service[] = [
 ];
 
 export const reviews = [
-  { text: 'Ótimo lugar, ótimo atendimento e preço acessível, eu recomendo.', author: 'Cliente no Google' },
-  { text: 'Fiz a instalação de película térmica e gostei muito do resultado.', author: 'Cliente no Google' },
-  { text: 'Ótima experiência, super recomendado.', author: 'Cliente no Google' },
+  // texto e nomes como publicados no Google; uso dos nomes autorizado pelo dono em 2026-11-04
+  { text: "Preço e qualidade que cabe a todos os bolsos. Ótimo atendimento!! Super recomendo", author: "Claudia Lopes", meta: "Local Guide · 4 meses atrás" },
+  { text: "Excelente materiais excelente atendimento prestam bastante atenção nos detalhes instalação rápida com certificação e durabilidade e tem uma durabilidade muito boa contra os raios UV", author: "Carlos Mateus", meta: "Local Guide · 11 meses atrás" },
+  { text: "Ótimo atendimento, super profissional e com seriedade. Realmente valeu a pena cada centavo. Estão realmente de parabéns pelo trabalho", author: "Junior Venancio", meta: "10 meses atrás" },
 ];
 
 export const faq = [
