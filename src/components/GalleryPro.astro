@@ -43,7 +43,7 @@ const vehicles = [['todos', 'Todos'], ['suv', 'SUV'], ['caminhonete', 'Caminhone
     </div>
   </dialog>
 </section>
-<script is:inline define:vars={{ items: gallery, wa: site.whatsapp }}>
+<script is:inline data-astro-rerun define:vars={{ items: gallery, wa: site.whatsapp }}>
   (function () {
     var grid = document.getElementById('gp-grid'), empty = document.getElementById('gp-empty');
     var state = { cat: 'todos', vehicle: 'todos' };

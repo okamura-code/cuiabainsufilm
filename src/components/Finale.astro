@@ -7,11 +7,11 @@ const { message = 'Olá! Quero um orçamento para proteger meu carro.' } = Astro
 <section class="finale" id="final" aria-labelledby="finale-title">
   <div class="wrap finale__inner">
     <p class="mono">Última chamada · {site.address.neighborhood}, Cuiabá–MT</p>
-    <h2 id="finale-title">{concept.finale.a}<br /><span class="accent">{concept.finale.b}</span></h2>
+    <h2 id="finale-title"><span class="line"><span>{concept.finale.a}<br /><span class="accent">{concept.finale.b}</span></span></span></h2>
     <p class="lead">Mande o modelo do carro. Respondemos com valor fechado e horário, de segunda a sábado.</p>
     <div class="actions" style="justify-content:center">
-      <a class="btn btn--lg" href={wa(message)} target="_blank" rel="noopener"><Icons name="wa" /> {concept.finale.cta}</a>
-      <a class="btn btn--lg btn--ghost" href={mapsLink} target="_blank" rel="noopener"><Icons name="pin" /> Como chegar</a>
+      <a class="btn btn--lg" href={wa(message)} target="_blank" rel="noopener" data-magnetic><Icons name="wa" /> {concept.finale.cta}</a>
+      <a class="btn btn--lg btn--ghost" href={mapsLink} target="_blank" rel="noopener" data-magnetic><Icons name="pin" /> Como chegar</a>
     </div>
     <ul class="finale__meta" style="list-style:none;padding:0">
       <li class="mono">{site.address.street}</li>

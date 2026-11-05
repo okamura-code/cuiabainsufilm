@@ -50,6 +50,7 @@
 .qq__summary { list-style: none; cursor: pointer; padding: 1rem 1.3rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-family: var(--cond); font-weight: 700; font-size: 1.3rem; text-transform: uppercase; line-height: 1; }
 .qq__summary::-webkit-details-marker { display: none; }
 .qq__hint { font: 500 0.66rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.qq .mono { color: var(--muted); }
 .qq__form { display: grid; gap: 1rem; padding: 0 1.3rem 1.3rem; }
 .qq__title { display: none; }
 .qq__field { display: grid; gap: 0.4rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
@@ -274,9 +275,19 @@
 .finale .lead { margin: 0; max-width: 40ch; }
 .finale__meta { margin: 1.6rem 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem 1.8rem; }
 
+/* ---------- LINE MASKS (headlines rise out of a clipped line) ---------- */
+.line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.line > span { display: block; }
+
 /* ===== MOTION ===== */
 @media (prefers-reduced-motion: no-preference) {
-  .hero__content > * { animation: rise 0.8s var(--ease) both; }
+  .hero h1 .line > span { transform: translateY(110%); animation: line-up 1s var(--ease) 0.05s both; }
+  .hero h1 .line:nth-child(2) > span { animation-delay: 0.15s; }
+  .hero h1 .line:nth-child(3) > span { animation-delay: 0.25s; }
+  @keyframes line-up { to { transform: none; } }
+  .reveal .line > span { transform: translateY(110%); transition: transform 1s var(--ease) 0.1s; }
+  .reveal.is-in .line > span { transform: none; }
+  .hero__content > :not(h1) { animation: rise 0.8s var(--ease) both; }
   .hero__content > :nth-child(2) { animation-delay: 0.1s; }
   .hero__content > :nth-child(3) { animation-delay: 0.2s; }
   .hero__content > :nth-child(4) { animation-delay: 0.3s; }

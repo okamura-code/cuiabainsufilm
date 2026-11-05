@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/scenes.css';
+import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
@@ -58,19 +59,23 @@ const business = {
     <link rel="preload" as="font" type="font/woff2" href="/fonts/montserrat.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/kaushan-script.woff2" crossorigin />
     <script type="application/ld+json" set:html={JSON.stringify([business, ...jsonLd])} />
+    <ClientRouter />
     <slot name="head" />
   </head>
   <body>
     <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-    <Header />
+    <Header transition:persist />
     <main id="conteudo">
       <div class="hdr-sentinel" aria-hidden="true" style="position:absolute;top:0;height:24px;width:1px;pointer-events:none"></div>
       <slot />
     </main>
     <Footer />
-    <WhatsAppFloat />
+    <WhatsAppFloat transition:persist />
+    <script src="../scripts/smooth.ts"></script>
+    <script src="../scripts/pointer.ts"></script>
     <script is:inline>
-      (function () {
+      // runs on first load and after every client-side navigation (the router swaps <body>)
+      document.addEventListener('astro:page-load', function () {
         // header: transparent over the top of the page, solid once it scrolls (one IntersectionObserver, no scroll listener)
         var hdr = document.querySelector('.header'), sent = document.querySelector('.hdr-sentinel');
         if (hdr && sent && 'IntersectionObserver' in window) {
@@ -135,7 +140,7 @@ const business = {
             ticking = false;
           });
         }, { passive: true });
-      })();
+      });
     </script>
   </body>
 </html>

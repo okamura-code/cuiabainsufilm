@@ -12,13 +12,13 @@ const perks = ['Conforto térmico', 'Mais segurança', 'Privacidade', 'Estilo e 
   <p class="hero__ghost" aria-hidden="true">Cuiabá</p>
   <div class="hero__top" aria-hidden="true"><span class="mono">{concept.tagline}</span><span class="mono">{concept.coords}</span></div>
   <div class="wrap hero__content">
-    <h1>Lá fora<br />é Cuiabá.<br />Aqui dentro,<br class="br-m" /> <span class="accent">não.</span></h1>
+    <h1><span class="line"><span>Lá fora</span></span><span class="line"><span>é Cuiabá.</span></span><span class="line"><span>Aqui dentro,<br class="br-m" /> <span class="accent">não.</span></span></span></h1>
     <p class="lead">{concept.sub} Películas Window Blue com garantia vitalícia, em {site.address.neighborhood}.</p>
     <div class="actions">
-      <a class="btn btn--lg" href={wa('Olá! Vi o site e quero o meu carro assim. Pode me passar um orçamento?')} target="_blank" rel="noopener"><Icons name="wa" /> {concept.ctaPrimary}</a>
-      <a class="btn btn--lg btn--ghost" href="#antes-depois">{concept.ctaSecondary} <span aria-hidden="true">↓</span></a>
+      <a class="btn btn--lg" href={wa('Olá! Vi o site e quero o meu carro assim. Pode me passar um orçamento?')} target="_blank" rel="noopener" data-magnetic><Icons name="wa" /> {concept.ctaPrimary}</a>
+      <a class="btn btn--lg btn--ghost" href="#antes-depois" data-magnetic>{concept.ctaSecondary} <span aria-hidden="true">↓</span></a>
     </div>
     <ul class="perks">{perks.map((p) => <li>{p}</li>)}</ul>
   </div>
-  <a class="hero__cue" href="#manifesto" aria-label="Rolar para a próxima seção"><span>{concept.cue}</span><i aria-hidden="true"></i></a>
+  <a class="hero__cue" href="#manifesto"><span>{concept.cue}</span><i aria-hidden="true"></i></a>
 </section>

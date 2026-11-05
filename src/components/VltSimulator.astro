@@ -46,7 +46,7 @@ const views = [
     </div>
   </div>
 </section>
-<script is:inline>
+<script is:inline data-astro-rerun>
   (function () {
     var shades = [
       { g: 'G3', vlt: 3, desc: 'Privacidade extrema, quase opaca.' },
@@ -82,7 +82,7 @@ const views = [
     range.addEventListener('input', update);
     update();
     function preload(v) { if (v.dataset.loaded) return; v.dataset.loaded = '1'; shades.forEach(function (s) { new Image().src = '/media/porsche/frames/' + v.dataset.view + '/' + s.g.toLowerCase() + '.webp'; }); }
-    addEventListener('load', function () { preload(view); }); // after fonts/hero: only the active view, others load when selected
+    if (document.readyState === 'complete') preload(view); else addEventListener('load', function () { preload(view); }); // after fonts/hero: only the active view
     buttons.forEach(function (b) {
       b.addEventListener('click', function () {
         preload(b);
