@@ -28,3 +28,4 @@ raw/
 dist-artifact/
 
 .vercel
+.claude/skills/design-dna/scripts/node_modules/
