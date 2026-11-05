@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icons from '../components/Icons.astro';
+import Finale from '../components/Finale.astro';
 import { wa, services, srcset } from '../data/site';
 
 const shades = [
@@ -16,7 +17,7 @@ const label = { ok: ['tag tag--ok', 'Permitido'], no: ['tag', 'Não permitido'] 
 <Base title="Serviços" description="Insulfilm automotivo, PPF, envelopamento, som e multimídia, alarmes, engates e teto solar em Cuiabá. Tonalidades dentro da lei e aplicação com hora marcada." path="servicos/">
   <section class="page-head">
     <div class="wrap">
-      <p class="eyebrow">Serviços</p>
+      <p class="eyebrow">Serviços · 01–06</p>
       <h1>O que fazemos, e como fazemos.</h1>
       <p>Cada serviço abaixo tem um botão de orçamento com a mensagem pronta. Mande o modelo do carro e a gente responde com valor e prazo.</p>
     </div>
@@ -60,10 +61,5 @@ const label = { ok: ['tag tag--ok', 'Permitido'], no: ['tag', 'Não permitido'] 
     ))}
   </div>
 
-  <section class="cta-band">
-    <div class="wrap">
-      <h2>Não achou o que precisa? Pergunte.</h2>
-      <a class="btn" href={wa('Olá! Tenho uma dúvida sobre um serviço.')} target="_blank" rel="noopener"><Icons name="wa" /> Falar no WhatsApp</a>
-    </div>
-  </section>
+  <Finale message="Olá! Tenho uma dúvida sobre um serviço." />
 </Base>

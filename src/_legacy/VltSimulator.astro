@@ -1,0 +1,94 @@
+---
+/* Signature element: the one question every customer asks, answered live on real car photos.
+   Rules from Res. CONTRAN 960/2022 as amended by 989/2022. Frames generated per tonality (scripts/frames.mjs). */
+import Icons from './Icons.astro';
+import { wa } from '../data/site';
+const views = [
+  { id: 'frente', label: 'Frente', alt: 'Porsche 911 branco visto de frente' },
+  { id: 'lateral-esquerda', label: 'Lateral esquerda', alt: 'Porsche 911 branco visto pela lateral esquerda' },
+  { id: 'lateral-direita', label: 'Lateral direita', alt: 'Porsche 911 branco visto pela lateral direita' },
+  { id: 'traseira', label: 'Traseira', alt: 'Porsche 911 branco visto por trás' },
+];
+---
+<section class="section dark" id="simulador">
+  <div class="wrap">
+    <div class="vlt">
+      <div class="vlt__stage">
+        <div class="section-head">
+          <p class="eyebrow eyebrow--after">Simulador de películas</p>
+          <h2>Encontre o tom ideal para seu carro<span class="dot">.</span></h2>
+          <p class="muted">Compare as tonalidades e visualize o resultado.</p>
+        </div>
+        <div class="vlt__views" role="group" aria-label="Vista do carro">
+          {views.map((v, i) => (
+            <button type="button" class:list={['vlt__view', { 'is-active': i === 0 }]} data-view={v.id} data-alt={v.alt} aria-pressed={i === 0 ? 'true' : 'false'}>{v.label}</button>
+          ))}
+        </div>
+        <div class="vlt__photo">
+          <img class="vlt__base" id="vlt-base" src={`/media/porsche/frames/${views[0].id}/g35.webp`} alt={views[0].alt} width="1500" height="750" decoding="async" />
+        </div>
+        <p class="vlt__caption">Simulação visual. A aparência real varia conforme o vidro e a iluminação.</p>
+      </div>
+      <div class="vlt__panel">
+        <div class="vlt__readout"><output for="vlt-range" id="vlt-out">G35</output><small>Tonalidade selecionada</small></div>
+        <label for="vlt-range" class="sr-only">Tonalidade da película</label>
+        <input type="range" id="vlt-range" min="0" max="5" step="1" value="3" aria-valuetext="G35, 35% de luz passa" />
+        <div class="vlt__ticks" aria-hidden="true"><span>G3</span><span>G5</span><span>G20</span><span>G35</span><span>G50</span><span>G70</span></div>
+        <p class="vlt__desc" id="vlt-desc"></p>
+        <div class="vlt__info">
+          <Icons name="info" class="vlt__info-icon" />
+          <div><strong>Antes de escolher</strong><p id="vlt-legal"></p></div>
+        </div>
+        <a class="btn btn--block" id="vlt-cta" href={wa('Olá! Quero orientação sobre a tonalidade ideal para meu carro.')} target="_blank" rel="noopener"><Icons name="wa" /> Quero orientação pelo WhatsApp <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    var shades = [
+      { g: 'G3', vlt: 3, desc: 'Privacidade extrema, quase opaca.' },
+      { g: 'G5', vlt: 5, desc: 'Uma das mais escuras do mercado. Máxima privacidade.' },
+      { g: 'G20', vlt: 20, desc: 'Discrição com visibilidade razoável.' },
+      { g: 'G35', vlt: 35, desc: 'Equilíbrio entre privacidade e visibilidade.' },
+      { g: 'G50', vlt: 50, desc: 'Leve escurecimento, boa visibilidade.' },
+      { g: 'G70', vlt: 70, desc: 'Quase transparente. A usada no para-brisa e nos dianteiros.' },
+    ];
+    var range = document.getElementById('vlt-range');
+    var out = document.getElementById('vlt-out');
+    var desc = document.getElementById('vlt-desc');
+    var legal = document.getElementById('vlt-legal');
+    var base = document.getElementById('vlt-base');
+    var cta = document.getElementById('vlt-cta');
+    var buttons = document.querySelectorAll('.vlt__view');
+    var view = document.querySelector('.vlt__view.is-active');
+    if (!range || !out || !base || !view) return;
+    var ctaBase = cta ? cta.href.split('?')[0] : '';
+    function update() {
+      var s = shades[Number(range.value)];
+      out.textContent = s.g;
+      desc.textContent = s.desc;
+      legal.textContent = s.vlt >= 70
+        ? 'Permitida em todos os vidros, inclusive para-brisa e dianteiros. Resolução CONTRAN 960/2022.'
+        : 'Permitida nos vidros traseiros e vigia. Para-brisa e dianteiros exigem mínimo de 70% de luz (G70). Resolução CONTRAN 960/2022.';
+      range.setAttribute('aria-valuetext', s.g + ', ' + s.vlt + '% de luz passa');
+      base.src = '/media/porsche/frames/' + view.dataset.view + '/' + s.g.toLowerCase() + '.webp';
+      if (cta) cta.href = ctaBase + '?text=' + encodeURIComponent('Olá! Simulei a tonalidade ' + s.g + ' no site e quero orientação para meu carro.');
+    }
+    range.addEventListener('input', update);
+    update();
+    function preload(v) { if (v.dataset.loaded) return; v.dataset.loaded = '1'; shades.forEach(function (s) { new Image().src = '/media/porsche/frames/' + v.dataset.view + '/' + s.g.toLowerCase() + '.webp'; }); }
+    addEventListener('load', function () { preload(view); }); // after fonts/hero: only the active view, others load when selected
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        preload(b);
+        buttons.forEach(function (o) { o.classList.remove('is-active'); o.setAttribute('aria-pressed', 'false'); });
+        b.classList.add('is-active');
+        b.setAttribute('aria-pressed', 'true');
+        view = b;
+        base.alt = b.dataset.alt;
+        update();
+      });
+    });
+  })();
+</script>

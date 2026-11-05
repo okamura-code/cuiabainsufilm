@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import '../styles/v2.css';
+import '../styles/scenes.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
@@ -53,6 +53,7 @@ const business = {
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="pt_BR" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/barlow-condensed-800.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/open-sans.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/montserrat.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/kaushan-script.woff2" crossorigin />
@@ -63,15 +64,45 @@ const business = {
     <a class="skip" href="#conteudo">Pular para o conteúdo</a>
     <Header />
     <main id="conteudo">
+      <div class="hdr-sentinel" aria-hidden="true" style="position:absolute;top:0;height:24px;width:1px;pointer-events:none"></div>
       <slot />
     </main>
     <Footer />
     <WhatsAppFloat />
     <script is:inline>
       (function () {
-        if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        var groups = ['.grid', '.steps', '.masonry', '.values', '.faq .wrap', '.contact', '.footer .wrap'];
-        var singles = document.querySelectorAll('.section-head, .svc, .vlt__stage, .vlt__panel, .cta-band .wrap > *, .about > *, .notice');
+        // header: transparent over the top of the page, solid once it scrolls (one IntersectionObserver, no scroll listener)
+        var hdr = document.querySelector('.header'), sent = document.querySelector('.hdr-sentinel');
+        if (hdr && sent && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (e) { hdr.classList.toggle('is-solid', !e[0].isIntersecting); }).observe(sent);
+        } else if (hdr) { hdr.classList.add('is-solid'); }
+
+        var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!('IntersectionObserver' in window) || reduced) return;
+
+        // counters: final value is already in the HTML; this only animates the digits once, when visible
+        var nums = document.querySelectorAll('[data-count]');
+        if (nums.length) {
+          var cio = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+              if (!e.isIntersecting) return;
+              cio.unobserve(e.target);
+              var el = e.target, end = parseFloat(el.dataset.count), dec = parseInt(el.dataset.decimals || '0', 10), t0 = null;
+              function tick(t) {
+                if (t0 === null) t0 = t;
+                var p = Math.min((t - t0) / 900, 1), k = 1 - Math.pow(1 - p, 3);
+                el.textContent = (end * k).toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+                if (p < 1) requestAnimationFrame(tick);
+              }
+              requestAnimationFrame(tick);
+            });
+          }, { threshold: 0.6 });
+          nums.forEach(function (n) { cio.observe(n); });
+        }
+
+        // reveal on scroll
+        var groups = ['.grid', '.values', '.faq .faq-list', '.contact', '.footer .wrap', '.pcards', '.gp-grid', '.heat__facts', '.reviews-grid', '.diffs', '.quiz-grid'];
+        var singles = document.querySelectorAll('.section-head, .scene-head, .svc, .vlt__stage, .vlt__panel, .about > *, .notice, .ba-bar, .ba, .glass, .qq, .finale__inner > *, .process-aside');
         var targets = [];
         groups.forEach(function (sel) {
           document.querySelectorAll(sel).forEach(function (g) {
@@ -83,16 +114,15 @@ const business = {
           entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
         }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
         var pending = [];
-        targets = targets.filter(function (el) { return !el.closest('.hero'); });
+        targets = targets.filter(function (el) { return !el.closest('.hero') && !el.closest('.level'); });
         // read every position first, then write classes: interleaving the two forces a layout per element
         var onScreen = targets.map(function (el) { return el.getBoundingClientRect().top < innerHeight; });
         targets.forEach(function (el, i) {
           el.classList.add('reveal');
-          // already on screen at load: show at once, keep the stagger
           if (onScreen[i]) { requestAnimationFrame(function () { el.classList.add('is-in'); }); }
           else { io.observe(el); pending.push(el); }
         });
-        // fallback for browsers that throttle IntersectionObserver (background/hidden views): reveal on scroll too
+        // fallback for browsers that throttle IntersectionObserver (background/hidden views)
         var ticking = false;
         addEventListener('scroll', function () {
           if (ticking || !pending.length) return;

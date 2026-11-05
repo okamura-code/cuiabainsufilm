@@ -1,0 +1,35 @@
+---
+import { site, mapsLink } from '../data/site';
+const a = site.address;
+---
+<footer class="footer">
+  <div class="wrap">
+    <div>
+      <h3>{site.legalName}</h3>
+      <ul>
+        <li>{a.street}, {a.neighborhood}</li>
+        <li>{a.city} - {a.state}, CEP {a.zip}</li>
+        <li>{a.reference}</li>
+        <li><a href={mapsLink} target="_blank" rel="noopener">Abrir no Google Maps</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Atendimento</h3>
+      <ul>
+        {site.hours.map((h) => <li>{h.days}: {h.time}</li>)}
+        <li><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp {site.phoneDisplay}</a></li>
+        <li><a href={site.instagram} target="_blank" rel="noopener">Instagram {site.instagramHandle}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Páginas</h3>
+      <ul>
+        <li><a href="/servicos/">Serviços</a></li>
+        <li><a href="/sobre/">Sobre a loja</a></li>
+        <li><a href="/galeria/">Galeria</a></li>
+        <li><a href="/contato/">Contato</a></li>
+      </ul>
+    </div>
+    <p class="footer__legal">© {new Date().getFullYear()} {site.legalName}. Revenda autorizada Window Blue. Insulfilm® é marca registrada de seu titular; usamos o termo como referência popular a películas de controle solar.</p>
+  </div>
+</footer>

@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icons from '../components/Icons.astro';
+import Finale from '../components/Finale.astro';
 import { site, services, mapsLink } from '../data/site';
 const a = site.address;
 const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuery)}&output=embed`;
@@ -43,6 +44,7 @@ const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuer
       </form>
     </div>
   </section>
+  <Finale message="Olá! Quero um orçamento." />
 </Base>
 
 <script is:inline>

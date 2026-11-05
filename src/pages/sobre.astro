@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icons from '../components/Icons.astro';
+import Finale from '../components/Finale.astro';
 import { site, wa, mapsLink } from '../data/site';
 const a = site.address;
 const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuery)}&output=embed`;
@@ -9,7 +10,7 @@ const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuer
   <section class="page-head">
     <div class="wrap">
       <p class="eyebrow">Sobre</p>
-      <h1>Uma loja de bairro que entende de calor.</h1>
+      <h1>Uma loja de bairro que entende de calor<span class="dot">.</span></h1>
       <p>Na esquina da Av. Carmindo de Campos com a Miguel Sutil, em Dom Aquino. Fácil de chegar, fácil de estacionar.</p>
     </div>
   </section>
@@ -59,4 +60,5 @@ const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuer
       <iframe class="map" src={mapSrc} loading="lazy" title="Mapa com a localização da loja" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
     </div>
   </section>
+  <Finale message="Olá! Quero conhecer a loja e pedir um orçamento." />
 </Base>

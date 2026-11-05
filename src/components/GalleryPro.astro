@@ -1,17 +1,18 @@
 ---
-/* One gallery: filters by service and by vehicle type, lightbox (<dialog>) with the item's info and a contextual WhatsApp CTA. */
+/* One gallery: filters by service and by vehicle type, lightbox (<dialog>) with the item's info and a contextual WhatsApp CTA.
+   v3: editorial grid (every 6th item spans 2x2), captions over the photo. Script unchanged. */
 import Icons from './Icons.astro';
+import SceneHead from './SceneHead.astro';
 import { gallery, site, srcset } from '../data/site';
 const services = [['todos', 'Todos'], ['peliculas', 'Películas'], ['ppf', 'PPF'], ['som', 'Som e multimídia'], ['outros', 'Acessórios']];
 const vehicles = [['todos', 'Todos'], ['suv', 'SUV'], ['caminhonete', 'Caminhonete'], ['sedan', 'Sedã'], ['outros', 'Outros']];
 ---
-<section class="section light" id="galeria">
+<section class="section light-2" id="galeria">
   <div class="wrap">
-    <div class="section-head section-head--center">
-      <p class="eyebrow eyebrow--center">Galeria</p>
-      <h2>Encontre <span class="lime-deep">inspiração</span> para o seu carro<span class="dot">.</span></h2>
-      <p class="muted">Explore trabalhos por serviço e por tipo de veículo.</p>
-    </div>
+    <SceneHead idx="07" eyebrow="Vitrine" center>
+      Carros que já passaram por aqui<span class="dot">.</span>
+      <Fragment slot="lead">Filtre por serviço e por tipo de veículo. Toque para ampliar.</Fragment>
+    </SceneHead>
     <div class="gp-filters">
       <div class="filters" role="group" aria-label="Filtrar por serviço" data-key="cat">
         {services.map(([v, l], i) => <button type="button" class:list={['filter', { 'is-active': i === 0 }]} data-val={v} aria-pressed={i === 0 ? 'true' : 'false'}>{l}</button>)}
@@ -24,21 +25,21 @@ const vehicles = [['todos', 'Todos'], ['suv', 'SUV'], ['caminhonete', 'Caminhone
       {gallery.map((g, i) => (
         <figure class="gp-item" data-cat={g.cat} data-vehicle={g.vehicle}>
           <button type="button" class="gp-item__btn" data-index={i} aria-label={`Ampliar: ${g.caption}`}>
-            <img src={g.src} srcset={srcset(g.src)} sizes="(max-width: 760px) 100vw, 33vw" alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
+            <img src={g.src} srcset={srcset(g.src)} sizes="(max-width: 760px) 50vw, 25vw" alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
           </button>
           <figcaption class="gp-item__meta"><span>{g.service}</span><span class="muted">{g.vehicleLabel}</span></figcaption>
         </figure>
       ))}
     </div>
     <p class="gp-empty muted" id="gp-empty" hidden>Nenhum trabalho com esses filtros. Pergunte no WhatsApp: a loja atende qualquer modelo.</p>
-    <p class="muted small gp-note">Imagens ilustrativas. As fotos reais dos trabalhos da loja entram nesta galeria.</p>
+    <p class="mono gp-note">Imagens ilustrativas · as fotos reais dos trabalhos da loja entram aqui</p>
   </div>
   <dialog class="lightbox" id="lightbox" aria-label="Foto ampliada">
     <button type="button" class="lightbox__close" id="lb-close" aria-label="Fechar">×</button>
     <img id="lb-img" src="" alt="" />
     <div class="lightbox__info">
-      <div><strong id="lb-title"></strong><span class="muted" id="lb-meta"></span></div>
-      <a class="btn" id="lb-wa" href={site.whatsapp} target="_blank" rel="noopener"><Icons name="wa" /> Quero esse resultado no meu carro</a>
+      <div><strong id="lb-title"></strong><span class="mono" id="lb-meta"></span></div>
+      <a class="btn" id="lb-wa" href={site.whatsapp} target="_blank" rel="noopener"><Icons name="wa" /> Quero esse resultado</a>
     </div>
   </dialog>
 </section>

@@ -1,22 +1,22 @@
 ---
 /* Quick quote bar: vehicle + service -> WhatsApp with both fields in the message.
-   On phones it collapses into a <details> so it never fights the floating WhatsApp button. */
+   On phones it collapses into a <details> so it never fights the floating WhatsApp button. v3: "ficha" styling only. */
 import Icons from './Icons.astro';
 import { site, services } from '../data/site';
 ---
-<section class="qq-wrap" aria-label="Orçamento rápido">
+<section class="qq-wrap" id="orcamento-rapido" aria-label="Orçamento rápido">
   <div class="wrap">
     <details class="qq" open>
-      <summary class="qq__summary"><strong>Seu orçamento começa aqui</strong><span class="qq__hint">Toque para preencher</span></summary>
+      <summary class="qq__summary"><span>Orçamento em 2 campos</span><span class="qq__hint">Toque para preencher</span></summary>
       <form class="qq__form" id="qq-form" data-wa={site.whatsapp}>
-        <div class="qq__title"><strong>Seu orçamento<br />começa aqui</strong></div>
+        <div class="qq__title"><strong>Orçamento<br />em 2 campos</strong><span class="mono">Resposta pelo WhatsApp</span></div>
         <label class="qq__field">Qual é o seu carro?
           <span class="qq__input"><Icons name="car" /><input id="qq-car" name="carro" type="text" placeholder="Ex.: Hilux 2022" autocomplete="off" required /></span>
         </label>
-        <label class="qq__field">Qual serviço procura?
+        <label class="qq__field">Qual serviço?
           <span class="qq__input"><Icons name="sparkle" /><select id="qq-service" name="servico">{services.map((s) => <option value={s.title}>{s.title}</option>)}</select></span>
         </label>
-        <button class="btn btn--lg" type="submit"><Icons name="wa" /> Consultar pelo WhatsApp <span aria-hidden="true">→</span></button>
+        <button class="btn btn--lg" type="submit"><Icons name="wa" /> Consultar</button>
         <p class="qq__error" id="qq-error" role="alert" hidden>Informe o modelo do carro.</p>
       </form>
     </details>

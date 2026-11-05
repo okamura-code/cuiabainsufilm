@@ -1,0 +1,36 @@
+---
+/* Services as "protection levels": four full-bleed panels. On desktop each is position:sticky so the next one slides over
+   the previous (CSS only, scenes.css). On phones they stack. Images are the existing svc-* WebPs. */
+import SceneHead from './SceneHead.astro';
+import Icons from './Icons.astro';
+import { levels, wa, srcset } from '../data/site';
+---
+<section class="levels" id="servicos" aria-labelledby="levels-title">
+  <div class="wrap levels__intro">
+    <SceneHead idx="05" eyebrow="Níveis de proteção">
+      <span id="levels-title">Quatro camadas entre o sol e você<span class="dot">.</span></span>
+      <Fragment slot="lead">Do vidro à carroceria. Cada nível resolve um incômodo diferente de quem dirige em Cuiabá. Comece pelo que mais pesa no seu dia.</Fragment>
+    </SceneHead>
+  </div>
+  {levels.map((l, i) => (
+    <article class="level" id={`nivel-${l.idx}`} data-placeholder={l.placeholder ? 'real' : undefined}>
+      <div class="level__media"><img src={l.image} srcset={srcset(l.image)} sizes="100vw" alt={l.alt} width="1200" height="900" loading="lazy" decoding="async" /></div>
+      <div class="level__shade" aria-hidden="true"></div>
+      <p class="level__ghost" aria-hidden="true">{l.idx}</p>
+      <div class="wrap level__inner">
+        <p class="level__idx mono"><b>{l.idx}</b><span>/ 0{levels.length} · {l.kicker}</span></p>
+        <h2>{l.title}</h2>
+        <div class="level__body">
+          <div>
+            <p class="level__text">{l.text}</p>
+            <div class="actions">
+              <a class="btn" href={wa(l.wa)} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a>
+              <a class="btn btn--ghost" href={`/servicos/#${l.slug}`}>Detalhes <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <ul class="level__list">{l.includes.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      </div>
+    </article>
+  ))}
+</section>

@@ -1,0 +1,35 @@
+---
+import Icons from './Icons.astro';
+import { site, reviews, mapsLink } from '../data/site';
+---
+<section class="section light" id="avaliacoes">
+  <div class="wrap">
+    <div class="reviews-head">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--line">Avaliações</p>
+        <h2>Quem confia, recomenda<span class="dot">.</span></h2>
+        <p class="muted">Veja o que nossos clientes dizem sobre o atendimento e os serviços.</p>
+      </div>
+      <a class="gcard" href={mapsLink} target="_blank" rel="noopener">
+        <Icons name="google" class="gcard__logo" />
+        <div class="gcard__body">
+          <strong>5,0</strong>
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <small>{site.rating.count} avaliações no Google</small>
+        </div>
+      </a>
+    </div>
+    <div class="grid grid--3">
+      {reviews.map((r) => (
+        <blockquote class="review">
+          <div class="review__top"><span class="stars" aria-hidden="true">★★★★★</span><Icons name="google" class="review__g" /></div>
+          <p>“{r.text}”</p>
+          <footer><span class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0z"/></svg></span><span><strong>{r.author}</strong><br /><small>{r.meta}</small></span></footer>
+        </blockquote>
+      ))}
+    </div>
+    <div class="reviews-cta">
+      <a class="btn btn--dark" href={mapsLink} target="_blank" rel="noopener">Ver todas as avaliações no Google <span class="lime" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>

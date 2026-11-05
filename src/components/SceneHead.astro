@@ -1,0 +1,9 @@
+---
+/* Scene header: mono index + eyebrow, oversized condensed title (slot), optional lead (slot "lead"). */
+const { idx, eyebrow, center = false, class: cls = '' } = Astro.props as { idx?: string; eyebrow: string; center?: boolean; class?: string };
+---
+<header class:list={['scene-head', { 'scene-head--center': center }, cls]}>
+  <p class="scene-head__idx mono">{idx && <b>{idx}</b>}<span>{eyebrow}</span></p>
+  <h2><slot /></h2>
+  {Astro.slots.has('lead') && <p class="lead"><slot name="lead" /></p>}
+</header>

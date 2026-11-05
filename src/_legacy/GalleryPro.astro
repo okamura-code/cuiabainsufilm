@@ -1,0 +1,78 @@
+---
+/* One gallery: filters by service and by vehicle type, lightbox (<dialog>) with the item's info and a contextual WhatsApp CTA. */
+import Icons from './Icons.astro';
+import { gallery, site, srcset } from '../data/site';
+const services = [['todos', 'Todos'], ['peliculas', 'Películas'], ['ppf', 'PPF'], ['som', 'Som e multimídia'], ['outros', 'Acessórios']];
+const vehicles = [['todos', 'Todos'], ['suv', 'SUV'], ['caminhonete', 'Caminhonete'], ['sedan', 'Sedã'], ['outros', 'Outros']];
+---
+<section class="section light" id="galeria">
+  <div class="wrap">
+    <div class="section-head section-head--center">
+      <p class="eyebrow eyebrow--center">Galeria</p>
+      <h2>Encontre <span class="lime-deep">inspiração</span> para o seu carro<span class="dot">.</span></h2>
+      <p class="muted">Explore trabalhos por serviço e por tipo de veículo.</p>
+    </div>
+    <div class="gp-filters">
+      <div class="filters" role="group" aria-label="Filtrar por serviço" data-key="cat">
+        {services.map(([v, l], i) => <button type="button" class:list={['filter', { 'is-active': i === 0 }]} data-val={v} aria-pressed={i === 0 ? 'true' : 'false'}>{l}</button>)}
+      </div>
+      <div class="filters" role="group" aria-label="Filtrar por tipo de veículo" data-key="vehicle">
+        {vehicles.map(([v, l], i) => <button type="button" class:list={['filter filter--alt', { 'is-active': i === 0 }]} data-val={v} aria-pressed={i === 0 ? 'true' : 'false'}>{l}</button>)}
+      </div>
+    </div>
+    <div class="gp-grid" id="gp-grid">
+      {gallery.map((g, i) => (
+        <figure class="gp-item" data-cat={g.cat} data-vehicle={g.vehicle}>
+          <button type="button" class="gp-item__btn" data-index={i} aria-label={`Ampliar: ${g.caption}`}>
+            <img src={g.src} srcset={srcset(g.src)} sizes="(max-width: 760px) 100vw, 33vw" alt={g.alt} width="1200" height="900" loading="lazy" decoding="async" />
+          </button>
+          <figcaption class="gp-item__meta"><span>{g.service}</span><span class="muted">{g.vehicleLabel}</span></figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="gp-empty muted" id="gp-empty" hidden>Nenhum trabalho com esses filtros. Pergunte no WhatsApp: a loja atende qualquer modelo.</p>
+    <p class="muted small gp-note">Imagens ilustrativas. As fotos reais dos trabalhos da loja entram nesta galeria.</p>
+  </div>
+  <dialog class="lightbox" id="lightbox" aria-label="Foto ampliada">
+    <button type="button" class="lightbox__close" id="lb-close" aria-label="Fechar">×</button>
+    <img id="lb-img" src="" alt="" />
+    <div class="lightbox__info">
+      <div><strong id="lb-title"></strong><span class="muted" id="lb-meta"></span></div>
+      <a class="btn" id="lb-wa" href={site.whatsapp} target="_blank" rel="noopener"><Icons name="wa" /> Quero esse resultado no meu carro</a>
+    </div>
+  </dialog>
+</section>
+<script is:inline define:vars={{ items: gallery, wa: site.whatsapp }}>
+  (function () {
+    var grid = document.getElementById('gp-grid'), empty = document.getElementById('gp-empty');
+    var state = { cat: 'todos', vehicle: 'todos' };
+    document.querySelectorAll('.gp-filters .filters').forEach(function (bar) {
+      bar.addEventListener('click', function (e) {
+        var b = e.target.closest('.filter'); if (!b) return;
+        bar.querySelectorAll('.filter').forEach(function (o) { o.classList.remove('is-active'); o.setAttribute('aria-pressed', 'false'); });
+        b.classList.add('is-active'); b.setAttribute('aria-pressed', 'true');
+        state[bar.dataset.key] = b.dataset.val;
+        var shown = 0;
+        grid.querySelectorAll('.gp-item').forEach(function (f) {
+          var ok = (state.cat === 'todos' || f.dataset.cat === state.cat) && (state.vehicle === 'todos' || f.dataset.vehicle === state.vehicle);
+          f.hidden = !ok; if (ok) shown++;
+        });
+        empty.hidden = shown > 0;
+      });
+    });
+    var lb = document.getElementById('lightbox');
+    if (!lb || !lb.showModal) return;
+    grid.addEventListener('click', function (e) {
+      var b = e.target.closest('.gp-item__btn'); if (!b) return;
+      var g = items[Number(b.dataset.index)];
+      document.getElementById('lb-img').src = g.src;
+      document.getElementById('lb-img').alt = g.alt;
+      document.getElementById('lb-title').textContent = g.caption;
+      document.getElementById('lb-meta').textContent = g.service + ' · ' + g.vehicleLabel;
+      document.getElementById('lb-wa').href = wa + '?text=' + encodeURIComponent('Olá! Vi na galeria do site "' + g.caption + '" (' + g.service + ', ' + g.vehicleLabel + ') e quero esse resultado no meu carro.');
+      lb.showModal();
+    });
+    document.getElementById('lb-close').addEventListener('click', function () { lb.close(); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+  })();
+</script>

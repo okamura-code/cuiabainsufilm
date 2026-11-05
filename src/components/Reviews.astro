@@ -1,25 +1,32 @@
 ---
+/* Real Google reviews (names authorised by the owner, 2026-11-04) + the shop's verifiable differentials. */
 import Icons from './Icons.astro';
+import SceneHead from './SceneHead.astro';
 import { site, reviews, mapsLink } from '../data/site';
+const diffs = [
+  ['shieldcheck', 'Garantia vitalícia', 'Window Blue, com certificado na entrega'],
+  ['sparkle', 'Revenda autorizada', 'Película original, todas as tonalidades'],
+  ['calendar', 'Hora marcada', 'Um carro por vez, valor fechado antes'],
+  ['pin', 'Dom Aquino', `${site.address.street} · ${site.address.reference}`],
+];
 ---
 <section class="section light" id="avaliacoes">
   <div class="wrap">
     <div class="reviews-head">
-      <div class="section-head">
-        <p class="eyebrow eyebrow--line">Avaliações</p>
-        <h2>Quem confia, recomenda<span class="dot">.</span></h2>
-        <p class="muted">Veja o que nossos clientes dizem sobre o atendimento e os serviços.</p>
-      </div>
+      <SceneHead idx="08" eyebrow="Quem já passou por aqui">
+        Quem confia, recomenda<span class="dot">.</span>
+        <Fragment slot="lead">Avaliações públicas no Google, com nome e data. Sem depoimento inventado.</Fragment>
+      </SceneHead>
       <a class="gcard" href={mapsLink} target="_blank" rel="noopener">
         <Icons name="google" class="gcard__logo" />
         <div class="gcard__body">
-          <strong>5,0</strong>
+          <strong>{site.rating.value.toLocaleString('pt-BR', { minimumFractionDigits: 1 })}</strong>
           <span class="stars" aria-hidden="true">★★★★★</span>
           <small>{site.rating.count} avaliações no Google</small>
         </div>
       </a>
     </div>
-    <div class="grid grid--3">
+    <div class="reviews-grid">
       {reviews.map((r) => (
         <blockquote class="review">
           <div class="review__top"><span class="stars" aria-hidden="true">★★★★★</span><Icons name="google" class="review__g" /></div>
@@ -29,7 +36,10 @@ import { site, reviews, mapsLink } from '../data/site';
       ))}
     </div>
     <div class="reviews-cta">
-      <a class="btn btn--dark" href={mapsLink} target="_blank" rel="noopener">Ver todas as avaliações no Google <span class="lime" aria-hidden="true">↗</span></a>
+      <a class="btn btn--dark" href={mapsLink} target="_blank" rel="noopener">Ver todas no Google <span class="lime" aria-hidden="true">↗</span></a>
     </div>
+    <ul class="diffs">
+      {diffs.map(([icon, t, d]) => <li><Icons name={icon} /><strong>{t}</strong><span>{d}</span></li>)}
+    </ul>
   </div>
 </section>

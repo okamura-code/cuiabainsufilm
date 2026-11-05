@@ -1,0 +1,33 @@
+---
+/* Accessible accordion: native <details>/<summary>. Content comes from the confirmed answers in src/data/site.ts. */
+import Icons from './Icons.astro';
+import { faq, wa } from '../data/site';
+const { split = false } = Astro.props as { split?: boolean };
+---
+<section class:list={['section light-2 faq', { 'faq--split': split }]} id="duvidas">
+  <div class:list={['wrap', { 'faq-grid': split }]}>
+    <div class="faq-side">
+      <div class="section-head">
+        {split ? <span class="bar" aria-hidden="true"></span> : <p class="eyebrow eyebrow--after">Dúvidas frequentes</p>}
+        <h2>Dúvidas <span class="lime-deep">antes de decidir?</span></h2>
+        <p class="muted">A gente explica de um jeito simples.</p>
+      </div>
+      {split && (
+        <div class="faq-card">
+          <Icons name="chat" class="faq-card__icon" />
+          <strong>Prefere conversar?</strong>
+          <p>Nossa equipe ajuda você a escolher.</p>
+          <a class="btn" href={wa('Olá! Tenho uma dúvida antes de decidir a película.')} target="_blank" rel="noopener">Chamar no WhatsApp <span aria-hidden="true">↗</span></a>
+        </div>
+      )}
+    </div>
+    <div class="faq-list">
+      {faq.map((f, i) => (
+        <details open={i === 0 && split}>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
