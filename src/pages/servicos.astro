@@ -23,6 +23,7 @@ const label = { ok: ['tag tag--ok', 'Permitido'], no: ['tag', 'Não permitido'] 
     </div>
   </section>
 
+  <section class="section light" style="padding-top:0">
   <div class="wrap">
     {services.map((s) => (
       <article class="svc" id={s.slug}>
@@ -60,6 +61,7 @@ const label = { ok: ['tag tag--ok', 'Permitido'], no: ['tag', 'Não permitido'] 
       </article>
     ))}
   </div>
+  </section>
 
   <Finale message="Olá! Tenho uma dúvida sobre um serviço." />
 </Base>
