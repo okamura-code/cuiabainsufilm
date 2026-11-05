@@ -170,13 +170,16 @@ export const faq = [
 ];
 
 export const gallery = [
-  { src: '/media/gal-1.webp', alt: 'SUV preto com película escura recém-aplicada, vista traseira', cat: 'peliculas', caption: 'Proteção e privacidade', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
+  { src: '/media/gal-suv-oficina.webp', alt: 'SUV cinza com película nos vidros dentro da oficina da Cuiabá Insulfilm', cat: 'peliculas', caption: 'Pronto para entrega', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
+  { src: '/media/gal-hatch-lateral.webp', alt: 'Lateral de um hatch preto com película, refletindo a fachada verde da loja', cat: 'peliculas', caption: 'Proteção e privacidade', vehicle: 'outros', vehicleLabel: 'Hatch', service: 'Película automotiva' },
+  { src: '/media/gal-hatch-frente.webp', alt: 'Hatch preto com película no para-brisa e laterais, visto de frente na rua da loja', cat: 'peliculas', caption: 'Dianteiros dentro da lei', vehicle: 'outros', vehicleLabel: 'Hatch', service: 'Película automotiva' },
+  { src: '/media/gal-bancos-protegidos.webp', alt: 'Bancos cobertos com capas protetoras da Cuiabá Insulfilm durante o serviço', cat: 'peliculas', caption: 'Interior protegido durante o serviço', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
   { src: '/media/gal-2.webp', alt: 'Caminhonete branca com vidros escurecidos', cat: 'peliculas', caption: 'Cuidado em cada detalhe', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Película automotiva' },
   { src: '/media/quiz-conforto.webp', alt: 'Vidro lateral com película e retrovisor refletindo palmeiras ao entardecer', cat: 'peliculas', caption: 'Conforto ao dirigir', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Película automotiva' },
   { src: '/media/svc-ppf.webp', alt: 'Película transparente PPF sendo assentada no capô preto', cat: 'ppf', caption: 'Proteção invisível', vehicle: 'suv', vehicleLabel: 'SUV', service: 'PPF' },
   { src: '/media/svc-envelopamento.webp', alt: 'Vinil grafite acetinado sendo assentado com espátula de feltro', cat: 'outros', caption: 'Envelopamento acetinado', vehicle: 'sedan', vehicleLabel: 'Sedã', service: 'Acessórios' },
   { src: '/media/svc-insulfilm.webp', alt: 'Aplicação de película térmica', cat: 'peliculas', caption: 'Aplicação de película', vehicle: 'outros', vehicleLabel: 'Detalhe', service: 'Película automotiva' },
-  { src: '/media/sobre.webp', alt: 'Oficina com técnico aplicando película no vidro de um SUV preto', cat: 'peliculas', caption: 'Oficina em ação', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
+  { src: '/media/sobre.webp', alt: 'Fachada verde da Cuiabá Insulfilm em Dom Aquino', cat: 'peliculas', caption: 'Nossa loja em Dom Aquino', vehicle: 'outros', vehicleLabel: 'Loja', service: 'Película automotiva' },
   { src: '/media/svc-som.webp', alt: 'Ajuste final de central multimídia no painel', cat: 'som', caption: 'Central multimídia', vehicle: 'sedan', vehicleLabel: 'Compacto', service: 'Som e multimídia' },
   { src: '/media/processo-inspecao.webp', alt: 'Inspeção final da película com luminária portátil', cat: 'peliculas', caption: 'Inspeção final', vehicle: 'suv', vehicleLabel: 'SUV', service: 'Película automotiva' },
   { src: '/media/svc-acessorios.webp', alt: 'Caminhonete grafite com capota marítima e engate', cat: 'outros', caption: 'Capota marítima e engate', vehicle: 'caminhonete', vehicleLabel: 'Caminhonete', service: 'Acessórios' },
@@ -213,9 +216,9 @@ export const levels: Level[] = [
 ];
 
 export const process = [
-  { n: '01', icon: 'chat', title: 'Diagnóstico', text: 'Modelo do carro no WhatsApp. Respondemos com valor fechado e horário, na loja ou a domicílio.', img: '/media/sobre.webp', alt: 'Oficina com técnico ao lado de um SUV preto', placeholder: 'foto real do atendimento no balcão' },
+  { n: '01', icon: 'chat', title: 'Diagnóstico', text: 'Modelo do carro no WhatsApp. Respondemos com valor fechado e horário, na loja ou a domicílio.', img: '/media/sobre.webp', alt: 'Fachada verde da Cuiabá Insulfilm em Dom Aquino, com a placa e o portão da oficina aberto' },
   { n: '02', icon: 'half', title: 'Escolha', text: 'Tonalidade escolhida com você, dentro da lei: G70 nos dianteiros, a sua preferência nos traseiros.', img: '/media/porsche/frames/frente/g35.webp', alt: 'Carro branco visto de frente com película G35', square: true },
-  { n: '03', icon: 'droplet', title: 'Preparação', text: 'Vidro limpo a fundo, película cortada sob medida. Nada de poeira entre o vidro e a película.', img: '/media/processo-preparacao.webp', alt: 'Mão com pano de microfibra limpando o vidro lateral' },
-  { n: '04', icon: 'spray', title: 'Aplicação', text: 'Assentamento com rodo, sem bolhas, sem pressa. Reserve meio período.', img: '/media/svc-insulfilm.webp', alt: 'Rodo pressionando a película úmida no vidro lateral' },
-  { n: '05', icon: 'eye', title: 'Acabamento', text: 'Bordas, encaixes e inspeção final. Entrega com chancela nos dianteiros e certificado de garantia vitalícia.', img: '/media/processo-acabamento.webp', alt: 'Cartão de acabamento alinhando a borda superior da película' },
+  { n: '03', icon: 'droplet', title: 'Preparação', text: 'Vidro limpo a fundo, película cortada sob medida. Nada de poeira entre o vidro e a película.', img: '/media/processo-preparacao.webp', alt: 'Painel e volante cobertos com capas protetoras da Cuiabá Insulfilm antes da aplicação' },
+  { n: '04', icon: 'spray', title: 'Aplicação', text: 'Assentamento com rodo, sem bolhas, sem pressa. Reserve meio período.', img: '/media/processo-aplicacao.webp', alt: 'Vidros traseiros de um SUV cinza com película recém-aplicada, dentro da oficina' },
+  { n: '05', icon: 'eye', title: 'Acabamento', text: 'Bordas, encaixes e inspeção final. Entrega com chancela nos dianteiros e certificado de garantia vitalícia.', img: '/media/processo-acabamento.webp', alt: 'Hatch preto com película nos vidros entregue na frente da loja' },
 ];
