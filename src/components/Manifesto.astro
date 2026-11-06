@@ -1,6 +1,5 @@
 ---
-/* Oversized manifesto. Each word is a span so CSS scroll-driven animation can light them up (scenes.css).
-   Without scroll-timeline support the words simply render lit. */
+/* Oversized manifesto. Each word is a span (--i) so they light up in a cascade when the IntersectionObserver reveal lands (scenes.css). */
 import { concept } from '../data/site';
 const words = concept.manifesto.split(' ');
 const accent = concept.manifestoAccent.toLowerCase();
@@ -9,7 +8,7 @@ const accent = concept.manifestoAccent.toLowerCase();
   <div class="wrap">
     <p class="mono" style="margin:0 0 2rem">Manifesto · Dirigir em Cuiabá</p>
     <p class="manifesto__text">
-      {words.map((w) => <span class:list={['w', { 'w--accent': w.toLowerCase().replace(/[.,]/g, '') === accent }]}>{w} </span>)}
+      {words.map((w, i) => <span class:list={['w', { 'w--accent': w.toLowerCase().replace(/[.,]/g, '') === accent }]} style={`--i:${i}`}>{w} </span>)}
     </p>
     <div class="manifesto__foot">
       <span class="mono">Uma das capitais mais quentes do Brasil</span>

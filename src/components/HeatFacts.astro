@@ -1,8 +1,8 @@
 ---
 /* "Raio-X do vidro" em 3 atos: o sol entra, a película entra, o calor fica fora.
-   Desktop (trava padrão): seção 300vh com palco sticky; o progresso p (0→1) escolhe o ato (data-act) e dirige o carro 3D
-   (src/scripts/xray3d.ts, lê data-p). Mobile: sem trava, p vem da posição do palco na tela.
-   Reduced-motion ou sem WebGL: fica o SVG estático (estado final) e os 3 parágrafos visíveis.
+   Desktop (trava padrão): seção 300vh com palco sticky; o progresso p (0→1) escolhe o ato (data-act), que o CSS traduz em
+   "termografia" sobre a foto real (véu de calor, película descendo, barra de calor). Mobile: sem trava, p vem da posição do palco.
+   Reduced-motion ou sem JS: estado final (frio) e os 3 parágrafos visíveis.
    Counters: final value is in the HTML; Base.astro only animates the digits. Nothing with verified:false renders. */
 import SceneHead from './SceneHead.astro';
 import { counters, wa } from '../data/site';
@@ -29,23 +29,10 @@ const acts = ['O sol entra inteiro. O banco vira chapa.', 'A película entra ent
     </div>
     <div class="xray__side">
       <figure class="xray__stage">
-        <canvas class="xray__3d" aria-hidden="true"></canvas>
-        <svg viewBox="0 0 600 400" role="img" aria-labelledby="xr-title">
-          <title id="xr-title">Esquema: o sol vem da direita, a película no vidro segura o calor do lado de fora e o banco, do lado de dentro, fica frio.</title>
-          <defs>
-            <linearGradient id="xr-heat" x1="0" x2="1"><stop offset="0" stop-color="#ff5a1f" /><stop offset="1" stop-color="#3a3f47" /></linearGradient>
-          </defs>
-          <g font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#b4aea2">
-            <text x="24" y="28">LADO DE DENTRO</text>
-            <text x="576" y="28" text-anchor="end">LADO DE FORA</text>
-          </g>
-          <path id="xr-seat" d="M70 330h150q14 0 14-14v-30q0-14-14-14h-96l-20-150q-2-14-16-14h-10q-14 0-12 14l22 194q2 14 16 14z" fill="url(#xr-heat)" opacity=".25" />
-          <rect x="290" y="40" width="20" height="320" rx="2" fill="#8a8f97" fill-opacity=".35" />
-          <rect id="xr-film" x="286" y="40" width="4" height="320" fill="#a4e52e" />
-          <g id="xr-rays" stroke="#ff8c28" stroke-width="3" stroke-linecap="round" opacity=".8">
-            <line x1="600" y1="80" x2="312" y2="120" /><line x1="600" y1="130" x2="312" y2="170" /><line x1="600" y1="180" x2="312" y2="220" /><line x1="600" y1="230" x2="312" y2="270" /><line x1="600" y1="280" x2="312" y2="320" />
-          </g>
-        </svg>
+        <img class="xray__photo" src="/media/gal-suv-oficina.webp" srcset="/media/gal-suv-oficina-640.webp 640w, /media/gal-suv-oficina.webp 1200w" sizes="(min-width: 900px) 50vw, 100vw" alt="SUV cinza na oficina da Cuiabá Insulfilm, para-brisa e vidros com película" width="1200" height="1600" loading="lazy" decoding="async" />
+        <div class="xray__heat" aria-hidden="true"></div>
+        <div class="xray__film" aria-hidden="true"></div>
+        <figcaption class="xray__meter mono"><span>Calor dentro do carro</span><i><b></b></i></figcaption>
       </figure>
       <ul class="heat__facts">
         {facts.map((c) => (
@@ -71,7 +58,6 @@ const acts = ['O sol entra inteiro. O banco vira chapa.', 'A película entra ent
     var ticking = false;
     function update() {
       ticking = false;
-      if (sec.dataset.noGl !== undefined) { delete sec.dataset.act; return; } // xray3d.ts failed: static SVG + 3 paragraphs
       var p;
       if (pin.matches) {
         var span = sec.offsetHeight - innerHeight + 68; // sticky runs from top=68 (header) to bottom=viewport
@@ -79,11 +65,9 @@ const acts = ['O sol entra inteiro. O banco vira chapa.', 'A película entra ent
         p = (68 - sec.getBoundingClientRect().top) / span;
       } else if (mob.matches) {
         p = 1 - stage.getBoundingClientRect().top / innerHeight; // not pinned: acts play while the stage crosses the screen
-      } else { delete sec.dataset.act; delete sec.dataset.p; return; }
+      } else { delete sec.dataset.act; return; }
       p = Math.min(1, Math.max(0, p));
-      sec.dataset.p = p.toFixed(4);
       sec.dataset.act = p < 0.33 ? '0' : p < 0.66 ? '1' : '2';
-      sec.dispatchEvent(new Event('xray:p'));
     }
     function onScroll() {
       if (!sec.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); return; }

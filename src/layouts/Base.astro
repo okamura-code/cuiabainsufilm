@@ -74,7 +74,6 @@ const business = {
     <div class="thermo" aria-hidden="true" transition:persist><i></i><span class="mono" id="thermo-label"></span></div>
     <script src="../scripts/smooth.ts"></script>
     <script src="../scripts/pointer.ts"></script>
-    <script src="../scripts/xray3d.ts"></script>
     <script is:inline>
       // runs on first load and after every client-side navigation (the router swaps <body>)
       // thermometer state + tick (module scope: the listener outlives each page-load); reads first, writes only on change
@@ -137,7 +136,7 @@ const business = {
 
         // reveal on scroll
         var groups = ['.grid', '.values', '.faq .faq-list', '.contact', '.footer .wrap', '.pcards', '.gp-grid', '.heat__facts', '.reviews-grid', '.diffs', '.quiz-grid'];
-        var singles = document.querySelectorAll('.section-head, .scene-head, .svc, .vlt__stage, .vlt__panel, .about > *, .notice, .ba-bar, .ba, .glass, .qq, .finale__inner > *, .process-aside');
+        var singles = document.querySelectorAll('.section-head, .scene-head, .manifesto__text, .svc, .vlt__stage, .vlt__panel, .about > *, .notice, .ba-bar, .ba, .glass, .qq, .finale__inner > *, .process-aside');
         var targets = [];
         groups.forEach(function (sel) {
           document.querySelectorAll(sel).forEach(function (g) {

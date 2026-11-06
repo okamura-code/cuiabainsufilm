@@ -80,6 +80,7 @@
 .manifesto__text { font-family: var(--cond); font-weight: 700; font-size: clamp(2.2rem, 6.6vw, 6rem); line-height: 1; letter-spacing: -0.005em; text-transform: uppercase; margin: 0; max-width: 20ch; text-wrap: balance; }
 .manifesto__text .w { color: var(--fog); }
 .manifesto__text .w--accent { color: var(--lime); }
+.manifesto__foot .mono, .ba-scene .wrap > .mono, .finale__meta .mono { color: var(--fog); }
 .manifesto__foot { margin: clamp(32px, 5vw, 56px) 0 0; display: flex; flex-wrap: wrap; gap: 1rem 2.4rem; }
 
 /* ---------- HEAT / GLASS ---------- */
@@ -91,7 +92,7 @@
 .heat__facts strong { font-family: var(--cond); font-weight: 700; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.05; }
 .heat__facts small { color: var(--mist); font-size: 0.85rem; line-height: 1.4; }
 .heat__src { margin: 1rem 0 0; font-size: 0.8rem; color: var(--mist); }
-/* Raio-X do vidro: 3 atos dirigidos pelo scroll (HeatFacts.astro + scripts/xray3d.ts). Fora da trava: os 3 atos estáticos. */
+/* Raio-X do vidro: 3 atos dirigidos pelo scroll (HeatFacts.astro). Termografia sobre a foto real: ato 0 quente, ato 1 a película desce, ato 2 (e sem JS) frio. */
 .xray { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; }
 @media (min-width: 900px) { .xray { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); } }
 /* mobile: one column, car right after the title, the 3 acts under it, counters after */
@@ -99,23 +100,27 @@
   .xray { gap: 1.4rem; }
   .xray__copy, .xray__side { display: contents; }
   .xray .scene-head { margin-bottom: 0; }
-  .xray__stage { order: 1; } .xray__text { order: 2; } .xray .heat__facts { order: 3; margin-top: 0; } .xray .heat__src { order: 4; margin-top: 0; } .xray .actions { order: 5; }
-}
-.xray__text { display: grid; gap: 0.7rem; margin: 0 0 0.4rem; }
-.xray__line { margin: 0; font-family: var(--cond); font-weight: 700; font-size: clamp(1.15rem, 1.7vw, 1.45rem); text-transform: uppercase; line-height: 1.1; display: flex; gap: 0.8rem; align-items: baseline; transition: color 0.4s; }
-.xray__line .mono { color: var(--lime); font-size: 0.7rem; }
-.xray-scene:not([data-no-gl])[data-act] .xray__line { color: var(--mist); }
-.xray-scene[data-act="0"] .xray__line[data-act="0"], .xray-scene[data-act="1"] .xray__line[data-act="1"], .xray-scene[data-act="2"] .xray__line[data-act="2"] { color: var(--fog); }
-.xray__stage { position: relative; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); aspect-ratio: 3 / 2; overflow: hidden; }
-.xray__stage svg, .xray__3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity 0.6s; }
-.xray__3d { opacity: 0; pointer-events: none; }
-.xray__3d.is-on { opacity: 1; }
-.xray__3d.is-on + svg { opacity: 0; }
+  .xray__stage { position: relative; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); aspect-ratio: 3 / 2; overflow: hidden; }
+.xray__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(0.85) contrast(1.05); transition: filter 1s ease; }
+.xray__heat { position: absolute; inset: 0; mix-blend-mode: screen; opacity: 0; transition: opacity 1s ease; background:
+  radial-gradient(58% 42% at 52% 30%, rgba(255, 60, 20, 0.9) 0%, rgba(255, 140, 40, 0.6) 40%, transparent 72%),
+  radial-gradient(36% 30% at 18% 44%, rgba(255, 120, 30, 0.7) 0%, transparent 70%); }
+.xray__film { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 13, 16, 0.78) 0%, rgba(11, 13, 16, 0.55) 42%, transparent 64%); transition: transform 1s var(--ease), opacity 0.8s; }
+.xray__meter { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; color: var(--fog); }
+.xray__meter i { flex: 1; display: block; height: 4px; border-radius: 2px; background: rgba(236, 232, 223, 0.18); overflow: hidden; }
+.xray__meter b { display: block; height: 100%; width: 22%; background: linear-gradient(90deg, var(--lime), #ff8c28 70%, #ff3c14); transition: width 1s var(--ease); }
+.xray-scene[data-act="0"] .xray__photo { filter: sepia(0.6) saturate(2.4) hue-rotate(-28deg) contrast(1.15); }
+.xray-scene[data-act="0"] .xray__heat { opacity: 1; }
+.xray-scene[data-act="0"] .xray__film { transform: translateY(-100%); opacity: 0; }
+.xray-scene[data-act="0"] .xray__meter b { width: 100%; }
+.xray-scene[data-act="1"] .xray__photo { filter: sepia(0.3) saturate(1.5) hue-rotate(-14deg) contrast(1.1); }
+.xray-scene[data-act="1"] .xray__heat { opacity: 0.45; }
+.xray-scene[data-act="1"] .xray__meter b { width: 58%; }
 .xray__side .heat__facts { margin-top: 1rem; }
 @media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
-  /* pin only while the 3D runs: [data-no-gl] (xray3d.ts failed) falls back to the static layout */
-  #calor.xray-scene[data-xr]:not([data-no-gl]) { height: 300vh; padding: 0; overflow: clip; content-visibility: visible; contain-intrinsic-size: none; }
-  #calor.xray-scene[data-xr]:not([data-no-gl]) .xray__pin { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
+  .xray-scene[data-act] .xray__line { color: var(--mist); } /* pinned only: the active act lights up (mobile keeps all three readable) */
+  #calor.xray-scene[data-xr] { height: 300vh; padding: 0; overflow: clip; content-visibility: visible; contain-intrinsic-size: none; }
+  #calor.xray-scene[data-xr] .xray__pin { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
   .xray__pin > .wrap { width: 100%; }
   .xray-scene .scene-head { margin-bottom: 1.2rem; }
   .xray-scene .scene-head__idx { margin-bottom: 0.8rem; }
@@ -127,7 +132,7 @@
   .xray-scene .heat__num { font-size: clamp(2rem, 3vw, 3rem); }
   /* counters wait for act 3: off-screen until then, so Base.astro's IntersectionObserver starts them on arrival */
   .xray-scene .heat__facts { transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.6s; }
-  #calor.xray-scene[data-xr]:not([data-no-gl])[data-act]:not([data-act="2"]) .heat__facts { transform: translateY(100vh); opacity: 0; }
+  #calor.xray-scene[data-xr][data-act]:not([data-act="2"]) .heat__facts { transform: translateY(100vh); opacity: 0; }
 }
 
 /* ---------- SIMULATOR (scene) ---------- */
@@ -185,8 +190,7 @@
 .ba { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 2 / 1; background: var(--asphalt); user-select: none; border: 1px solid var(--line); }
 .ba__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 /* right-side window onto the "after" photo; overflow instead of clip-path (iOS Safari rendered the clip reversed) */
-.ba__after { position: absolute; top: 0; bottom: 0; right: 0; left: var(--pos); overflow: hidden; }
-.ba__after .ba__img { left: auto; right: 0; width: auto; max-width: none; height: 100%; }
+.ba__after { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--pos)); } /* same crop as the base image on every aspect ratio */
 .ba__tag { position: absolute; top: 1rem; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.5rem 0.9rem; border-radius: 4px; z-index: 2; }
 .ba__tag--before { left: 1rem; background: rgba(11, 13, 16, 0.8); color: var(--fog); border: 1px solid var(--line); }
 .ba__tag--after { right: 1rem; background: var(--lime); color: var(--ink); }
@@ -364,19 +368,19 @@
   .vlt__readout output { transition: color 0.2s ease; }
 
   /* scroll-driven: compositor only, no listeners. Browsers without support keep the static end state. */
+  /* IntersectionObserver reveal (Base.astro) instead of view() timelines: iOS Safari claims support but never runs them */
+  .manifesto__text .w { color: var(--faint); transition: color 0.5s ease calc(var(--i, 0) * 45ms); }
+  .manifesto__text.is-in .w { color: var(--fog); }
+  .manifesto__text.is-in .w--accent { color: var(--lime); }
+  .finale h2 { color: transparent; -webkit-text-stroke: 1px var(--line-2); transition: color 0.9s ease 0.2s, -webkit-text-stroke-color 0.9s ease 0.2s; }
+  .finale h2 .accent { color: transparent; transition: color 0.9s ease 0.35s; }
+  .finale h2.is-in { color: var(--fog); -webkit-text-stroke-color: transparent; }
+  .finale h2.is-in .accent { color: var(--lime); }
   @supports (animation-timeline: view()) {
-    .manifesto__text .w { color: var(--faint); animation: lit linear both; animation-timeline: view(); animation-range: entry 55% entry 85%; }
-    .manifesto__text .w--accent { animation-name: lit-accent; }
-    @keyframes lit { to { color: var(--fog); } }
-    @keyframes lit-accent { to { color: var(--lime); } }
     .glass .draw { stroke-dasharray: 400; stroke-dashoffset: 400; animation: draw linear both; animation-timeline: view(); animation-range: entry 30% entry 90%; }
     @keyframes draw { to { stroke-dashoffset: 0; } }
     .level__media img { animation: level-zoom linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
     @keyframes level-zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
-    .finale h2 { color: transparent; -webkit-text-stroke: 1px var(--line-2); animation: fill-in linear both; animation-timeline: view(); animation-range: entry 20% entry 75%; }
-    .finale h2 .accent { color: transparent; animation: fill-accent linear both; animation-timeline: view(); animation-range: entry 20% entry 75%; }
-    @keyframes fill-in { to { color: var(--fog); -webkit-text-stroke-color: transparent; } }
-    @keyframes fill-accent { to { color: var(--lime); } }
     .ba-scene__ghost, .level__ghost { animation: ghost-drift linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
     @keyframes ghost-drift { from { transform: translate(var(--gx, 0), 6%); } to { transform: translate(var(--gx, 0), -6%); } }
     .ba-scene__ghost { --gx: -50%; }
