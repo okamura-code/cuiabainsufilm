@@ -36,7 +36,26 @@ const after = '/media/porsche/frames/lateral-esquerda/g5.webp';
     var box = document.getElementById('ba'), r = document.getElementById('ba-range'), out = document.getElementById('ba-out');
     if (!box || !r) return;
     var update = function () { box.style.setProperty('--pos', r.value + '%'); if (out) out.textContent = r.value + '%'; };
-    r.addEventListener('input', update);
+    var cancel = false;
+    r.addEventListener('input', function () { cancel = true; update(); });
     update();
+    // one-shot demo on first view: 0→100→50 over 2400 ms; any touch/drag stops it
+    box.addEventListener('pointerdown', function () { cancel = true; }, { once: true });
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      if (cancel) return;
+      var t0 = performance.now(), D = 2400;
+      var ease = function (t) { return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; };
+      (function tick(now) {
+        if (cancel || !box.isConnected) return;
+        var t = Math.min(1, (now - t0) / D), e = ease(t);
+        r.value = Math.round(e < 0.5 ? e * 200 : 100 - (e - 0.5) * 100); // 0→100 in the first half, 100→50 in the second
+        update();
+        if (t < 1) requestAnimationFrame(tick);
+      })(t0);
+    }, { threshold: 0.6 });
+    io.observe(box);
   })();
 </script>
