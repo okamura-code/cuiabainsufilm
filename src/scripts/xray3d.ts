@@ -74,7 +74,7 @@ async function start() {
   box.setFromObject(car); box.getSize(size);
 
   // 5 sun rays: from outside (upper right) through the near side window into the cabin.
-  const OUT = 4.5, IN = 2.4;
+  const OUT = 4.5, IN = 1.2;
   const rayMat = new THREE.MeshBasicMaterial({ color: 0xff8c28, transparent: true, opacity: 0.5, depthWrite: false, depthTest: false }); // x-ray: the part inside the cabin shows through the body
   const rayGeo = new THREE.CylinderGeometry(0.03, 0.03, 1, 6, 1, true).rotateX(Math.PI / 2).translate(0, 0, 0.5); // spans local z 0..1
   const hot = new THREE.MeshBasicMaterial({ color: 0xff8c28, depthTest: false });
@@ -102,7 +102,7 @@ async function start() {
     raf = 0;
     if (!renderer) return;
     const p = Number(sec!.dataset.p || 0);
-    const h = p < 0.45 ? 0.15 + 0.85 * k(0, 0.33, p) : 1 - k(0.5, 0.95, p); // cabin heats in act 1, cools in act 3
+    const h = p < 0.36 ? 0.15 + 0.85 * k(0, 0.33, p) : 1 - k(0.36, 0.8, p); // cabin heats in act 1, cools in act 3
     heat.value = h; seatMat.opacity = 0.7 * h;
     tint.value = k(0.33, 0.66, p);
     const stop = k(0.66, 0.85, p), len = OUT + IN * (1 - stop); // act 3: rays pull back to the glass and hold
