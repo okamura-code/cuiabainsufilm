@@ -4,13 +4,10 @@
 import Icons from './Icons.astro';
 import { site, wa, concept } from '../data/site';
 const perks = ['Conforto térmico', 'Mais segurança', 'Privacidade', 'Estilo e valorização'];
-// Scroll cinema frames live in public/media/cine/f000..fNNN.webp (scripts/cine-frames.sh). Same query as the CSS pin.
-const CINE_MQ = '(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)';
-const cineFrames = 75;
 ---
-<section class="hero hero--cine" id="topo" data-frames={cineFrames}>
+<section class="hero hero--cine" id="topo">
   <div class="hero__pin">
-  <div class="hero__media"><picture><source media="(max-width: 767px)" srcset="/media/hero-mobile-720.webp 720w, /media/hero-mobile.webp 1080w" sizes="100vw" /><source media={CINE_MQ} srcset="/media/cine/f000.webp" sizes="100vw" /><img class="hero__img" src="/media/hero.webp" srcset="/media/hero-640.webp 640w, /media/hero-1200.webp 1200w, /media/hero.webp 1920w" sizes="100vw" alt="SUV preto com vidros escurecidos ao pôr do sol em Cuiabá" width="1920" height="1080" fetchpriority="high" decoding="async" /></picture><canvas class="hero__cine" width="1280" height="720" aria-hidden="true"></canvas></div>
+  <div class="hero__media"><picture><source media="(max-width: 767px)" srcset="/media/hero-mobile-720.webp 720w, /media/hero-mobile.webp 1080w" sizes="100vw" /><img class="hero__img" src="/media/hero.webp" srcset="/media/hero-640.webp 640w, /media/hero-1200.webp 1200w, /media/hero.webp 1920w" sizes="100vw" alt="SUV preto com vidros escurecidos ao pôr do sol em Cuiabá" width="1920" height="1080" fetchpriority="high" decoding="async" /></picture><canvas class="hero__3d" aria-hidden="true"></canvas></div>
   <div class="hero__shade" aria-hidden="true"></div>
   <div class="hero__veil" aria-hidden="true"></div>
   <p class="hero__ghost" aria-hidden="true">Cuiabá</p>
@@ -27,41 +24,3 @@ const cineFrames = 75;
   <a class="hero__cue" href="#manifesto"><span>{concept.cue}</span><i aria-hidden="true"></i></a>
   </div>
 </section>
-<script is:inline data-astro-rerun>
-  /* Scroll cinema (desktop only, same media query as the CSS pin): the hero is 350vh tall with a sticky stage;
-     scroll progress picks a frame of the noon→sunset / clear→tinted sequence and fades the heat veil out. */
-  (function () {
-    var hero = document.getElementById('topo');
-    var cv = hero && hero.querySelector('.hero__cine');
-    var veil = hero && hero.querySelector('.hero__veil');
-    var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
-    if (!hero || !cv || !pin.matches) return;
-    var N = Number(hero.dataset.frames) || 0, frames = [], ctx = cv.getContext('2d'), shown = -1, ticking = false;
-    function progress() {
-      var span = hero.offsetHeight - window.innerHeight;
-      return span > 0 ? Math.min(1, Math.max(0, -hero.getBoundingClientRect().top / span)) : 0;
-    }
-    function draw() {
-      var p = progress(), i = Math.round(p * (N - 1));
-      while (i >= 0 && !frames[i]) i--; // nearest frame already loaded
-      if (i >= 0 && i !== shown) { ctx.drawImage(frames[i], 0, 0, cv.width, cv.height); shown = i; cv.classList.add('is-on'); }
-      if (veil) veil.style.opacity = (1 - p).toFixed(3);
-    }
-    function onScroll() {
-      if (ticking || !hero.isConnected || !pin.matches) return;
-      ticking = true;
-      requestAnimationFrame(function () { ticking = false; draw(); });
-    }
-    function load() {
-      for (var i = 0; i < N; i++) (function (i) {
-        var im = new Image();
-        im.decoding = 'async';
-        im.onload = function () { frames[i] = im; onScroll(); };
-        im.src = '/media/cine/f' + String(i).padStart(3, '0') + '.webp';
-      })(i);
-    }
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll);
-    if (document.readyState === 'complete') load(); else addEventListener('load', load, { once: true }); // frames never compete with the LCP
-  })();
-</script>
