@@ -1,32 +1,61 @@
 ---
-/* Services as "protection levels": four full-bleed panels. On desktop each is position:sticky so the next one slides over
-   the previous (CSS only, scenes.css). On phones they stack. Images are the existing svc-* WebPs. */
+/* Services as "protection levels". Phones / reduced motion / no JS: four stacked full-bleed .level articles.
+   Desktop (data-lu + the pin query in scenes.css): a 500vh section with a sticky stage. Scroll is the timeline, five
+   frames with a hold each (cover + 01–04). One object sits in the middle: a cut-out car in four angles that swaps,
+   scales and moves between frames; the copy of each frame rises/clips in on its own stagger; a side nav marks the frame.
+   Mechanics ported from the Lycoris Specimen (sceneCoord / reveal / keyAt), no React, no WebGL. */
 import SceneHead from './SceneHead.astro';
 import Icons from './Icons.astro';
 import { levels, wa, srcset } from '../data/site';
+// angle · size (fraction of the stage's short side) · ox, oy (-1..1, +y up) per frame: 0 cover, then levels 1–4
+const keys = [
+  { angle: 'frente34', size: 0.9, ox: 0, oy: -0.32 },
+  { angle: 'lateral', size: 0.62, ox: 0.35, oy: 0 },
+  { angle: 'frente34', size: 0.78, ox: -0.4, oy: -0.1 },
+  { angle: 'traseira34', size: 0.62, ox: 0.35, oy: 0.05 },
+  { angle: 'topo', size: 0.6, ox: 0, oy: 0.42 },
+];
+const angles = ['frente34', 'lateral', 'traseira34', 'topo'];
+const side = ['', 'left', 'right', 'left', 'bottom'];
 ---
-<section class="levels" id="servicos" aria-labelledby="levels-title">
+<section class="levels" id="servicos" aria-labelledby="levels-title" data-keys={JSON.stringify(keys)}>
   <div class="wrap levels__intro">
     <SceneHead idx="05" eyebrow="Níveis de proteção">
       <span id="levels-title">Quatro camadas entre o sol e você<span class="dot">.</span></span>
       <Fragment slot="lead">Do vidro à carroceria. Cada nível resolve um incômodo diferente de quem dirige em Cuiabá. Comece pelo que mais pesa no seu dia.</Fragment>
     </SceneHead>
   </div>
-  {/* desktop line-up (scenes.css pin): one sticky stage, scroll swaps the level; the .level articles below stay for SEO and phones */}
-  <div class="lineup">
-    <div class="wrap lineup__copy">
-      <p class="level__idx mono" aria-hidden="true"><b id="lu-idx">{levels[0].idx}</b><span>/ 0{levels.length}</span></p>
-      <h3 id="lu-title" aria-hidden="true">{levels[0].title}</h3>
-      <p class="level__text" id="lu-text" aria-hidden="true">{levels[0].text}</p>
-      <div class="actions"><a class="btn" id="lu-cta" href={wa(levels[0].wa)} aria-label={"Pedir orçamento: " + levels[0].title} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a></div>
+  {/* desktop stage (scenes.css pin). The .level articles below stay for SEO, phones and keyboard focus. */}
+  <div class="lineup" id="lu">
+    <div class="lineup__halo" aria-hidden="true"></div>
+    <div class="lineup__car" aria-hidden="true">
+      {angles.map((a, i) => <img class:list={['lineup__angle', { 'is-on': i === 0 }]} data-angle={a} src={`/media/car/${a}.webp`} alt="" loading="lazy" decoding="async" />)}
     </div>
-    <div class="lineup__media" aria-hidden="true">
-      {levels.map((l, i) => (
-        <img class:list={['lineup__img', { 'is-on': i === 0 }]} src={l.image} srcset={srcset(l.image)} sizes="50vw" alt="" width="1200" height="900" loading="lazy" decoding="async" data-idx={l.idx} data-title={l.title} data-text={l.text} data-wa={wa(l.wa)} />
+    <div class="lu-frame lu-frame--cover" data-sc="0">
+      <p class="mono" data-fx="fade" data-d="0">05 · Níveis de proteção</p>
+      <h3 data-fx="clip" data-d="0.1">Quatro camadas<br />entre o sol e você<span class="dot">.</span></h3>
+      <p class="lu-frame__lead" data-fx="rise" data-d="0.3">Do vidro à carroceria. Role para ver cada nível.</p>
+    </div>
+    {levels.map((l, i) => (
+      <div class:list={['lu-frame', `lu-frame--${side[i + 1]}`]} data-sc={i + 1}>
+        <p class="level__idx mono" data-fx="line" data-d="0"><b>{l.idx}</b><span>/ 0{levels.length} · {l.kicker}</span></p>
+        <h3 data-fx="clip" data-d="0.1">{l.title}</h3>
+        <p class="lu-frame__text" data-fx="rise" data-d="0.25">{l.text}</p>
+        <ul class="lu-frame__list" data-fx="rise" data-d="0.4">{l.includes.map((x) => <li>{x}</li>)}</ul>
+        <div class="actions" data-fx="rise" data-d="0.55">
+          <a class="btn" href={wa(l.wa)} target="_blank" rel="noopener" aria-label={"Pedir orçamento: " + l.title}><Icons name="wa" /> Pedir orçamento</a>
+          <a class="btn btn--ghost" href={`/servicos/#${l.slug}`}>Detalhes <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    ))}
+    <nav class="lu-nav" aria-label="Níveis">
+      {['Capa', ...levels.map((l) => l.title)].map((n, i) => (
+        <button type="button" data-go={i}><span class="lu-nav__lab">0{i} {n}</span><span class="lu-nav__tick"></span></button>
       ))}
-    </div>
+    </nav>
+    <svg class="lu-grain" aria-hidden="true" width="100%" height="100%"><filter id="lu-grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" /><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0" /></filter><rect width="100%" height="100%" filter="url(#lu-grain)" /></svg>
   </div>
-  {levels.map((l, i) => (
+  {levels.map((l) => (
     <article class="level" id={`nivel-${l.idx}`} data-placeholder={l.placeholder ? 'real' : undefined}>
       <div class="level__media"><img src={l.image} srcset={srcset(l.image)} sizes="100vw" alt={l.alt} width="1200" height="900" loading="lazy" decoding="async" /></div>
       <div class="level__shade" aria-hidden="true"></div>
@@ -50,31 +79,71 @@ import { levels, wa, srcset } from '../data/site';
 </section>
 <script is:inline data-astro-rerun>
   (function () {
-    var scene = document.getElementById('servicos'), imgs = scene && scene.querySelectorAll('.lineup__img');
-    if (scene) scene.dataset.lu = ''; // JS ran: scenes.css may pin (no-JS keeps the stacked levels)
+    var scene = document.getElementById('servicos'), stage = document.getElementById('lu');
+    if (!scene || !stage) return;
+    scene.dataset.lu = ''; // JS ran: scenes.css may pin (no-JS keeps the stacked levels)
     var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
-    if (!imgs || !imgs.length) return;
-    var idx = document.getElementById('lu-idx'), title = document.getElementById('lu-title'), text = document.getElementById('lu-text'), cta = document.getElementById('lu-cta');
-    var cur = 0, ticking = false;
-    var hh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 68;
-    var onScroll = function () {
-      if (!scene.isConnected) { removeEventListener("scroll", onScroll); pin.removeEventListener("change", onScroll); return; }
-      if (ticking || !pin.matches) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        ticking = false;
-        var span = scene.offsetHeight - window.innerHeight + hh; // same progress as the simulator pin
-        if (span <= 0) return;
-        var p = Math.min(1, Math.max(0, (hh - scene.getBoundingClientRect().top) / span));
-        var i = Math.min(imgs.length - 1, Math.floor(p * imgs.length));
-        if (i === cur) return;
-        imgs[cur].classList.remove('is-on'); imgs[i].classList.add('is-on'); cur = i;
-        var d = imgs[i].dataset;
-        idx.textContent = d.idx; title.textContent = d.title; text.textContent = d.text; cta.href = d.wa; cta.setAttribute("aria-label", "Pedir orçamento: " + d.title);
+    var keys = JSON.parse(scene.dataset.keys), N = keys.length, HOLD = 0.34;
+    var car = stage.querySelector('.lineup__car'), halo = stage.querySelector('.lineup__halo');
+    var angles = stage.querySelectorAll('.lineup__angle'), frames = stage.querySelectorAll('.lu-frame'), navs = stage.querySelectorAll('.lu-nav button');
+    var items = Array.prototype.map.call(stage.querySelectorAll('[data-fx]'), function (el) {
+      return { el: el, sc: Number(el.closest('.lu-frame').dataset.sc), fx: el.dataset.fx, d: Number(el.dataset.d) || 0, last: -1 };
+    });
+    var hh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 68;
+    var clamp01 = function (x) { return x <= 0 ? 0 : x > 1 ? 1 : x; };
+    var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+    // scroll progress → continuous frame coordinate 0..N-1; integers hold for HOLD of their slot
+    var coordOf = function (p) { var t = clamp01(p) * (N - 1), i = Math.min(Math.floor(t), N - 2), h = HOLD / 2; return i + ease(clamp01((t - i - h) / (1 - 2 * h))); };
+    var reveal = function (coord, sc, d) { var x = coord - sc, lag = x < 0 ? d : 1 - d; return clamp01((0.6 - Math.abs(x) - lag * 0.2) / 0.25); };
+    var shownAngle = 0, shownFrame = -1, ticking = false;
+    function span() { return scene.offsetHeight - innerHeight + hh; }
+    function draw() {
+      ticking = false;
+      var s = span(); if (s <= 0) return;
+      var p = clamp01((hh - scene.getBoundingClientRect().top) / s), coord = coordOf(p);
+      var i = Math.max(0, Math.min(N - 1, Math.floor(coord))), j = Math.min(N - 1, i + 1), f = coord - i, a = keys[i], b = keys[j];
+      var l = function (x, y) { return x + (y - x) * f; };
+      var W = stage.clientWidth, H = stage.clientHeight, m = Math.min(W, H);
+      var size = l(a.size, b.size) * m, ox = l(a.ox, b.ox) * W / 2, oy = -l(a.oy, b.oy) * H / 2;
+      var near = Math.round(coord), mid = Math.abs(coord - near); // 0 on a frame, .5 halfway between two
+      car.style.transform = 'translate(' + (ox - size / 2).toFixed(1) + 'px,' + (oy - size / 2).toFixed(1) + 'px)';
+      car.style.width = car.style.height = size.toFixed(1) + 'px';
+      car.style.filter = mid > 0.04 ? 'blur(' + (mid * 12).toFixed(1) + 'px)' : '';
+      halo.style.transform = 'translate(' + (ox - size * 0.7).toFixed(1) + 'px,' + (oy - size * 0.7).toFixed(1) + 'px)';
+      halo.style.width = halo.style.height = (size * 1.4).toFixed(1) + 'px';
+      var ang = Array.prototype.findIndex.call(angles, function (im) { return im.dataset.angle === keys[near].angle; });
+      if (ang !== shownAngle) { angles[shownAngle].classList.remove('is-on'); angles[ang].classList.add('is-on'); shownAngle = ang; }
+      if (near !== shownFrame) {
+        shownFrame = near;
+        frames.forEach(function (fr, k) { if (k === near) fr.removeAttribute('aria-hidden'); else fr.setAttribute('aria-hidden', 'true'); });
+        navs.forEach(function (bt, k) { if (k === near) bt.setAttribute('aria-current', 'step'); else bt.removeAttribute('aria-current'); });
+      }
+      items.forEach(function (it) {
+        var v = Math.round(reveal(coord, it.sc, it.d) * 200) / 200;
+        if (v === it.last) return;
+        it.last = v;
+        var st = it.el.style, dir = coord < it.sc ? 1 : -1;
+        st.visibility = v <= 0 ? 'hidden' : 'visible';
+        st.opacity = it.fx === 'line' ? Math.min(1, v * 2) : v;
+        if (it.fx === 'line') st.transform = 'scaleX(' + v + ')';
+        else if (it.fx === 'clip') { st.clipPath = dir > 0 ? 'inset(0 0 ' + ((1 - v) * 100).toFixed(1) + '% 0)' : 'inset(' + ((1 - v) * 100).toFixed(1) + '% 0 0 0)'; st.transform = 'translateY(' + ((1 - v) * 0.4 * dir).toFixed(3) + 'em)'; }
+        else if (it.fx === 'rise') { st.transform = 'translateY(' + ((1 - v) * 34 * dir).toFixed(1) + 'px)'; st.filter = v > 0.99 ? '' : 'blur(' + ((1 - v) * 8).toFixed(1) + 'px)'; }
       });
-    };
+    }
+    function onScroll() {
+      if (!scene.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); pin.removeEventListener('change', onScroll); return; }
+      if (ticking || !pin.matches) return;
+      ticking = true; requestAnimationFrame(draw);
+    }
+    navs.forEach(function (bt) {
+      bt.addEventListener('click', function () {
+        var top = scene.getBoundingClientRect().top + scrollY - hh + (Number(bt.dataset.go) / (N - 1)) * span();
+        scrollTo({ top: top, behavior: 'smooth' });
+      });
+    });
     addEventListener('scroll', onScroll, { passive: true });
-    pin.addEventListener("change", onScroll);
+    addEventListener('resize', onScroll, { passive: true });
+    pin.addEventListener('change', onScroll);
     onScroll();
   })();
 </script>
