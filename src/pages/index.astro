@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
+import Opening from '../components/Opening.astro';
 import QuickQuote from '../components/QuickQuote.astro';
 import Manifesto from '../components/Manifesto.astro';
 import HeatFacts from '../components/HeatFacts.astro';
@@ -22,8 +22,8 @@ const faqLd = {
 };
 ---
 <Base title={site.name} path="" jsonLd={[faqLd]}>
-  <Fragment slot="head"><link rel="preload" as="image" href="/media/hero-poster.webp" fetchpriority="high" /></Fragment>
-  <Hero />
+  <Fragment slot="head"><link rel="preload" as="image" href="/media/opening/logo.webp" fetchpriority="high" /><link rel="preload" as="image" media="(min-width: 768px)" href="/media/opening/tres-quartos.webp" /><link rel="preload" as="image" media="(max-width: 767px)" href="/media/opening/tres-quartos-1280.webp" /></Fragment>
+  <Opening />
   <QuickQuote />
   <Manifesto />
   <HeatFacts />

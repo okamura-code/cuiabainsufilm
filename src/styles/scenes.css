@@ -418,3 +418,64 @@
     .ba-scene__ghost { --gx: -50%; }
   }
 }
+
+/* ---------- OPENING (v7 prototype: brand → three-quarter → side view → tone) ---------- */
+.opening { position: relative; background: #000; color: var(--fog); isolation: isolate; }
+.opening__pin { position: relative; }
+.opening__stage { position: relative; }
+.opening__shot { position: relative; overflow: hidden; background: #000; }
+.opening__shot img { display: block; width: 100%; height: auto; filter: brightness(0.84) saturate(0.82) contrast(1.06); }
+.opening__shot--lat { position: relative; }
+.opening__frame { position: relative; width: 100%; aspect-ratio: 1672 / 941; }
+.opening__frame img.opening__base { width: 100%; height: 100%; }
+.opening__glass { position: absolute; height: auto; opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+.opening__shot--lat.is-dark .opening__glass { opacity: 1; }
+.opening__veil { position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(120% 90% at 50% 55%, transparent 45%, rgba(0, 0, 0, 0.55) 78%, #000 100%),
+  linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.35) 18%, transparent 40%, transparent 70%, rgba(0, 0, 0, 0.6) 90%, #000 100%); }
+.opening__brand { position: relative; width: min(60vw, 420px); margin: 0 auto; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; }
+.opening__brand img { width: 100%; height: auto; mix-blend-mode: screen; }
+.opening__sheen { position: absolute; inset: -20% -60%; background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.22) 50%, transparent 58%); transform: translateX(-70%); mix-blend-mode: screen; pointer-events: none; }
+.opening__text h1 { font-size: clamp(2.6rem, 6.2vw, 5.6rem); margin: 0.4rem 0 0; max-width: 14ch; }
+.opening__text .accent { color: var(--lime); }
+.opening__panel { display: grid; gap: 0.8rem; max-width: 34rem; }
+.opening__panel h2 { font-size: clamp(2rem, 3.6vw, 3.2rem); margin: 0; }
+.opening__panel .mono { color: var(--mist); }
+.opening__seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 999px; padding: 4px; gap: 4px; width: max-content; }
+.opening__seg button { font: inherit; font-family: var(--cond); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; font-size: 1rem; padding: 0.55rem 1.3rem; border: 0; border-radius: 999px; background: transparent; color: var(--fog); cursor: pointer; transition: background 0.25s, color 0.25s; }
+.opening__seg button[aria-pressed="true"] { background: var(--lime); color: var(--ink); }
+.opening__seg button:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+.opening__note { margin: 0; color: var(--mist); font-size: 0.92rem; max-width: 44ch; }
+.opening .actions { margin-top: 0.4rem; }
+.opening__cue { display: none; }
+/* stacked (phones, reduced motion, no JS): brand block, then each shot with its copy */
+.opening__brand { padding: clamp(48px, 12vh, 120px) 0 clamp(24px, 5vh, 56px); }
+.opening__text, .opening__panel { padding: 1.4rem var(--gutter) 2.2rem; }
+.opening__shot--34 { margin-top: 0.5rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .opening__brand img { animation: op-logo 1.2s var(--ease) both; }
+  .opening__sheen { animation: op-sheen 1.4s ease-out 0.5s both; }
+  @keyframes op-logo { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+  @keyframes op-sheen { from { transform: translateX(-70%); } to { transform: translateX(70%); } }
+}
+/* pinned stage (desktop with JS): one viewport, scroll is the timeline */
+@media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  #topo.opening[data-op] { height: 450vh; content-visibility: visible; contain-intrinsic-size: none; }
+  #topo.opening[data-op] .opening__pin { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  #topo.opening[data-op] .opening__stage { position: absolute; inset: 0; }
+  #topo.opening[data-op] .opening__shot { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
+  #topo.opening[data-op] .opening__shot img.opening__base, #topo.opening[data-op] .opening__shot--34 img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 58%; }
+  /* the glass layer is placed in image fractions: keep the lateral at the image's own aspect inside a cover box */
+  #topo.opening[data-op] .opening__shot--lat picture, #topo.opening[data-op] .opening__shot--lat { display: block; }
+  /* the side view keeps its own aspect inside a cover box, so the glass layer (placed in image fractions) stays on the windows */
+  #topo.opening[data-op] .opening__frame { position: absolute; left: 56%; top: 58%; translate: -50% -58%; width: max(100%, calc(100vh * 1.7768)); height: auto; } /* car a touch right: the panel sits on the left */
+  #topo.opening[data-op] .opening__frame img.opening__base { position: static; object-fit: fill; }
+  #topo.opening[data-op] .opening__brand { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; padding: 0; transform-origin: center; will-change: transform, opacity; }
+  #topo.opening[data-op] .opening__text { position: absolute; left: var(--gutter); bottom: 14vh; padding: 0; opacity: 0; will-change: transform, opacity; }
+  #topo.opening[data-op] .opening__panel { position: absolute; left: var(--gutter); bottom: 7vh; padding: 1.3rem 1.4rem; max-width: 30rem; background: rgba(0, 0, 0, 0.58); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: var(--radius); opacity: 0; visibility: hidden; will-change: transform, opacity; }
+  #topo.opening[data-op] .opening__panel h2 { font-size: clamp(1.8rem, 2.8vw, 2.5rem); }
+  #topo.opening[data-op] .opening__text { max-width: 44vw; }
+  #topo.opening[data-op] .opening__cue { display: block; position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); color: var(--mist); text-decoration: none; }
+  #topo.opening[data-op] .opening__shot--34 { margin: 0; }
+  .opening.is-live .opening__sheen { animation: none; }
+}

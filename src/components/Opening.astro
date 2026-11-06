@@ -1,0 +1,108 @@
+---
+/* v7 opening (prototype). Scroll drives a fixed camera path over real configurator captures of the white Porsche:
+   brand (logo on black) → three-quarter reveal + line → crossfade to the side view → tone selector (Claro / Escuro).
+   The selector swaps only a glass layer cut from the dark render (public/media/opening/lateral-vidros-escuro.webp,
+   alpha mask of the four windows) over the fixed light base: car, wheels, scenery and framing never move.
+   Desktop ≥ 900px: 450vh section with a sticky stage; phones / reduced motion / no JS: the same blocks stacked.
+   Visual simulation only: no G values, no percentages. The old VltSimulator stays further down the page. */
+import Icons from './Icons.astro';
+import { wa } from '../data/site';
+// window band of the glass layer inside the 1672×941 side view, as fractions (left, top, width, height)
+const band = { left: 600 / 1672, top: 270 / 941, width: 760 / 1672, height: 140 / 941 };
+---
+<section class="opening" id="topo" aria-label="Abertura">
+  <div class="opening__pin">
+    <div class="opening__stage" aria-hidden="true">
+      <picture class="opening__shot opening__shot--34"><source media="(max-width: 767px)" srcset="/media/opening/tres-quartos-1280.webp" /><img src="/media/opening/tres-quartos.webp" alt="" width="1920" height="1080" fetchpriority="high" decoding="async" /></picture>
+      <div class="opening__shot opening__shot--lat">
+        <div class="opening__frame">
+        <picture><source media="(max-width: 767px)" srcset="/media/opening/lateral-1200.webp" /><img class="opening__base" src="/media/opening/lateral.webp" alt="" width="1672" height="941" loading="lazy" decoding="async" /></picture>
+        <img class="opening__glass" src="/media/opening/lateral-vidros-escuro.webp" alt="" width="760" height="140" loading="lazy" decoding="async" style={`left:${(band.left * 100).toFixed(3)}%;top:${(band.top * 100).toFixed(3)}%;width:${(band.width * 100).toFixed(3)}%;height:${(band.height * 100).toFixed(3)}%`} />
+        </div>
+      </div>
+      <div class="opening__veil"></div>
+    </div>
+    <div class="opening__brand"><img src="/media/opening/logo.webp" alt="Cuiabá Insulfilm Som e Acessórios" width="1200" height="1200" fetchpriority="high" decoding="async" /><i class="opening__sheen" aria-hidden="true"></i></div>
+    <div class="opening__text" data-f="text">
+      <p class="mono">Cuiabá Insulfilm · Dom Aquino, Cuiabá–MT</p>
+      <h1>Seu carro. Seu estilo.<br /><span class="accent">Outro nível de conforto.</span></h1>
+    </div>
+    <div class="opening__panel" data-f="panel">
+      <p class="mono">Simulação visual aproximada</p>
+      <h2>Escolha o tom<span class="dot">.</span> Veja a diferença<span class="dot">.</span></h2>
+      <div class="opening__seg" role="group" aria-label="Tom da película (ilustrativo)">
+        <button type="button" data-tone="claro" aria-pressed="true">Claro</button>
+        <button type="button" data-tone="escuro" aria-pressed="false">Escuro</button>
+      </div>
+      <p class="opening__note">Só os vidros mudam, sobre a mesma foto. A aparência real depende do vidro, da película escolhida e da luz.</p>
+      <div class="actions">
+        <a class="btn" href={wa('Olá! Vi a simulação de película no site e quero um orçamento para meu carro.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a>
+        <a class="btn btn--ghost" href="#simulador">Simulador completo <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+    <a class="opening__cue mono" href="#orcamento-rapido">Role para começar</a>
+  </div>
+</section>
+<script is:inline data-astro-rerun>
+  (function () {
+    var sec = document.getElementById('topo'); if (!sec) return;
+    var html = document.documentElement;
+    var brand = sec.querySelector('.opening__brand'), stage = sec.querySelector('.opening__stage'), lat = sec.querySelector('.opening__shot--lat'), s34 = sec.querySelector('.opening__shot--34');
+    var text = sec.querySelector('.opening__text'), panel = sec.querySelector('.opening__panel'), cue = sec.querySelector('.opening__cue');
+    // tone selector: toggles the glass layer only (works stacked and pinned)
+    sec.querySelectorAll('[data-tone]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        lat.classList.toggle('is-dark', b.dataset.tone === 'escuro');
+        sec.querySelectorAll('[data-tone]').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      });
+    });
+    var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
+    sec.dataset.op = ''; // JS ran: scenes.css may pin
+    var hh = parseFloat(getComputedStyle(html).getPropertyValue('--header-h')) || 68;
+    var clamp = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
+    var seg = function (p, a, b) { var t = clamp((p - a) / (b - a)); return t * t * (3 - 2 * t); };
+    var parked = false, ticking = false;
+    function park(on) { if (on === parked) return; parked = on; html.classList.toggle('has-opening-brand', !on); }
+    function draw() {
+      ticking = false;
+      if (!pin.matches) { park(true); return; }
+      var span = sec.offsetHeight - innerHeight; if (span <= 0) return;
+      var p = clamp(-sec.getBoundingClientRect().top / span);
+      // 1 brand: holds, then shrinks towards the header's brand slot
+      var k = seg(p, 0.05, 0.16);
+      var hb = document.querySelector('.header .brand'), r = hb && hb.getBoundingClientRect(), bw = brand.offsetWidth || 1;
+      var tx = r ? (r.left + r.width / 2 - innerWidth / 2) : 0, ty = r ? (r.top + r.height / 2 - innerHeight / 2) : -innerHeight / 2 + hh / 2;
+      var sc = r ? Math.max(0.12, (r.height * 1.9) / bw) : 0.2;
+      brand.style.transform = 'translate(' + (tx * k).toFixed(1) + 'px,' + (ty * k).toFixed(1) + 'px) scale(' + (1 - (1 - sc) * k).toFixed(3) + ')';
+      brand.style.opacity = p < 0.16 ? '1' : String(1 - seg(p, 0.16, 0.2));
+      park(p >= 0.18);
+      sec.classList.toggle('is-live', p > 0.02);
+      // 2 reveal: three-quarter from black, slight push-in
+      s34.style.opacity = String(seg(p, 0.08, 0.17));
+      s34.style.transform = 'scale(' + (1.06 - 0.06 * seg(p, 0.08, 0.42)).toFixed(4) + ')';
+      var tIn = seg(p, 0.17, 0.24), tOut = seg(p, 0.31, 0.37);
+      text.style.opacity = String(tIn - tOut);
+      text.style.transform = 'translateY(' + ((1 - tIn) * 32 - tOut * 28).toFixed(1) + 'px)';
+      text.style.filter = (tIn < 1 || tOut > 0) ? 'blur(' + ((1 - tIn + tOut) * 6).toFixed(1) + 'px)' : '';
+      // 3 glass: crossfade to the side view (base + glass layer move together)
+      lat.style.opacity = String(seg(p, 0.38, 0.5));
+      // 4 interaction: panel settles in and stays
+      var pIn = seg(p, 0.52, 0.6);
+      panel.style.opacity = String(pIn);
+      panel.style.transform = 'translateY(' + ((1 - pIn) * 28).toFixed(1) + 'px)';
+      panel.style.visibility = pIn > 0 ? 'visible' : 'hidden';
+      // 5 exit: the stage dips to black as the section lets go
+      stage.style.opacity = String(1 - seg(p, 0.9, 1) * 0.85);
+      cue.style.opacity = String(1 - seg(p, 0.02, 0.08));
+    }
+    function onScroll() {
+      if (!sec.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); pin.removeEventListener('change', onScroll); html.classList.remove('has-opening-brand'); return; }
+      if (ticking) return; ticking = true; requestAnimationFrame(draw);
+    }
+    if (pin.matches) html.classList.add('has-opening-brand'); // header brand waits for the logo to park
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    pin.addEventListener('change', onScroll);
+    draw();
+  })();
+</script>

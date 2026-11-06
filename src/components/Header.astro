@@ -29,7 +29,7 @@ import Icons from './Icons.astro';
     if (!brand) return;
     document.querySelectorAll('.nav a[href^="/#"]').forEach(function (a) { a.addEventListener('click', function () { var t = document.getElementById('nav-toggle'); if (t) t.checked = false; }); });
     brand.addEventListener('click', function (e) {
-      if (!document.querySelector('.hero')) return; // not on the home page: let the link navigate
+      if (!document.querySelector('.hero, .opening')) return; // not on the home page: let the link navigate
       e.preventDefault();
       var toggle = document.getElementById('nav-toggle');
       if (toggle) toggle.checked = false;
