@@ -1,19 +1,18 @@
 ---
-/* Full-screen hero. Same image assets and preloads as v2 (LCP budget untouched): landscape ≥768px, portrait below.
-   Concept: "Lá fora é Cuiabá. Aqui dentro, não." The heat veil is the only warm colour on the site. */
+/* Full-screen hero. Background: 10 s loop of a car accelerating into the shop logo (raw/hero-video, re-encoded to public/media/hero-video.mp4).
+   The AI render misspells the logo at the end, so the real logo (logo-hero.webp, black bg + mix-blend-mode: screen) fades in over the
+   last 1.5 s, synced by `timeupdate`, and hides again when the loop restarts. Poster = frame 0 (the LCP image).
+   Concept: "Lá fora é Cuiabá. Aqui dentro, não." */
 import Icons from './Icons.astro';
 import { site, wa, concept } from '../data/site';
 const perks = ['Conforto térmico', 'Mais segurança', 'Privacidade', 'Estilo e valorização'];
-// Scroll cinema frames live in public/media/cine/f000..fNNN.webp (scripts/cine-frames.sh). Same query as the CSS pin.
-const CINE_MQ = '(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)';
-const cineFrames = 75;
 ---
-<section class="hero hero--cine" id="topo" data-frames={cineFrames}>
-  <div class="hero__pin">
-  <div class="hero__media"><picture><source media="(max-width: 767px)" srcset="/media/hero-mobile-720.webp 720w, /media/hero-mobile.webp 1080w" sizes="100vw" /><source media={CINE_MQ} srcset="/media/cine/f000.webp" sizes="100vw" /><img class="hero__img" src="/media/hero.webp" srcset="/media/hero-640.webp 640w, /media/hero-1200.webp 1200w, /media/hero.webp 1920w" sizes="100vw" alt="SUV preto com vidros escurecidos ao pôr do sol em Cuiabá" width="1920" height="1080" fetchpriority="high" decoding="async" /></picture><canvas class="hero__cine" width="1280" height="720" aria-hidden="true"></canvas></div>
+<section class="hero" id="topo">
+  <div class="hero__media">
+    <video class="hero__video" autoplay muted playsinline loop preload="auto" poster="/media/hero-poster.webp" aria-hidden="true"><source src="/media/hero-video.mp4" type="video/mp4" /></video>
+    <img class="hero__logo" src="/media/logo-hero.webp" alt="" width="1400" height="983" decoding="async" aria-hidden="true" />
+  </div>
   <div class="hero__shade" aria-hidden="true"></div>
-  <div class="hero__veil" aria-hidden="true"></div>
-  <p class="hero__ghost" aria-hidden="true">Cuiabá</p>
   <div class="hero__top" aria-hidden="true"><span class="mono">{concept.tagline}</span><span class="mono">{concept.coords}</span></div>
   <div class="wrap hero__content">
     <h1><span class="line"><span>Lá fora</span></span><span class="line"><span>é Cuiabá.</span></span><span class="line"><span>Aqui dentro,<br class="br-m" /> <span class="accent">não.</span></span></span></h1>
@@ -25,43 +24,18 @@ const cineFrames = 75;
     <ul class="perks">{perks.map((p) => <li>{p}</li>)}</ul>
   </div>
   <a class="hero__cue" href="#manifesto"><span>{concept.cue}</span><i aria-hidden="true"></i></a>
-  </div>
 </section>
 <script is:inline data-astro-rerun>
-  /* Scroll cinema (desktop only, same media query as the CSS pin): the hero is 350vh tall with a sticky stage;
-     scroll progress picks a frame of the noon→sunset / clear→tinted sequence and fades the heat veil out. */
   (function () {
-    var hero = document.getElementById('topo');
-    var cv = hero && hero.querySelector('.hero__cine');
-    var veil = hero && hero.querySelector('.hero__veil');
-    var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
-    if (!hero || !cv || !pin.matches) return;
-    var N = Number(hero.dataset.frames) || 0, frames = [], ctx = cv.getContext('2d'), shown = -1, ticking = false;
-    function progress() {
-      var span = hero.offsetHeight - window.innerHeight;
-      return span > 0 ? Math.min(1, Math.max(0, -hero.getBoundingClientRect().top / span)) : 0;
-    }
-    function draw() {
-      var p = progress(), i = Math.round(p * (N - 1));
-      while (i >= 0 && !frames[i]) i--; // nearest frame already loaded
-      if (i >= 0 && i !== shown) { ctx.drawImage(frames[i], 0, 0, cv.width, cv.height); shown = i; cv.classList.add('is-on'); }
-      if (veil) veil.style.opacity = (1 - p).toFixed(3);
-    }
-    function onScroll() {
-      if (ticking || !hero.isConnected || !pin.matches) return;
-      ticking = true;
-      requestAnimationFrame(function () { ticking = false; draw(); });
-    }
-    function load() {
-      for (var i = 0; i < N; i++) (function (i) {
-        var im = new Image();
-        im.decoding = 'async';
-        im.onload = function () { frames[i] = im; onScroll(); };
-        im.src = '/media/cine/f' + String(i).padStart(3, '0') + '.webp';
-      })(i);
-    }
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll);
-    if (document.readyState === 'complete') load(); else addEventListener('load', load, { once: true }); // frames never compete with the LCP
+    var v = document.querySelector('.hero__video'), logo = document.querySelector('.hero__logo');
+    if (!v || !logo) return;
+    function on() { logo.classList.add('is-on'); }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); on(); return; } // poster + logo, no motion
+    v.addEventListener('timeupdate', function () {
+      if (!v.duration) return;
+      if (v.duration - v.currentTime <= 1.5) on();
+      else if (v.currentTime < 0.5) logo.classList.remove('is-on'); // loop restarted
+    });
+    var p = v.play(); if (p && p.catch) p.catch(on); // autoplay blocked (data saver): poster + logo straight away
   })();
 </script>

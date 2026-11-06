@@ -13,7 +13,7 @@ const ok = () =>
 async function start() {
   if (lenis || !ok()) return;
   const { default: Lenis } = await import('lenis');
-  const l = new Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 1, prevent: () => document.documentElement.classList.contains('has-intro') });
+  const l = new Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 1 });
   lenis = l as unknown as LenisLike;
   (window as unknown as { __lenis: LenisLike }).__lenis = lenis;
   const raf = (t: number) => { l.raf(t); requestAnimationFrame(raf); };
