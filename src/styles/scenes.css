@@ -276,7 +276,7 @@
   .lu-frame { position: absolute; inset: 0; padding: 0 var(--gutter); display: grid; align-content: center; gap: 1rem; pointer-events: none; }
   .lu-frame > * { opacity: 0; visibility: hidden; will-change: transform, opacity; margin: 0; }
   .lu-frame .actions { pointer-events: auto; margin-top: 0.4rem; }
-  .lu-frame h3 { font-size: clamp(2.6rem, 5vw, 5rem); line-height: 0.95; max-width: 12ch; }
+  .lu-frame h3 { font-size: clamp(2.6rem, 5vw, 5rem); line-height: 0.95; max-width: 16ch; hyphens: manual; overflow-wrap: normal; }
   .lu-frame--cover { text-align: center; justify-items: center; align-content: start; padding-top: clamp(32px, 6vh, 64px); }
   .lu-frame--cover h3 { font-size: clamp(3rem, 6.5vw, 6.5rem); max-width: none; }
   .lu-frame--cover .lu-frame__lead { color: var(--mist); }
@@ -294,7 +294,7 @@
   .lu-nav button { display: flex; align-items: center; justify-content: flex-end; gap: 10px; background: none; border: 0; padding: 6px 0; cursor: pointer; color: var(--mist); font: inherit; }
   .lu-nav__tick { display: block; height: 1px; width: 14px; background: currentColor; opacity: 0.45; transition: width 0.4s var(--ease), opacity 0.3s, background-color 0.3s; }
   .lu-nav__lab { opacity: 0; transform: translateX(6px); transition: opacity 0.3s, transform 0.3s; white-space: nowrap; }
-  .lu-nav button:hover .lu-nav__lab, .lu-nav button:focus-visible .lu-nav__lab, .lu-nav button[aria-current] .lu-nav__lab { opacity: 1; transform: none; }
+  .lu-nav button:hover .lu-nav__lab, .lu-nav button:focus-visible .lu-nav__lab { opacity: 1; transform: none; } /* the label only on hover: the copy of frames 02/04 sits under the nav */
   .lu-nav button[aria-current] { color: var(--fog); }
   .lu-nav button[aria-current] .lu-nav__tick { width: 34px; opacity: 1; background: var(--lime); }
   .lu-grain { position: absolute; inset: 0; opacity: 0.07; mix-blend-mode: screen; pointer-events: none; }
