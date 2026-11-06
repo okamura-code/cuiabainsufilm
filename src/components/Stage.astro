@@ -75,7 +75,7 @@ const car = { left: 37.75, top: 62.14, width: 29.43 };
       var k = seg(p, 0.38, 0.6), s = T.w / S.w; // car: rest rect → photo rect (position and size lerp)
       car.style.transform = 'translate(' + ((T.l - S.l) * k).toFixed(1) + 'px,' + ((T.t - S.t) * k).toFixed(1) + 'px) scale(' + (1 + (s - 1) * k).toFixed(4) + ')';
       dark.style.opacity = 1 - k;
-      car.style.opacity = 1 - seg(p, 0.55, 0.6); // the identical frame is underneath by then
+      car.style.opacity = seg(p, 0.08, 0.18) * (1 - seg(p, 0.55, 0.6)); // appears with the facade, leaves once the identical frame is underneath
       sim.style.visibility = p >= 0.5 ? 'visible' : 'hidden';
       photo.style.opacity = seg(p, 0.5, 0.58);
       var u = seg(p, 0.56, 0.66);

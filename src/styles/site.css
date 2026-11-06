@@ -103,7 +103,7 @@
 .stage[data-stage] .stage__shop { padding-top: var(--header-h); pointer-events: none; z-index: 3; }
 .stage[data-stage] .stage__text { pointer-events: auto; opacity: 0; visibility: hidden; }
 .stage[data-stage] .stage__frame { overflow: visible; background: transparent; } /* the shop layer sits above the simulator */
-.stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow { opacity: 0; }
+.stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car { opacity: 0; }
 .stage[data-stage] .stage__car { transform-origin: 0 0; will-change: transform; }
 .stage[data-stage] .stage__sim { z-index: 2; visibility: hidden; padding: var(--header-h) 0 0; display: flex; align-items: center; overflow: auto; }
 .stage[data-stage] .stage__sim .wrap { width: 100%; }
