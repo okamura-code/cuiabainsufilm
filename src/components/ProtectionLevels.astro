@@ -51,6 +51,7 @@ import { levels, wa, srcset } from '../data/site';
 <script is:inline data-astro-rerun>
   (function () {
     var scene = document.getElementById('servicos'), imgs = scene && scene.querySelectorAll('.lineup__img');
+    if (scene) scene.dataset.lu = ''; // JS ran: scenes.css may pin (no-JS keeps the stacked levels)
     var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
     if (!imgs || !imgs.length) return;
     var idx = document.getElementById('lu-idx'), title = document.getElementById('lu-title'), text = document.getElementById('lu-text'), cta = document.getElementById('lu-cta');

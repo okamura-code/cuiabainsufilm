@@ -2,7 +2,7 @@
 /* Abertura de 2 s na primeira visita da sessão: graus sobem 28→41 (só o número; nada de recorde). Sem imagem: LCP intacto. */
 ---
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Abertura" hidden>
-  <p class="intro__label mono">Cuiabá–MT · Agora lá fora</p>
+  <p class="intro__label mono">Cuiabá–MT · Lá fora</p>
   <p class="intro__deg" aria-hidden="true"><span id="intro-n">28</span>°</p>
   <p class="intro__logo">Cuiabá <b>Insulfilm</b></p>
   <button type="button" class="intro__skip mono" id="intro-skip">Pular</button>
@@ -19,9 +19,10 @@
     function tick(now) { var k = Math.min(1, (now - t0) / 1600); var v = Math.round(28 + 13 * k); if (v !== shown) { shown = v; n.textContent = String(v); } if (k < 1 && !done) requestAnimationFrame(tick); }
     requestAnimationFrame(tick);
     function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') out(); }
-    function out() { if (done) return; done = true; removeEventListener('keydown', onKey); el.classList.add('is-out'); document.documentElement.classList.remove('has-intro'); setTimeout(function () { el.remove(); }, 700); }
+    // has-intro (scroll lock) stays through the slide-out: the dismissing wheel and its momentum do not move the page
+    function out() { if (done) return; done = true; removeEventListener('keydown', onKey); el.classList.add('is-out'); setTimeout(function () { el.remove(); document.documentElement.classList.remove('has-intro'); }, 700); }
     setTimeout(out, 2000);
     document.getElementById('intro-skip').addEventListener('click', out);
-    el.addEventListener('pointerdown', out); addEventListener('keydown', onKey);
+    el.addEventListener('pointerdown', out); el.addEventListener('wheel', out, { passive: true }); addEventListener('keydown', onKey);
   })();
 </script>

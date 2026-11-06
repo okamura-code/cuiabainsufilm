@@ -1,4 +1,4 @@
 car.glb = "suv-luxury" do Kenney Car Kit 3.1 (https://kenney.nl/assets/car-kit), licença CC0 1.0
 (http://creativecommons.org/publicdomain/zero/1.0/). Crédito não obrigatório. Baixado em 2026-11-05.
 Empacotado com gltf-transform optimize (sem Draco, WebP), malhas unidas; cores vêm da textura-paleta "colormap".
-meshes: malha única (body + 4 rodas unidas); vidro não é malha separada, é uma região da paleta (ver hero3d.ts).
+meshes: malha única (body + 4 rodas unidas); vidro não é malha separada, é uma região da paleta (ver src/scripts/xray3d.ts).

@@ -46,7 +46,7 @@ async function start() {
   ground.rotation.x = -Math.PI / 2; ground.receiveShadow = desktop; scene.add(ground);
 
   const car = gltf.scene;
-  // One palette material: glass and body are texel ranges of its colour map (see hero3d reference).
+  // One palette material: glass and body are texel ranges of its colour map (palette regions: see the shader patch below in xray3d.ts).
   const tint = { value: 0 }, heat = { value: 0 };
   car.traverse((o) => {
     const m = o as import('three').Mesh; if (!m.isMesh) return;
@@ -116,6 +116,7 @@ async function start() {
   io.observe(sec);
   sec.addEventListener('xray:p', dirty, { signal });
   addEventListener('resize', () => { resize(); dirty(); }, { passive: true, signal });
+  cv.addEventListener('webglcontextlost', () => cv.classList.remove('is-on'), { signal }); // GPU reset: show the SVG fallback
   resize(); draw(); cv.classList.add('is-on');
 }
 // Three.js only when the section is within ~1.5 screens: keeps it off the load window (TBT on mobile).
@@ -124,6 +125,7 @@ function arm() {
   if (!sec) return;
   const near = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { near.disconnect(); start(); } }, { rootMargin: '150% 0px' });
   near.observe(sec);
+  document.addEventListener('astro:before-swap', () => near.disconnect(), { once: true });
 }
 if (document.readyState === 'complete') arm(); else addEventListener('load', arm, { once: true });
 // astro:page-load also fires on first load, before `load`: only act on it once the page is complete.

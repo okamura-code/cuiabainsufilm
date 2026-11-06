@@ -63,6 +63,7 @@ const acts = ['O sol entra inteiro. O banco vira chapa.', 'A película entra ent
 <script is:inline data-astro-rerun>
   (function () {
     var sec = document.getElementById('calor');
+    if (sec) sec.dataset.xr = ''; // JS ran: scenes.css may pin (no-JS keeps the static layout)
     var stage = sec && sec.querySelector('.xray__stage');
     if (!sec || !stage) return;
     var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
