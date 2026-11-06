@@ -77,6 +77,21 @@ const business = {
     <script src="../scripts/xray3d.ts"></script>
     <script is:inline>
       // runs on first load and after every client-side navigation (the router swaps <body>)
+      // thermometer state + tick (module scope: the listener outlives each page-load); reads first, writes only on change
+      var TH = { q: 0, k: -1, l: null, h: null, secs: [], fin: null, mq: matchMedia('(min-width: 1100px) and (prefers-reduced-motion: no-preference)') };
+      var THL = { 'orcamento-rapido': 'orçamento rápido', 'avaliacoes': 'avaliações', 'questionario': 'questionário', 'antes-depois': 'antes e depois', 'duvidas': 'dúvidas', 'calor': 'raio-x', 'servicos': 'serviços' };
+      function thTick() {
+        TH.q = 0;
+        if (!TH.mq.matches || !TH.th) return;
+        var max = document.documentElement.scrollHeight - innerHeight, y = scrollY, h = innerHeight * 0.5, cur, i;
+        for (i = 0; i < TH.secs.length; i++) if (TH.secs[i].getBoundingClientRect().top < h) cur = TH.secs[i];
+        var k = max > 0 ? Math.min(Math.max(y / max, 0), 1) : 0;
+        var l = cur ? (THL[cur.id] || cur.id.replace(/-/g, ' ')) : '';
+        var hid = !TH.secs.length || max <= 0 || (!!TH.fin && TH.fin.getBoundingClientRect().top < innerHeight);
+        if (k !== TH.k) { TH.k = k; TH.bar.style.transform = 'scaleY(' + k + ')'; }
+        if (l !== TH.l) { TH.l = l; TH.lab.textContent = l; }
+        if (hid !== TH.h) { TH.h = hid; TH.th.classList.toggle('is-hidden', hid); }
+      }
       document.addEventListener('astro:page-load', function () {
         // header: transparent over the top of the page, solid once it scrolls (one IntersectionObserver, no scroll listener)
         var hdr = document.querySelector('.header'), sent = document.querySelector('.hdr-sentinel');
@@ -84,21 +99,16 @@ const business = {
           new IntersectionObserver(function (e) { hdr.classList.toggle('is-solid', !e[0].isIntersecting); }).observe(sent);
         } else if (hdr) { hdr.classList.add('is-solid'); }
 
-        // thermometer: scroll progress bar + current section label (desktop, motion allowed); one listener, persists across navigations
+        // thermometer: refresh per-page section cache; listener attached once (element persists across navigations)
         var th = document.querySelector('.thermo');
-        if (th && !th.dataset.on && matchMedia('(min-width: 1100px) and (prefers-reduced-motion: no-preference)').matches) {
-          th.dataset.on = '1';
-          var bar = th.firstElementChild, lab = document.getElementById('thermo-label');
-          var thTick = function () {
-            var secs = [].slice.call(document.querySelectorAll('main section[id]'));
-            var max = document.documentElement.scrollHeight - innerHeight;
-            bar.style.height = ((max > 0 ? scrollY / max : 0) * 100) + '%';
-            var cur = secs.filter(function (s) { return s.getBoundingClientRect().top < innerHeight * 0.5; }).pop();
-            lab.textContent = cur ? cur.id.replace(/-/g, ' ') : '';
-            var fin = document.querySelector('.finale');
-            th.classList.toggle('is-hidden', !!fin && fin.getBoundingClientRect().top < innerHeight);
-          };
-          addEventListener('scroll', thTick, { passive: true });
+        if (th) {
+          TH.secs = [].slice.call(document.querySelectorAll('main section[id]'));
+          TH.fin = document.querySelector('.finale');
+          if (!th.dataset.on) {
+            th.dataset.on = '1';
+            TH.th = th; TH.bar = th.firstElementChild; TH.lab = document.getElementById('thermo-label');
+            addEventListener('scroll', function () { if (!TH.q) TH.q = requestAnimationFrame(thTick); }, { passive: true });
+          }
           thTick();
         }
 
