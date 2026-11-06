@@ -448,7 +448,11 @@
 .opening__note { margin: 0; color: var(--mist); font-size: 0.92rem; max-width: 44ch; }
 .opening .actions { margin-top: 0.4rem; }
 .opening__cue { display: none; }
-/* stacked (phones, reduced motion, no JS): brand block, then each shot with its copy */
+/* stacked (phones, reduced motion, no JS): brand → three-quarter → line → side view → tone panel */
+.opening__pin { display: flex; flex-direction: column; }
+.opening__stage { display: contents; }
+.opening__veil { display: none; }
+.opening__brand { order: 1; } .opening__shot--34 { order: 2; } .opening__text { order: 3; } .opening__shot--lat { order: 4; } .opening__panel { order: 5; }
 .opening__brand { padding: clamp(48px, 12vh, 120px) 0 clamp(24px, 5vh, 56px); }
 .opening__text, .opening__panel { padding: 1.4rem var(--gutter) 2.2rem; }
 .opening__shot--34 { margin-top: 0.5rem; }
@@ -461,8 +465,9 @@
 /* pinned stage (desktop with JS): one viewport, scroll is the timeline */
 @media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
   #topo.opening[data-op] { height: 450vh; content-visibility: visible; contain-intrinsic-size: none; }
-  #topo.opening[data-op] .opening__pin { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-  #topo.opening[data-op] .opening__stage { position: absolute; inset: 0; }
+  #topo.opening[data-op] .opening__pin { position: sticky; top: 0; height: 100vh; overflow: hidden; display: block; }
+  #topo.opening[data-op] .opening__stage { display: block; position: absolute; inset: 0; }
+  #topo.opening[data-op] .opening__veil { display: block; }
   #topo.opening[data-op] .opening__shot { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
   #topo.opening[data-op] .opening__shot img.opening__base, #topo.opening[data-op] .opening__shot--34 img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 58%; }
   /* the glass layer is placed in image fractions: keep the lateral at the image's own aspect inside a cover box */
