@@ -296,3 +296,12 @@ html.has-cursor input, html.has-cursor select, html.has-cursor textarea, html.ha
   .card:hover, .values li:hover { transform: translateY(-4px); }
 }
 @media print { .reveal { opacity: 1 !important; transform: none !important; } .header { position: static; } }
+
+/* thermometer: side scroll progress (desktop, motion allowed) */
+.thermo { display: none }
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  .thermo { display: block; position: fixed; right: 22px; top: 50%; height: 40vh; width: 1px; transform: translateY(-50%); background: var(--line); z-index: 40; }
+  .thermo i { position: absolute; left: 0; top: 0; width: 1px; height: 0; background: linear-gradient(180deg, var(--heat-2), var(--lime)); }
+  .thermo span { position: absolute; right: 10px; bottom: -1.6rem; white-space: nowrap; color: var(--mist); font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; }
+  .thermo.is-hidden { opacity: 0; transition: opacity .4s }
+}

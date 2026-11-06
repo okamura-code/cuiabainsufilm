@@ -71,6 +71,7 @@ const business = {
     </main>
     <Footer />
     <WhatsAppFloat transition:persist />
+    <div class="thermo" aria-hidden="true" transition:persist><i></i><span class="mono" id="thermo-label"></span></div>
     <script src="../scripts/smooth.ts"></script>
     <script src="../scripts/pointer.ts"></script>
     <script src="../scripts/xray3d.ts"></script>
@@ -82,6 +83,24 @@ const business = {
         if (hdr && sent && 'IntersectionObserver' in window) {
           new IntersectionObserver(function (e) { hdr.classList.toggle('is-solid', !e[0].isIntersecting); }).observe(sent);
         } else if (hdr) { hdr.classList.add('is-solid'); }
+
+        // thermometer: scroll progress bar + current section label (desktop, motion allowed); one listener, persists across navigations
+        var th = document.querySelector('.thermo');
+        if (th && !th.dataset.on && matchMedia('(min-width: 1100px) and (prefers-reduced-motion: no-preference)').matches) {
+          th.dataset.on = '1';
+          var bar = th.firstElementChild, lab = document.getElementById('thermo-label');
+          var thTick = function () {
+            var secs = [].slice.call(document.querySelectorAll('main section[id]'));
+            var max = document.documentElement.scrollHeight - innerHeight;
+            bar.style.height = ((max > 0 ? scrollY / max : 0) * 100) + '%';
+            var cur = secs.filter(function (s) { return s.getBoundingClientRect().top < innerHeight * 0.5; }).pop();
+            lab.textContent = cur ? cur.id.replace(/-/g, ' ') : '';
+            var fin = document.querySelector('.finale');
+            th.classList.toggle('is-hidden', !!fin && fin.getBoundingClientRect().top < innerHeight);
+          };
+          addEventListener('scroll', thTick, { passive: true });
+          thTick();
+        }
 
         var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (!('IntersectionObserver' in window) || reduced) return;
