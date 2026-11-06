@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Intro from '../components/Intro.astro';
 import Hero from '../components/Hero.astro';
 import QuickQuote from '../components/QuickQuote.astro';
 import Manifesto from '../components/Manifesto.astro';
@@ -23,6 +24,7 @@ const faqLd = {
 ---
 <Base title={site.name} path="" jsonLd={[faqLd]}>
   <Fragment slot="head"><link rel="preload" as="image" media="(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)" href="/media/cine/f000.webp" fetchpriority="high" /><link rel="preload" as="image" media="(min-width: 768px) and (not ((min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)))" href="/media/hero.webp" imagesrcset="/media/hero-1200.webp 1200w, /media/hero.webp 1920w" imagesizes="100vw" fetchpriority="high" /><link rel="preload" as="image" media="(max-width: 767px)" href="/media/hero-mobile.webp" imagesrcset="/media/hero-mobile-720.webp 720w, /media/hero-mobile.webp 1080w" imagesizes="100vw" fetchpriority="high" /></Fragment>
+  <Intro />
   <Hero />
   <QuickQuote />
   <Manifesto />
