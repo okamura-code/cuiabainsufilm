@@ -36,3 +36,6 @@ Cinema e peso: escuro, tipografia gigante, cenas que param na tela. Sem crédito
 - Three.js + modelo ≤ 1,5 MB gzip, só após `load`. Lighthouse desktop ≥ 95, mobile ≥ 85.
 - Verificar: WebGL desligado → poster; reduced-motion → nada anima; teclado passa pela intro; toque gira no celular; Lenis + scroll do hero no Chrome real.
 - Trava padrão de pin: `(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)`.
+
+## Emenda (2026-11-05, após ver o hero 3D no preview)
+O SUV low-poly sobre a foto real parecia brinquedo. Decisão do autor: o hero mantém o scroll-cinema de 75 frames (v4). O carro 3D (Kenney, já em `public/3d/car.glb`) passa a viver no **Raio-X do vidro (#calor)**, onde o estilo diagrama combina: o carro em corte/vista lateral, raios do sol atravessando o vidro, película (escurecimento por shader) entrando no ato 2. Seção 1 original fica cancelada; a seção 3 absorve o 3D. Mobile: o raio-X 3D também roda leve (pixelRatio 1, sem sombras); sem WebGL ou reduced-motion → os 3 quadros estáticos em SVG do plano original.
