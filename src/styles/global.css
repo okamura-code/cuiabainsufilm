@@ -71,7 +71,7 @@ p { margin: 0 0 1em; }
 .section { padding: clamp(64px, 10vw, 128px) 0; position: relative; }
 section[id] { scroll-margin-top: var(--header-h); }
 /* below-the-fold sections skip style/layout until near the viewport (sticky scenes stay out: they need layout) */
-#simulador, #questionario, #processo, #galeria, #avaliacoes, #duvidas, .footer { content-visibility: auto; contain-intrinsic-size: auto 800px; }
+#resultados, #servicos, #confianca, #contato, .footer { content-visibility: auto; contain-intrinsic-size: auto 800px; }
 .dark { background: var(--ink); color: var(--fog); }
 .dark .muted { color: var(--mist); }
 .light, .light-2 { color: var(--ink-on-paper); }
@@ -138,14 +138,12 @@ a.btn--wa, .nav a.btn--wa { display: inline-flex; align-items: center; gap: 8px;
 .ico { width: 1.15em; height: 1.15em; flex: none; }
 
 /* header: fixed, transparent over the hero, solid once the page scrolls (class set by Base.astro sentinel) */
-.header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; color: var(--fog); background: transparent; border-bottom: 1px solid transparent; transition: background 0.3s ease, border-color 0.3s ease; }
+.header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; color: var(--fog); background: rgba(11, 13, 16, 0.6); border-bottom: 1px solid transparent; transition: background 0.3s ease, border-color 0.3s ease; }
 .header.is-solid, .header--solid { background: rgba(11, 13, 16, 0.86); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom-color: var(--line); }
 .header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: var(--header-h); position: relative; }
-.brand { display: grid; line-height: 1; text-decoration: none; padding: 6px 0; transition: opacity 0.4s; }
-html.has-opening-brand .brand { opacity: 0; pointer-events: none; } /* the opening's logo parks here first */
-.brand__top { font-family: var(--display); font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; }
-.brand__script { font-family: var(--script); font-size: 1.45rem; color: var(--lime); margin: -2px 0 0 2px; transform: rotate(-3deg); transform-origin: left center; display: inline-block; }
-.brand__sub { font-family: var(--display); font-weight: 700; font-size: 0.52rem; letter-spacing: 0.22em; text-transform: uppercase; color: #fff; margin-top: 2px; }
+/* brand = the official logo (black-background bitmap, screen-blended so the black disappears on the dark header) */
+.brand { display: block; height: 44px; padding: 0; text-decoration: none; transition: opacity 0.4s; }
+.brand img { height: 100%; width: auto; mix-blend-mode: screen; }
 .nav { display: none; }
 .nav a { text-decoration: none; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.4rem 0; }
 .nav a:hover { color: var(--lime); }
@@ -259,28 +257,6 @@ html.has-opening-brand .brand { opacity: 0; pointer-events: none; } /* the openi
 .wa-float svg { width: 30px; height: 30px; }
 .wa-float:hover { background: #1ebe5a; }
 @media (max-width: 767px) { .wa-float { width: 52px; height: 52px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); } .wa-float svg { width: 27px; height: 27px; } }
-
-/* lenis (inertial scroll, desktop only; see src/scripts/smooth.ts) */
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-.lenis.lenis-stopped { overflow: hidden; }
-
-/* custom cursor + magnetic buttons (desktop only; see src/scripts/pointer.ts) */
-.cursor { position: fixed; left: 0; top: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; will-change: transform; }
-.cursor.is-on { opacity: 1; }
-.cursor i { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: var(--lime); display: block; transition: transform 0.2s ease; }
-.cursor::before { content: ''; position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--lime); opacity: 0.55; transition: transform 0.3s var(--ease), opacity 0.3s ease, background 0.3s ease; }
-.cursor.is-hover::before { transform: scale(1.55); opacity: 0.95; }
-.cursor.is-hover i { transform: scale(0.6); }
-.cursor.is-label::before { transform: scale(2.3); background: var(--lime); opacity: 1; }
-.cursor.is-label i { transform: scale(0); }
-.cursor.is-down::before { transform: scale(0.85); }
-.cursor span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font: 500 0.48rem var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); opacity: 0; white-space: nowrap; transition: opacity 0.2s ease; }
-.cursor.is-label span { opacity: 1; }
-html.has-cursor, html.has-cursor a, html.has-cursor button, html.has-cursor summary, html.has-cursor label { cursor: none; }
-html.has-cursor input, html.has-cursor select, html.has-cursor textarea, html.has-cursor iframe { cursor: auto; }
-[data-magnetic] { transition: transform 0.4s var(--ease), background 0.15s ease, box-shadow 0.15s ease; will-change: transform; }
 
 /* page head (inner pages) */
 .page-head { background: var(--ink); color: var(--fog); padding: calc(var(--header-h) + clamp(48px, 8vw, 104px)) 0 clamp(40px, 6vw, 72px); position: relative; overflow: hidden; }

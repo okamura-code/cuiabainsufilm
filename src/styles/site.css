@@ -1,0 +1,108 @@
+/* ===== Cuiabá Insulfilm · site v8 =====
+   Section styles for the new home. Tokens, type, buttons, header, FAQ, footer live in global.css. */
+
+/* ---------- SIMULATOR (migrated verbatim from scenes.css, v3 moviescroller) ---------- */
+#simulador { background: var(--ink); }
+.vlt__hint { display: none; }
+/* moviescroller pin: tall section, sticky stage. Same query as the script in VltSimulator.astro. */
+@media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  #simulador.vlt-scene { content-visibility: visible; contain-intrinsic-size: none; padding: 0; height: 400vh; }
+  .vlt-scene__pin { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
+  .vlt-scene__pin > .wrap { width: 100%; }
+  .vlt-scene .scene-head { margin-bottom: 1rem; }
+  .vlt-scene .scene-head__idx { margin-bottom: 0.8rem; }
+  .vlt-scene .scene-head h2 { font-size: clamp(2rem, 3.4vw, 3.2rem); }
+  .vlt-scene .scene-head .lead { margin-top: 0.6rem; font-size: 1rem; }
+  .vlt-scene .vlt__views { margin-bottom: 0.7rem; }
+  .vlt-scene .vlt__photo { max-height: 44vh; }
+  .vlt-scene .vlt__next { transition: none; }
+  .vlt-scene .vlt__hint { display: inline; color: var(--lime); }
+}
+.vlt { display: grid; gap: clamp(24px, 4vw, 48px); grid-template-columns: 1fr; align-items: start; }
+@media (min-width: 900px) {
+  .vlt { grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.85fr); }
+  .vlt__panel { position: sticky; top: calc(var(--header-h) + 16px); }
+}
+.vlt__stage { min-width: 0; }
+.vlt__views { display: inline-flex; flex-wrap: wrap; gap: 4px; margin-bottom: 1rem; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--asphalt); }
+.vlt__view { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 1rem; border-radius: 999px; border: 0; background: transparent; color: var(--mist); cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.vlt__view:hover { color: var(--fog); }
+.vlt__view.is-active { background: var(--lime); color: var(--ink); }
+.vlt__photo { position: relative; border-radius: var(--radius); overflow: hidden; background: var(--asphalt); aspect-ratio: 2 / 1; border: 1px solid var(--line); }
+.vlt__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vlt__photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 40%, var(--glass) 50%, transparent 60%); pointer-events: none; }
+.vlt__caption { margin: 0.8rem 0 0; }
+.vlt__panel { background: var(--asphalt); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 3vw, 32px); display: grid; gap: 1rem; }
+.vlt__readout { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+.vlt__readout output { font-family: var(--cond); font-weight: 800; font-size: clamp(4rem, 9vw, 6.4rem); line-height: 0.85; color: var(--lime); font-variant-numeric: tabular-nums; }
+.vlt__readout small { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mist); }
+.vlt__vlt { margin: 0; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mist); }
+.vlt__vlt b { color: var(--fog); font-weight: 500; }
+.vlt input[type=range] { width: 100%; margin: 0.4rem 0 0; accent-color: var(--lime); height: 28px; }
+.vlt__ticks { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; color: var(--mist); padding: 0 2px; }
+.vlt__desc { font-family: var(--cond); font-weight: 700; font-size: 1.5rem; line-height: 1.05; text-transform: uppercase; color: var(--fog); margin: 0.4rem 0 0; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.vlt__info { display: flex; gap: 0.9rem; align-items: flex-start; border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.1rem; }
+.vlt__info-icon { width: 24px; height: 24px; color: var(--lime); flex: none; margin-top: 0.1rem; }
+.vlt__info strong { display: block; font-family: var(--mono); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.35rem; color: var(--fog); }
+.vlt__info p { margin: 0; font-size: 0.9rem; color: var(--mist); }
+@media (prefers-reduced-motion: no-preference) {
+  .vlt__photo img { transition: opacity 0.2s ease; }
+  .vlt__readout output { transition: color 0.2s ease; }
+}
+
+/* ---------- REVIEWS (migrated from scenes.css) ---------- */
+#avaliacoes { background: var(--paper); color: var(--ink-on-paper); }
+.reviews-head { display: grid; gap: 1.5rem; align-items: end; margin-bottom: clamp(28px, 4vw, 48px); }
+@media (min-width: 860px) { .reviews-head { grid-template-columns: 1fr auto; } }
+.reviews-head .scene-head { margin-bottom: 0; }
+.reviews-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.review { background: #fff; border-radius: var(--radius); padding: 1.5rem 1.6rem; border: 1px solid var(--line-dark); margin: 0; display: flex; flex-direction: column; }
+.review__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.review__top .stars { font-size: 1.1rem; }
+.review__g { width: 20px; height: 20px; }
+.review p { font-size: 1.05rem; margin: 0 0 1.2rem; flex: 1; }
+.review footer { font-size: 0.9rem; color: var(--muted); display: flex; align-items: center; gap: 0.7rem; padding-top: 1rem; border-top: 1px solid var(--line-dark); }
+.review footer strong { font-family: var(--cond); font-size: 1.1rem; text-transform: uppercase; color: var(--ink-on-paper); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--paper-2); color: #9a948a; display: grid; place-items: center; flex: none; }
+.avatar svg { width: 20px; height: 20px; }
+.reviews-cta { display: flex; justify-content: center; margin-top: clamp(24px, 3vw, 36px); }
+.diffs { list-style: none; padding: 0; margin: clamp(40px, 6vw, 64px) 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); border-top: 1px solid var(--line-dark); }
+.diffs li { padding: 1.2rem 1rem 1.2rem 0; border-bottom: 1px solid var(--line-dark); display: grid; gap: 0.3rem; }
+.diffs .ico { width: 26px; height: 26px; color: var(--lime-deep); margin-bottom: 0.3rem; }
+.diffs strong { font-family: var(--cond); font-size: 1.25rem; text-transform: uppercase; line-height: 1; }
+.diffs span { font-size: 0.9rem; color: var(--muted); }
+
+/* ---------- LINE MASKS (SceneHead titles) ---------- */
+.line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.line > span { display: block; }
+
+/* ---------- STAGE: logo → facade + Porsche (Etapa 1: static) ---------- */
+.stage { background: #000; color: var(--fog); }
+.stage__brand { position: relative; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--header-h) + 16px) var(--gutter) 72px; }
+.stage__brand img { width: min(84vw, 760px); height: auto; mix-blend-mode: screen; }
+.stage__cue { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); text-decoration: none; color: var(--mist); white-space: nowrap; }
+.stage__cue:hover { color: var(--lime); }
+.stage__frame { overflow: hidden; background: #000; }
+.stage__plate { position: relative; aspect-ratio: 1670 / 942; width: 100%; }
+.stage__plate picture, .stage__facade { display: block; width: 100%; height: 100%; }
+.stage__car { position: absolute; height: auto; filter: brightness(0.86) contrast(1.04); }
+.stage__shadow { position: absolute; left: 43%; top: 84.2%; width: 19%; height: 3.4%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0) 70%); }
+.stage__text { max-width: var(--maxw); margin: 0 auto; padding: 28px var(--gutter) 56px; }
+.stage__text h1 { font-size: clamp(2rem, 4.2vw, 3.6rem); max-width: 18ch; }
+.stage__text .mono { margin: 0 0 1rem; }
+.stage__text .actions { margin-top: 1.4rem; }
+@media (min-width: 900px) {
+  .stage__shop { padding-top: var(--header-h); }
+  .stage__frame { display: grid; place-items: center; }
+  .stage__plate { width: auto; height: calc(100vh - var(--header-h) - 150px); max-width: 100%; }
+  .stage__text { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 1rem 3rem; padding: 22px var(--gutter) 40px; }
+  .stage__text .mono { grid-column: 1 / -1; margin: 0; }
+  .stage__text h1 { font-size: clamp(1.8rem, 2.6vw, 2.6rem); margin: 0; }
+  .stage__text .actions { margin: 0; }
+}
+@media (max-width: 899px) {
+  /* phones: show the middle 62 % of the plate (door + car) instead of a 16:9 strip with a tiny car */
+  .stage__frame { aspect-ratio: 1035 / 942; }
+  .stage__plate { width: 161.3%; margin-left: -30.65%; }
+  .stage__brand { min-height: 72svh; padding-bottom: 64px; }
+}

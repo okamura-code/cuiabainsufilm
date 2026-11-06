@@ -1,0 +1,37 @@
+---
+/* v8 opening, Etapa 1 (static composition for review; the scroll timeline comes in Etapa 2).
+   Block 1: official logo on black. Block 2: the real facade (approved colours) with the Porsche layer cut from the
+   simulator's own frontal frame (frente/g70) parked inside the garage, plus a contact shadow. The car rectangle is the
+   full 1500x750 frame canvas scaled so the car matches the approved composition (same car, same pixels as the simulator). */
+import Icons from './Icons.astro';
+import { wa } from '../data/site';
+// frame canvas inside the 1670x942 plate, as %. Measured: approved car (plate diff) spans x 713–1039, roof y 597, wheels y 811;
+// layer alpha bbox x 252–1247, y 46–689 (1500x750) ⇒ scale 0.3276, canvas left 630.5, top 585.3, width 491.4
+const car = { left: 37.75, top: 62.14, width: 29.43 };
+---
+<section class="stage" id="topo" aria-label="Abertura">
+  <div class="stage__brand">
+    <img src="/media/hero/logo.webp" alt="Cuiabá Insulfilm Som e Acessórios" width="1196" height="729" fetchpriority="high" decoding="async" />
+    <a class="stage__cue mono" href="#loja">Role para conhecer a loja <span aria-hidden="true">↓</span></a>
+  </div>
+  <div class="stage__shop" id="loja">
+    <div class="stage__frame">
+      <div class="stage__plate">
+        <picture>
+          <source media="(max-width: 767px)" srcset="/media/hero/fachada-1200.webp" />
+          <img class="stage__facade" src="/media/hero/fachada.webp" width="1670" height="942" alt="Fachada da Cuiabá Insulfilm em Dom Aquino, com a garagem aberta" decoding="async" />
+        </picture>
+        <i class="stage__shadow" aria-hidden="true"></i>
+        <img class="stage__car" src="/media/hero/porsche-frente.webp" width="1500" height="750" alt="" decoding="async" style={`left:${car.left}%;top:${car.top}%;width:${car.width}%`} />
+      </div>
+    </div>
+    <div class="stage__text">
+      <p class="mono">Cuiabá Insulfilm Som e Acessórios · Dom Aquino, Cuiabá–MT</p>
+      <h1>Películas, PPF e acessórios para cuidar do seu carro.</h1>
+      <div class="actions">
+        <a class="btn" href={wa('Olá! Quero pedir um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento pelo WhatsApp</a>
+        <a class="btn btn--ghost" href="#simulador">Experimentar tonalidades <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
+  </div>
+</section>

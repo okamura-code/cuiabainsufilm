@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
-import '../styles/scenes.css';
-import { ClientRouter } from 'astro:transitions';
+import '../styles/site.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
@@ -9,7 +8,7 @@ import { site, services } from '../data/site';
 
 interface Props { title: string; description?: string; image?: string; path?: string; jsonLd?: object[] }
 const { title, description = site.description, image = '/media/og.jpg', path = '', jsonLd = [] } = Astro.props;
-const fullTitle = title === site.name ? `${site.name} | Película térmica, PPF e acessórios em Cuiabá` : `${title} | ${site.name}`;
+const fullTitle = title === site.name ? `${site.name} | Película automotiva, PPF e acessórios em Cuiabá` : `${title} | ${site.name}`;
 const canonical = `${site.url}/${path}`;
 const ogImage = `${site.url}${image}`;
 const a = site.address;
@@ -27,7 +26,6 @@ const business = {
   areaServed: ['Cuiabá', 'Várzea Grande', 'Região de Cuiabá'],
   brand: { '@type': 'Brand', name: site.brand },
   openingHoursSpecification: site.hours.filter((h) => h.schema.length).map((h) => ({ '@type': 'OpeningHoursSpecification', dayOfWeek: h.schema, opens: h.opens, closes: h.closes })),
-  aggregateRating: { '@type': 'AggregateRating', ratingValue: String(site.rating.value), reviewCount: String(site.rating.count) },
   sameAs: [site.instagram],
   makesOffer: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.short } })),
 };
@@ -56,120 +54,25 @@ const business = {
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/barlow-condensed-800.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/open-sans.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/montserrat.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/kaushan-script.woff2" crossorigin />
     <script type="application/ld+json" set:html={JSON.stringify([business, ...jsonLd])} />
-    <ClientRouter />
     <slot name="head" />
   </head>
   <body>
     <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-    <Header transition:persist />
+    <Header />
     <main id="conteudo">
       <div class="hdr-sentinel" aria-hidden="true" style="position:absolute;top:0;height:24px;width:1px;pointer-events:none"></div>
       <slot />
     </main>
     <Footer />
-    <WhatsAppFloat transition:persist />
-    <div class="thermo" aria-hidden="true" transition:persist><i></i><span class="mono" id="thermo-label"></span></div>
-    <script src="../scripts/smooth.ts"></script>
-    <script src="../scripts/pointer.ts"></script>
+    <WhatsAppFloat />
     <script is:inline>
-      // runs on first load and after every client-side navigation (the router swaps <body>)
-      // thermometer state + tick (module scope: the listener outlives each page-load); reads first, writes only on change
-      var TH = { q: 0, k: -1, l: null, h: null, secs: [], fin: null, mq: matchMedia('(min-width: 1100px) and (prefers-reduced-motion: no-preference)') };
-      var THL = { 'orcamento-rapido': 'orçamento rápido', 'avaliacoes': 'avaliações', 'questionario': 'questionário', 'antes-depois': 'antes e depois', 'duvidas': 'dúvidas', 'calor': 'raio-x', 'servicos': 'serviços' };
-      function thTick() {
-        TH.q = 0;
-        if (!TH.mq.matches || !TH.th) return;
-        var max = document.documentElement.scrollHeight - innerHeight, y = scrollY, h = innerHeight * 0.5, cur, i;
-        for (i = 0; i < TH.secs.length; i++) if (TH.secs[i].getBoundingClientRect().top < h) cur = TH.secs[i];
-        var k = max > 0 ? Math.min(Math.max(y / max, 0), 1) : 0;
-        var l = cur ? (THL[cur.id] || cur.id.replace(/-/g, ' ')) : '';
-        var hid = !TH.secs.length || max <= 0 || (!!TH.fin && TH.fin.getBoundingClientRect().top < innerHeight);
-        if (k !== TH.k) { TH.k = k; TH.bar.style.transform = 'scaleY(' + k + ')'; }
-        if (l !== TH.l) { TH.l = l; TH.lab.textContent = l; }
-        if (hid !== TH.h) { TH.h = hid; TH.th.classList.toggle('is-hidden', hid); }
-      }
-      document.addEventListener('astro:page-load', function () {
-        // header: transparent over the top of the page, solid once it scrolls (one IntersectionObserver, no scroll listener)
+      // header: transparent over the top of the page, solid once it scrolls
+      (function () {
         var hdr = document.querySelector('.header'), sent = document.querySelector('.hdr-sentinel');
-        if (hdr && sent && 'IntersectionObserver' in window) {
-          new IntersectionObserver(function (e) { hdr.classList.toggle('is-solid', !e[0].isIntersecting); }).observe(sent);
-        } else if (hdr) { hdr.classList.add('is-solid'); }
-
-        // thermometer: refresh per-page section cache; listener attached once (element persists across navigations)
-        var th = document.querySelector('.thermo');
-        if (th) {
-          TH.secs = [].slice.call(document.querySelectorAll('main section[id]'));
-          TH.fin = document.querySelector('.finale');
-          if (!th.dataset.on) {
-            th.dataset.on = '1';
-            TH.th = th; TH.bar = th.firstElementChild; TH.lab = document.getElementById('thermo-label');
-            addEventListener('scroll', function () { if (!TH.q) TH.q = requestAnimationFrame(thTick); }, { passive: true });
-          }
-          thTick();
-        }
-
-        var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!('IntersectionObserver' in window) || reduced) return;
-
-        // counters: final value is already in the HTML; this only animates the digits once, when visible
-        var nums = document.querySelectorAll('[data-count]');
-        if (nums.length) {
-          var cio = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) {
-              if (!e.isIntersecting) return;
-              cio.unobserve(e.target);
-              var el = e.target, end = parseFloat(el.dataset.count), dec = parseInt(el.dataset.decimals || '0', 10), t0 = null;
-              function tick(t) {
-                if (t0 === null) t0 = t;
-                var p = Math.min((t - t0) / 900, 1), k = 1 - Math.pow(1 - p, 3);
-                el.textContent = (end * k).toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
-                if (p < 1) requestAnimationFrame(tick);
-              }
-              requestAnimationFrame(tick);
-            });
-          }, { threshold: 0.6 });
-          nums.forEach(function (n) { cio.observe(n); });
-        }
-
-        // reveal on scroll
-        var groups = ['.grid', '.values', '.faq .faq-list', '.contact', '.footer .wrap', '.pcards', '.gp-grid', '.heat__facts', '.reviews-grid', '.diffs', '.quiz-grid'];
-        var singles = document.querySelectorAll('.section-head, .scene-head, .manifesto__text, .svc, .vlt__stage, .vlt__panel, .about > *, .notice, .ba-bar, .ba, .glass, .qq, .finale__inner > *, .process-aside');
-        var targets = [];
-        groups.forEach(function (sel) {
-          document.querySelectorAll(sel).forEach(function (g) {
-            Array.prototype.forEach.call(g.children, function (el, i) { el.style.setProperty('--i', String(i % 8)); targets.push(el); });
-          });
-        });
-        singles.forEach(function (el) { targets.push(el); });
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-        var pending = [];
-        targets = targets.filter(function (el) { return !el.closest('.hero') && !el.closest('.level'); });
-        // read every position first, then write classes: interleaving the two forces a layout per element
-        var onScreen = targets.map(function (el) { return el.getBoundingClientRect().top < innerHeight; });
-        targets.forEach(function (el, i) {
-          el.classList.add('reveal');
-          if (onScreen[i]) { requestAnimationFrame(function () { el.classList.add('is-in'); }); }
-          else { io.observe(el); pending.push(el); }
-        });
-        // fallback for browsers that throttle IntersectionObserver (background/hidden views)
-        var ticking = false;
-        addEventListener('scroll', function () {
-          if (ticking || !pending.length) return;
-          ticking = true;
-          requestAnimationFrame(function () {
-            pending = pending.filter(function (el) {
-              if (el.getBoundingClientRect().top < innerHeight * 0.92) { el.classList.add('is-in'); io.unobserve(el); return false; }
-              return true;
-            });
-            ticking = false;
-          });
-        }, { passive: true });
-      });
+        if (hdr && sent && 'IntersectionObserver' in window) new IntersectionObserver(function (e) { hdr.classList.toggle('is-solid', !e[0].isIntersecting); }).observe(sent);
+        else if (hdr) hdr.classList.add('is-solid');
+      })();
     </script>
   </body>
 </html>
