@@ -1,24 +1,26 @@
 ---
 /* Abertura de 2 s na primeira visita da sessão: graus sobem 28→41 (só o número; nada de recorde). Sem imagem: LCP intacto. */
 ---
-<div class="intro" id="intro" hidden>
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Abertura" hidden>
   <p class="intro__label mono">Cuiabá–MT · Agora lá fora</p>
-  <p class="intro__deg"><span id="intro-n">28</span>°</p>
+  <p class="intro__deg" aria-hidden="true"><span id="intro-n">28</span>°</p>
   <p class="intro__logo">Cuiabá <b>Insulfilm</b></p>
   <button type="button" class="intro__skip mono" id="intro-skip">Pular</button>
 </div>
 <script is:inline data-astro-rerun>
   (function () {
     var el = document.getElementById('intro'); if (!el) return;
-    var ok = !matchMedia('(prefers-reduced-motion: reduce)').matches && !sessionStorage.getItem('intro');
+    var ok = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    try { if (ok && sessionStorage.getItem('intro')) ok = false; else if (ok) sessionStorage.setItem('intro', '1'); } catch (e) { ok = false; }
     if (!ok) { el.remove(); return; }
-    sessionStorage.setItem('intro', '1'); el.hidden = false; document.documentElement.classList.add('has-intro');
+    el.hidden = false; document.getElementById('intro-skip').focus({ preventScroll: true }); document.documentElement.classList.add('has-intro');
     var n = document.getElementById('intro-n'), t0 = performance.now(), done = false;
     function tick(now) { var k = Math.min(1, (now - t0) / 1600); n.textContent = String(Math.round(28 + 13 * k)); if (k < 1 && !done) requestAnimationFrame(tick); }
     requestAnimationFrame(tick);
-    function out() { if (done) return; done = true; el.classList.add('is-out'); document.documentElement.classList.remove('has-intro'); setTimeout(function () { el.remove(); }, 700); }
+    function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') out(); }
+    function out() { if (done) return; done = true; removeEventListener('keydown', onKey); el.classList.add('is-out'); document.documentElement.classList.remove('has-intro'); setTimeout(function () { el.remove(); }, 700); }
     setTimeout(out, 2000);
     document.getElementById('intro-skip').addEventListener('click', out);
-    el.addEventListener('pointerdown', out); addEventListener('keydown', out, { once: true });
+    el.addEventListener('pointerdown', out); addEventListener('keydown', onKey);
   })();
 </script>

@@ -305,7 +305,6 @@
 .line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 .line > span { display: block; }
 
-/* ===== MOTION ===== */
 /* ===== Intro termômetro ===== */
 .intro { position: fixed; inset: 0; z-index: 100; background: var(--ink); color: var(--fog); display: grid; place-items: center; text-align: center; transition: transform .7s var(--ease); }
 .intro::after { content: ''; position: absolute; inset: 0; background: radial-gradient(80% 45% at 50% 100%, var(--heat) 0%, transparent 70%); animation: intro-heat 2s ease-out both; pointer-events: none; }
@@ -314,8 +313,11 @@
 .intro__logo { font-family: var(--cond); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin: 1rem 0 0; } .intro__logo b { color: var(--lime); }
 .intro__skip { position: absolute; right: var(--gutter); bottom: 24px; background: none; border: 1px solid var(--line); color: var(--mist); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; }
 .intro.is-out { transform: translateY(-100%); }
+.intro__skip:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
 html.has-intro { overflow: hidden; }
 @keyframes intro-heat { from { opacity: 0; transform: translateY(30%); } to { opacity: 1; transform: none; } }
+
+/* ===== MOTION ===== */
 
 @media (prefers-reduced-motion: no-preference) {
   .hero h1 .line > span { transform: translateY(110%); animation: line-up 1s var(--ease) 0.05s both; }
