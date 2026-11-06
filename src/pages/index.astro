@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Stage from '../components/Stage.astro';
-import VltSimulator from '../components/VltSimulator.astro';
 import { site, faq } from '../data/site';
 
 const faqLd = {
@@ -13,5 +12,4 @@ const faqLd = {
 <Base title={site.name} path="" jsonLd={[faqLd]}>
   <Fragment slot="head"><link rel="preload" as="image" href="/media/hero/logo.webp" fetchpriority="high" /></Fragment>
   <Stage />
-  <VltSimulator />
 </Base>

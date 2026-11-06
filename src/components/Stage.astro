@@ -1,37 +1,97 @@
 ---
-/* v8 opening, Etapa 1 (static composition for review; the scroll timeline comes in Etapa 2).
-   Block 1: official logo on black. Block 2: the real facade (approved colours) with the Porsche layer cut from the
-   simulator's own frontal frame (frente/g70) parked inside the garage, plus a contact shadow. The car rectangle is the
-   full 1500x750 frame canvas scaled so the car matches the approved composition (same car, same pixels as the simulator). */
+/* v8 opening: one pinned stage. Logo on black → real facade (approved colours) with the Porsche layer cut from the
+   simulator's own frontal frame → the car travels to the simulator photo (same pixels, exact overlay) → the tint
+   demo runs on scroll. Reduced motion or no JS: the same three blocks stacked, simulator manual only.
+   Car rectangle = the full 1500x750 frame canvas scaled so the car matches the approved composition. */
 import Icons from './Icons.astro';
+import VltSimulator from './VltSimulator.astro';
 import { wa } from '../data/site';
-// frame canvas inside the 1670x942 plate, as %. Measured: approved car (plate diff) spans x 713–1039, roof y 597, wheels y 811;
-// layer alpha bbox x 252–1247, y 46–689 (1500x750) ⇒ scale 0.3276, canvas left 630.5, top 585.3, width 491.4
+// measured: approved car (plate diff) x 713–1039, roof y 597, wheels y 811; layer alpha bbox x 252–1247, y 46–689
 const car = { left: 37.75, top: 62.14, width: 29.43 };
 ---
 <section class="stage" id="topo" aria-label="Abertura">
-  <div class="stage__brand">
-    <img src="/media/hero/logo.webp" alt="Cuiabá Insulfilm Som e Acessórios" width="1196" height="729" fetchpriority="high" decoding="async" />
-    <a class="stage__cue mono" href="#loja">Role para conhecer a loja <span aria-hidden="true">↓</span></a>
-  </div>
-  <div class="stage__shop" id="loja">
-    <div class="stage__frame">
-      <div class="stage__plate">
-        <picture>
-          <source media="(max-width: 767px)" srcset="/media/hero/fachada-1200.webp" />
-          <img class="stage__facade" src="/media/hero/fachada.webp" width="1670" height="942" alt="Fachada da Cuiabá Insulfilm em Dom Aquino, com a garagem aberta" decoding="async" />
-        </picture>
-        <i class="stage__shadow" aria-hidden="true"></i>
-        <img class="stage__car" src="/media/hero/porsche-frente.webp" width="1500" height="750" alt="" decoding="async" style={`left:${car.left}%;top:${car.top}%;width:${car.width}%`} />
+  <div class="stage__pin">
+    <div class="stage__brand">
+      <img src="/media/hero/logo.webp" alt="Cuiabá Insulfilm Som e Acessórios" width="1196" height="729" fetchpriority="high" decoding="async" />
+      <a class="stage__cue mono" href="#loja">Role para conhecer a loja <span aria-hidden="true">↓</span></a>
+    </div>
+    <div class="stage__shop" id="loja">
+      <div class="stage__frame">
+        <div class="stage__plate">
+          <picture>
+            <source media="(max-width: 767px)" srcset="/media/hero/fachada-1200.webp" />
+            <img class="stage__facade" src="/media/hero/fachada.webp" width="1670" height="942" alt="Fachada da Cuiabá Insulfilm em Dom Aquino, com a garagem aberta" decoding="async" />
+          </picture>
+          <i class="stage__shadow" aria-hidden="true"></i>
+          <div class="stage__car" style={`left:${car.left}%;top:${car.top}%;width:${car.width}%`}>
+            <img src="/media/hero/porsche-frente.webp" width="1500" height="750" alt="" decoding="async" />
+            <img class="stage__car-dark" src="/media/hero/porsche-frente-escuro.webp" width="1500" height="750" alt="" decoding="async" />
+          </div>
+        </div>
+      </div>
+      <div class="stage__text">
+        <p class="mono">Cuiabá Insulfilm Som e Acessórios · Dom Aquino, Cuiabá–MT</p>
+        <h1>Películas, PPF e acessórios para cuidar do seu carro.</h1>
+        <div class="actions">
+          <a class="btn" href={wa('Olá! Quero pedir um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento pelo WhatsApp</a>
+          <a class="btn btn--ghost" href="#simulador">Experimentar tonalidades <span aria-hidden="true">↓</span></a>
+        </div>
       </div>
     </div>
-    <div class="stage__text">
-      <p class="mono">Cuiabá Insulfilm Som e Acessórios · Dom Aquino, Cuiabá–MT</p>
-      <h1>Películas, PPF e acessórios para cuidar do seu carro.</h1>
-      <div class="actions">
-        <a class="btn" href={wa('Olá! Quero pedir um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento pelo WhatsApp</a>
-        <a class="btn btn--ghost" href="#simulador">Experimentar tonalidades <span aria-hidden="true">↓</span></a>
-      </div>
+    <div class="stage__sim">
+      <VltSimulator />
     </div>
   </div>
 </section>
+<script is:inline>
+  (function () {
+    var sec = document.getElementById('topo');
+    if (!sec || !matchMedia('(prefers-reduced-motion: no-preference)').matches) return; // stacked fallback stays
+    sec.dataset.stage = '';
+    var q = function (s) { return sec.querySelector(s); };
+    var brand = q('.stage__brand'), facade = q('.stage__facade'), shadow = q('.stage__shadow'), text = q('.stage__text');
+    var car = q('.stage__car'), dark = q('.stage__car-dark'), sim = q('.stage__sim'), simEl = document.getElementById('simulador');
+    var photo = q('.vlt__photo'), target = document.getElementById('vlt-base');
+    var ui = sim.querySelectorAll('.scene-head, .vlt__views, .vlt__caption, .vlt__panel');
+    var clamp = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
+    var seg = function (p, a, b) { var t = clamp((p - a) / (b - a)); return t * t * (3 - 2 * t); };
+    var S, T, lastQ = -2, ticking = false;
+    function measure() { // rest rect of the car layer and its destination (the simulator photo), both in viewport px
+      car.style.transform = '';
+      var r = car.getBoundingClientRect(), t = target.getBoundingClientRect();
+      S = { l: r.left, t: r.top, w: r.width }; T = { l: t.left, t: t.top, w: t.width };
+    }
+    function draw() {
+      ticking = false;
+      var span = sec.offsetHeight - innerHeight; if (span <= 0) return;
+      var p = clamp(-sec.getBoundingClientRect().top / span);
+      var b = 1 - seg(p, 0.04, 0.12);
+      brand.style.opacity = b; brand.style.visibility = b > 0 ? 'visible' : 'hidden';
+      var f = seg(p, 0.08, 0.18) * (1 - seg(p, 0.42, 0.6));
+      facade.style.opacity = f; shadow.style.opacity = f;
+      var tIn = seg(p, 0.16, 0.24), tOut = seg(p, 0.34, 0.4), t = tIn - tOut;
+      text.style.opacity = t; text.style.visibility = t > 0 ? 'visible' : 'hidden';
+      text.style.transform = 'translateY(' + ((1 - tIn) * 24 - tOut * 20).toFixed(1) + 'px)';
+      var k = seg(p, 0.38, 0.6), s = T.w / S.w; // car: rest rect → photo rect (position and size lerp)
+      car.style.transform = 'translate(' + ((T.l - S.l) * k).toFixed(1) + 'px,' + ((T.t - S.t) * k).toFixed(1) + 'px) scale(' + (1 + (s - 1) * k).toFixed(4) + ')';
+      dark.style.opacity = 1 - k;
+      car.style.opacity = 1 - seg(p, 0.55, 0.6); // the identical frame is underneath by then
+      sim.style.visibility = p >= 0.5 ? 'visible' : 'hidden';
+      photo.style.opacity = seg(p, 0.5, 0.58);
+      var u = seg(p, 0.56, 0.66);
+      ui.forEach(function (el) { el.style.opacity = u; el.style.transform = 'translateY(' + ((1 - u) * 20).toFixed(1) + 'px)'; });
+      var tint = p < 0.5 ? -1 : seg(p, 0.68, 1);
+      if (tint !== lastQ) { lastQ = tint; simEl.dispatchEvent(new CustomEvent('stage:tint', { detail: tint })); }
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
+    function onResize() { measure(); draw(); }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onResize, { passive: true });
+    addEventListener('load', onResize);
+    // "Simulador" links land on the simulator state, not on the start of the pinned section
+    document.querySelectorAll('a[href="#simulador"]').forEach(function (a) {
+      a.addEventListener('click', function (e) { e.preventDefault(); scrollTo({ top: sec.offsetTop + 0.66 * (sec.offsetHeight - innerHeight), behavior: 'smooth' }); });
+    });
+    measure(); draw();
+  })();
+</script>
