@@ -10,7 +10,9 @@
 .hero__logo { position: absolute; left: 50%; top: 49%; transform: translate(-50%, -50%); width: min(max(55%, 98svh), 92%); height: auto; mix-blend-mode: screen; opacity: 0; transition: opacity 1s ease-in-out, left 0.8s var(--ease), top 0.8s var(--ease), width 0.8s var(--ease); pointer-events: none; }
 .hero__logo.is-on { opacity: 1; }
 .hero.is-set .hero__logo { left: 72%; top: 34%; width: min(30vw, 440px); }
-.hero__shade { position: absolute; inset: 0; z-index: -1; background:
+/* the video plays clean; the shade only comes up with the text (same 0.8 s as the logo parking) */
+.hero.is-wait .hero__shade { opacity: 0; }
+.hero__shade { position: absolute; inset: 0; z-index: -1; transition: opacity 0.8s var(--ease); background:
   linear-gradient(180deg, rgba(11, 13, 16, 0.55) 0%, rgba(11, 13, 16, 0.1) 30%, rgba(11, 13, 16, 0.15) 55%, rgba(11, 13, 16, 0.88) 85%, var(--ink) 100%),
   linear-gradient(90deg, rgba(11, 13, 16, 0.78) 0%, rgba(11, 13, 16, 0.45) 45%, rgba(11, 13, 16, 0.05) 100%); }
 .hero__top { position: absolute; top: calc(var(--header-h) + 12px); left: 0; right: 0; display: flex; justify-content: space-between; gap: 1rem; padding: 0 var(--gutter); }
