@@ -261,7 +261,7 @@
 .lineup { display: none; }
 @media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
   #servicos.levels { height: 400vh; content-visibility: visible; contain-intrinsic-size: none; }
-  #servicos .level { display: none; }
+  #servicos .level { position: absolute; width: 1px; height: 1px; min-height: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; box-shadow: none; } /* visually hidden, still in the a11y tree */
   .lineup { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: grid; grid-template-columns: 1fr 1fr; align-items: center; color: var(--fog); border-top: 1px solid var(--line); }
   .lineup__copy { display: grid; gap: 1.2rem; }
   .lineup h3 { font-size: clamp(2.6rem, 5vw, 5rem); margin: 0; max-width: 12ch; line-height: 0.95; }

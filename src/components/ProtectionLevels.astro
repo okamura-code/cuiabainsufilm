@@ -16,9 +16,9 @@ import { levels, wa, srcset } from '../data/site';
   <div class="lineup">
     <div class="wrap lineup__copy">
       <p class="level__idx mono" aria-hidden="true"><b id="lu-idx">{levels[0].idx}</b><span>/ 0{levels.length}</span></p>
-      <h3 id="lu-title">{levels[0].title}</h3>
-      <p class="level__text" id="lu-text">{levels[0].text}</p>
-      <div class="actions"><a class="btn" id="lu-cta" href={wa(levels[0].wa)} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a></div>
+      <h3 id="lu-title" aria-hidden="true">{levels[0].title}</h3>
+      <p class="level__text" id="lu-text" aria-hidden="true">{levels[0].text}</p>
+      <div class="actions"><a class="btn" id="lu-cta" href={wa(levels[0].wa)} aria-label={"Pedir orçamento: " + levels[0].title} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a></div>
     </div>
     <div class="lineup__media" aria-hidden="true">
       {levels.map((l, i) => (
@@ -52,25 +52,28 @@ import { levels, wa, srcset } from '../data/site';
   (function () {
     var scene = document.getElementById('servicos'), imgs = scene && scene.querySelectorAll('.lineup__img');
     var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
-    if (!imgs || !imgs.length || !pin.matches) return;
+    if (!imgs || !imgs.length) return;
     var idx = document.getElementById('lu-idx'), title = document.getElementById('lu-title'), text = document.getElementById('lu-text'), cta = document.getElementById('lu-cta');
     var cur = 0, ticking = false;
+    var hh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 68;
     var onScroll = function () {
-      if (ticking || !scene.isConnected || !pin.matches) return;
+      if (!scene.isConnected) { removeEventListener("scroll", onScroll); pin.removeEventListener("change", onScroll); return; }
+      if (ticking || !pin.matches) return;
       ticking = true;
       requestAnimationFrame(function () {
         ticking = false;
-        var span = scene.offsetHeight - window.innerHeight + 68; // same progress as the simulator pin
+        var span = scene.offsetHeight - window.innerHeight + hh; // same progress as the simulator pin
         if (span <= 0) return;
-        var p = Math.min(1, Math.max(0, (68 - scene.getBoundingClientRect().top) / span));
+        var p = Math.min(1, Math.max(0, (hh - scene.getBoundingClientRect().top) / span));
         var i = Math.min(imgs.length - 1, Math.floor(p * imgs.length));
         if (i === cur) return;
         imgs[cur].classList.remove('is-on'); imgs[i].classList.add('is-on'); cur = i;
         var d = imgs[i].dataset;
-        idx.textContent = d.idx; title.textContent = d.title; text.textContent = d.text; cta.href = d.wa;
+        idx.textContent = d.idx; title.textContent = d.title; text.textContent = d.text; cta.href = d.wa; cta.setAttribute("aria-label", "Pedir orçamento: " + d.title);
       });
     };
     addEventListener('scroll', onScroll, { passive: true });
+    pin.addEventListener("change", onScroll);
     onScroll();
   })();
 </script>
