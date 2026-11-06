@@ -100,7 +100,13 @@
   .xray { gap: 1.4rem; }
   .xray__copy, .xray__side { display: contents; }
   .xray .scene-head { margin-bottom: 0; }
-  .xray__stage { position: relative; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); aspect-ratio: 3 / 2; overflow: hidden; }
+  .xray__stage { order: 1; } .xray__text { order: 2; } .xray .heat__facts { order: 3; margin-top: 0; } .xray .heat__src { order: 4; margin-top: 0; } .xray .actions { order: 5; }
+}
+.xray__text { display: grid; gap: 0.7rem; margin: 0 0 0.4rem; }
+.xray__line { margin: 0; font-family: var(--cond); font-weight: 700; font-size: clamp(1.15rem, 1.7vw, 1.45rem); text-transform: uppercase; line-height: 1.1; display: flex; gap: 0.8rem; align-items: baseline; transition: color 0.4s; }
+.xray__line .mono { color: var(--lime); font-size: 0.7rem; }
+.xray-scene[data-act="0"] .xray__line[data-act="0"], .xray-scene[data-act="1"] .xray__line[data-act="1"], .xray-scene[data-act="2"] .xray__line[data-act="2"] { color: var(--fog); }
+.xray__stage { position: relative; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); aspect-ratio: 3 / 2; overflow: hidden; }
 .xray__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: saturate(0.85) contrast(1.05); transition: filter 1s ease; }
 .xray__heat { position: absolute; inset: 0; mix-blend-mode: screen; opacity: 0; transition: opacity 1s ease; background:
   radial-gradient(58% 42% at 52% 30%, rgba(255, 60, 20, 0.9) 0%, rgba(255, 140, 40, 0.6) 40%, transparent 72%),
