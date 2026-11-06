@@ -1,19 +1,52 @@
 ---
-/* "O vidro é a porta de entrada do calor": verified counters + a qualitative glass diagram.
+/* "Raio-X do vidro" em 3 atos: o sol entra, a película entra, o calor fica fora.
+   Desktop (trava padrão): seção 300vh com palco sticky; o progresso p (0→1) escolhe o ato (data-act) e dirige o carro 3D
+   (src/scripts/xray3d.ts, lê data-p). Mobile: sem trava, p vem da posição do palco na tela.
+   Reduced-motion ou sem WebGL: fica o SVG estático (estado final) e os 3 parágrafos visíveis.
    Counters: final value is in the HTML; Base.astro only animates the digits. Nothing with verified:false renders. */
 import SceneHead from './SceneHead.astro';
 import { counters, wa } from '../data/site';
 import Icons from './Icons.astro';
 const facts = counters.filter((c) => c.verified);
 const fmt = (v: number, d: number) => v.toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
+const acts = ['O sol entra inteiro. O banco vira chapa.', 'A película entra entre o vidro e você.', 'O calor fica do lado de fora. A luz, não.'];
 ---
-<section class="section heat" id="calor">
-  <div class="wrap heat__grid">
-    <div>
-      <SceneHead idx="02" eyebrow="Onde o calor entra">
+<section class="section heat xray-scene" id="calor">
+  <div class="xray__pin">
+  <div class="wrap xray">
+    <div class="xray__copy">
+      <SceneHead idx="02" eyebrow="Raio-X do vidro">
         O vidro é a porta<span class="dot">.</span> A película é a chave<span class="dot">.</span>
         <Fragment slot="lead">Em Cuiabá o sol chega antes do trânsito. Bate no vidro, entra no banco, fica no volante. A gente não muda o clima. Muda o que ele consegue fazer com o seu carro.</Fragment>
       </SceneHead>
+      <div class="xray__text">
+        {acts.map((t, i) => <p class="xray__line" data-act={i}><span class="mono">0{i + 1}</span>{t}</p>)}
+      </div>
+      <p class="heat__src">Números da própria loja e da Resolução CONTRAN 960/2022. Percentuais de rejeição de calor e UV dependem da linha Window Blue escolhida: pedimos a ficha técnica no orçamento.</p>
+      <div class="actions">
+        <a class="btn" href={wa('Olá! Quero saber qual película Window Blue segura mais calor para meu carro.')} target="_blank" rel="noopener"><Icons name="wa" /> Qual película segura mais calor?</a>
+      </div>
+    </div>
+    <div class="xray__side">
+      <figure class="xray__stage">
+        <canvas class="xray__3d" aria-hidden="true"></canvas>
+        <svg viewBox="0 0 600 400" role="img" aria-labelledby="xr-title">
+          <title id="xr-title">Esquema: o sol vem da direita, a película no vidro segura o calor do lado de fora e o banco, do lado de dentro, fica frio.</title>
+          <defs>
+            <linearGradient id="xr-heat" x1="0" x2="1"><stop offset="0" stop-color="#ff5a1f" /><stop offset="1" stop-color="#3a3f47" /></linearGradient>
+          </defs>
+          <g font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#b4aea2">
+            <text x="24" y="28">LADO DE DENTRO</text>
+            <text x="576" y="28" text-anchor="end">LADO DE FORA</text>
+          </g>
+          <path id="xr-seat" d="M70 330h150q14 0 14-14v-30q0-14-14-14h-96l-20-150q-2-14-16-14h-10q-14 0-12 14l22 194q2 14 16 14z" fill="url(#xr-heat)" opacity=".25" />
+          <rect x="290" y="40" width="20" height="320" rx="2" fill="#8a8f97" fill-opacity=".35" />
+          <rect id="xr-film" x="286" y="40" width="4" height="320" fill="#a4e52e" />
+          <g id="xr-rays" stroke="#ff8c28" stroke-width="3" stroke-linecap="round" opacity=".8">
+            <line x1="600" y1="80" x2="312" y2="120" /><line x1="600" y1="130" x2="312" y2="170" /><line x1="600" y1="180" x2="312" y2="220" /><line x1="600" y1="230" x2="312" y2="270" /><line x1="600" y1="280" x2="312" y2="320" />
+          </g>
+        </svg>
+      </figure>
       <ul class="heat__facts">
         {facts.map((c) => (
           <li>
@@ -23,51 +56,36 @@ const fmt = (v: number, d: number) => v.toLocaleString('pt-BR', { minimumFractio
           </li>
         ))}
       </ul>
-      <p class="heat__src">Números da própria loja e da Resolução CONTRAN 960/2022. Percentuais de rejeição de calor e UV dependem da linha Window Blue escolhida: pedimos a ficha técnica no orçamento.</p>
-      <div class="actions">
-        <a class="btn" href={wa('Olá! Quero saber qual película Window Blue segura mais calor para meu carro.')} target="_blank" rel="noopener"><Icons name="wa" /> Qual película segura mais calor?</a>
-      </div>
     </div>
-    <figure class="glass" aria-labelledby="glass-cap">
-      <svg viewBox="0 0 640 420" role="img" aria-labelledby="glass-title">
-        <title id="glass-title">Diagrama: sol à esquerda, vidro com película ao centro, interior do carro à direita. Calor e raios UV são refletidos pela película; a luz visível passa na medida escolhida.</title>
-        <defs>
-          <linearGradient id="g-film" x1="0" x2="1"><stop offset="0" stop-color="#a4e52e" stop-opacity=".9" /><stop offset="1" stop-color="#a4e52e" stop-opacity=".3" /></linearGradient>
-          <radialGradient id="g-sun"><stop offset="0" stop-color="#ffb347" /><stop offset="1" stop-color="#ff7a2a" stop-opacity="0" /></radialGradient>
-        </defs>
-        <g font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="1.5" fill="#b4aea2">
-          <text x="24" y="30">LADO DE FORA</text>
-          <text x="616" y="30" text-anchor="end">LADO DE DENTRO</text>
-          <text x="320" y="404" text-anchor="middle">VIDRO + PELÍCULA WINDOW BLUE</text>
-        </g>
-        <!-- sun -->
-        <circle cx="110" cy="130" r="92" fill="url(#g-sun)" opacity=".55" />
-        <circle cx="110" cy="130" r="34" fill="#ffb347" />
-        <!-- glass + film -->
-        <rect x="312" y="56" width="14" height="326" rx="2" fill="#ece8df" fill-opacity=".10" stroke="#ece8df" stroke-opacity=".25" />
-        <rect x="326" y="56" width="6" height="326" rx="1" fill="url(#g-film)" />
-        <!-- cabin -->
-        <path d="M372 300h210q20 0 20-20v-120q0-20-20-20h-130l-60 46v94q0 20-20 20z" fill="#ece8df" fill-opacity=".05" stroke="#ece8df" stroke-opacity=".18" />
-        <!-- rays: heat (reflected), UV (reflected), visible light (passes, attenuated) -->
-        <g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <path class="draw" d="M150 108 L306 150 L190 60" stroke="#ff7a2a" />
-          <path class="draw" d="M150 150 L306 214 L200 330" stroke="#c77da0" />
-          <path class="draw" d="M150 190 L306 262 L332 262 L500 262" stroke="#ece8df" stroke-opacity=".9" />
-          <path class="draw" d="M332 262 L500 262" stroke="#ece8df" stroke-opacity=".35" stroke-dasharray="6 8" />
-        </g>
-        <g font-family="ui-monospace, Menlo, monospace" font-size="11" letter-spacing="1.5">
-          <text x="214" y="52" fill="#ff7a2a">CALOR · REFLETIDO</text>
-          <text x="210" y="352" fill="#c77da0">UV · BLOQUEADO</text>
-          <text x="500" y="250" fill="#ece8df" text-anchor="end">LUZ · NA MEDIDA (G3–G70)</text>
-        </g>
-      </svg>
-      <figcaption id="glass-cap" class="mono" style="margin-top:.9rem">Esquema ilustrativo. A quantidade exata varia com a tonalidade e a linha da película.</figcaption>
-      <ul class="glass__legend" aria-hidden="true">
-        <li><i style="background:#ff7a2a"></i>Calor</li>
-        <li><i style="background:#c77da0"></i>Raios UV</li>
-        <li><i style="background:#ece8df"></i>Luz visível</li>
-        <li><i style="background:#a4e52e"></i>Película</li>
-      </ul>
-    </figure>
+  </div>
   </div>
 </section>
+<script is:inline data-astro-rerun>
+  (function () {
+    var sec = document.getElementById('calor');
+    var stage = sec && sec.querySelector('.xray__stage');
+    if (!sec || !stage) return;
+    var pin = matchMedia('(min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference)');
+    var mob = matchMedia('(max-width: 899px) and (prefers-reduced-motion: no-preference)');
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var p;
+      if (pin.matches) {
+        var span = sec.offsetHeight - innerHeight + 68; // sticky runs from top=68 (header) to bottom=viewport
+        if (span <= 0) return;
+        p = (68 - sec.getBoundingClientRect().top) / span;
+      } else if (mob.matches) {
+        p = 1 - stage.getBoundingClientRect().top / innerHeight; // not pinned: acts play while the stage crosses the screen
+      } else { delete sec.dataset.act; delete sec.dataset.p; return; }
+      p = Math.min(1, Math.max(0, p));
+      sec.dataset.p = p.toFixed(4);
+      sec.dataset.act = p < 0.33 ? '0' : p < 0.66 ? '1' : '2';
+      sec.dispatchEvent(new Event('xray:p'));
+    }
+    function onScroll() { if (ticking || !sec.isConnected) return; ticking = true; requestAnimationFrame(update); }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+</script>

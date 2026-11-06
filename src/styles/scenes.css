@@ -92,8 +92,6 @@
 
 /* ---------- HEAT / GLASS ---------- */
 .heat { background: var(--asphalt); color: var(--fog); position: relative; overflow: hidden; }
-.heat__grid { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; }
-@media (min-width: 960px) { .heat__grid { grid-template-columns: 1.05fr 1fr; } }
 .heat__facts { list-style: none; padding: 0; margin: clamp(24px, 4vw, 40px) 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .heat__facts li { padding: 1.3rem 1.2rem 1.2rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 0.3rem; align-content: start; }
 .heat__num { font-family: var(--cond); font-weight: 800; font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: 0.9; color: var(--fog); font-variant-numeric: tabular-nums; }
@@ -101,11 +99,43 @@
 .heat__facts strong { font-family: var(--cond); font-weight: 700; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.05; }
 .heat__facts small { color: var(--mist); font-size: 0.85rem; line-height: 1.4; }
 .heat__src { margin: 1rem 0 0; font-size: 0.8rem; color: var(--mist); }
-.glass { position: relative; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); padding: clamp(16px, 2.5vw, 28px); }
-.glass svg { width: 100%; height: auto; display: block; }
-.glass__legend { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; }
-.glass__legend li { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mist); }
-.glass__legend i { width: 18px; height: 2px; display: block; }
+/* Raio-X do vidro: 3 atos dirigidos pelo scroll (HeatFacts.astro + scripts/xray3d.ts). Fora da trava: os 3 atos estáticos. */
+.xray { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; }
+@media (min-width: 900px) { .xray { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); } }
+/* mobile: one column, car right after the title, the 3 acts under it, counters after */
+@media (max-width: 899px) {
+  .xray { gap: 1.4rem; }
+  .xray__copy, .xray__side { display: contents; }
+  .xray .scene-head { margin-bottom: 0; }
+  .xray__stage { order: 1; } .xray__text { order: 2; } .xray .heat__facts { order: 3; margin-top: 0; } .xray .heat__src { order: 4; margin-top: 0; } .xray .actions { order: 5; }
+}
+.xray__text { display: grid; gap: 0.7rem; margin: 0 0 0.4rem; }
+.xray__line { margin: 0; font-family: var(--cond); font-weight: 700; font-size: clamp(1.15rem, 1.7vw, 1.45rem); text-transform: uppercase; line-height: 1.1; display: flex; gap: 0.8rem; align-items: baseline; transition: opacity 0.4s; }
+.xray__line .mono { color: var(--lime); font-size: 0.7rem; }
+.xray-scene[data-act] .xray__line { opacity: 0.25; }
+.xray-scene[data-act="0"] .xray__line[data-act="0"], .xray-scene[data-act="1"] .xray__line[data-act="1"], .xray-scene[data-act="2"] .xray__line[data-act="2"] { opacity: 1; }
+.xray__stage { position: relative; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); aspect-ratio: 3 / 2; overflow: hidden; }
+.xray__stage svg, .xray__3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity 0.6s; }
+.xray__3d { opacity: 0; pointer-events: none; }
+.xray__3d.is-on { opacity: 1; }
+.xray__3d.is-on + svg { opacity: 0; }
+.xray__side .heat__facts { margin-top: 1rem; }
+@media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
+  #calor.xray-scene { height: 300vh; padding: 0; overflow: clip; content-visibility: visible; contain-intrinsic-size: none; }
+  .xray__pin { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
+  .xray__pin > .wrap { width: 100%; }
+  .xray-scene .scene-head { margin-bottom: 1.2rem; }
+  .xray-scene .scene-head__idx { margin-bottom: 0.8rem; }
+  .xray-scene .scene-head h2 { font-size: clamp(2rem, 3.4vw, 3.2rem); }
+  .xray-scene .scene-head .lead { margin-top: 0.6rem; font-size: 1rem; }
+  .xray-scene .xray__stage { aspect-ratio: auto; height: 46vh; }
+  .xray-scene .heat__facts { grid-template-columns: repeat(4, 1fr); }
+  .xray-scene .heat__facts li { padding: 0.9rem 0.8rem; }
+  .xray-scene .heat__num { font-size: clamp(2rem, 3vw, 3rem); }
+  /* counters wait for act 3: off-screen until then, so Base.astro's IntersectionObserver starts them on arrival */
+  .xray-scene .heat__facts { transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.6s; }
+  .xray-scene[data-act]:not([data-act="2"]) .heat__facts { transform: translateY(100vh); opacity: 0; }
+}
 
 /* ---------- SIMULATOR (scene) ---------- */
 #simulador { background: var(--ink); }
