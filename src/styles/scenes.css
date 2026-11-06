@@ -112,7 +112,7 @@
 .xray__text { display: grid; gap: 0.7rem; margin: 0 0 0.4rem; }
 .xray__line { margin: 0; font-family: var(--cond); font-weight: 700; font-size: clamp(1.15rem, 1.7vw, 1.45rem); text-transform: uppercase; line-height: 1.1; display: flex; gap: 0.8rem; align-items: baseline; transition: opacity 0.4s; }
 .xray__line .mono { color: var(--lime); font-size: 0.7rem; }
-.xray-scene[data-act] .xray__line { opacity: 0.25; }
+.xray-scene:not([data-no-gl])[data-act] .xray__line { opacity: 0.45; }
 .xray-scene[data-act="0"] .xray__line[data-act="0"], .xray-scene[data-act="1"] .xray__line[data-act="1"], .xray-scene[data-act="2"] .xray__line[data-act="2"] { opacity: 1; }
 .xray__stage { position: relative; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); aspect-ratio: 3 / 2; overflow: hidden; }
 .xray__stage svg, .xray__3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity 0.6s; }
@@ -121,8 +121,9 @@
 .xray__3d.is-on + svg { opacity: 0; }
 .xray__side .heat__facts { margin-top: 1rem; }
 @media (min-width: 900px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
-  #calor.xray-scene { height: 300vh; padding: 0; overflow: clip; content-visibility: visible; contain-intrinsic-size: none; }
-  .xray__pin { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
+  /* pin only while the 3D runs: [data-no-gl] (xray3d.ts failed) falls back to the static layout */
+  #calor.xray-scene:not([data-no-gl]) { height: 300vh; padding: 0; overflow: clip; content-visibility: visible; contain-intrinsic-size: none; }
+  #calor.xray-scene:not([data-no-gl]) .xray__pin { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); display: flex; align-items: center; }
   .xray__pin > .wrap { width: 100%; }
   .xray-scene .scene-head { margin-bottom: 1.2rem; }
   .xray-scene .scene-head__idx { margin-bottom: 0.8rem; }
@@ -134,7 +135,7 @@
   .xray-scene .heat__num { font-size: clamp(2rem, 3vw, 3rem); }
   /* counters wait for act 3: off-screen until then, so Base.astro's IntersectionObserver starts them on arrival */
   .xray-scene .heat__facts { transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.6s; }
-  .xray-scene[data-act]:not([data-act="2"]) .heat__facts { transform: translateY(100vh); opacity: 0; }
+  #calor.xray-scene:not([data-no-gl])[data-act]:not([data-act="2"]) .heat__facts { transform: translateY(100vh); opacity: 0; }
 }
 
 /* ---------- SIMULATOR (scene) ---------- */

@@ -70,6 +70,7 @@ const acts = ['O sol entra inteiro. O banco vira chapa.', 'A película entra ent
     var ticking = false;
     function update() {
       ticking = false;
+      if (sec.dataset.noGl !== undefined) { delete sec.dataset.act; return; } // xray3d.ts failed: static SVG + 3 paragraphs
       var p;
       if (pin.matches) {
         var span = sec.offsetHeight - innerHeight + 68; // sticky runs from top=68 (header) to bottom=viewport
@@ -83,7 +84,10 @@ const acts = ['O sol entra inteiro. O banco vira chapa.', 'A película entra ent
       sec.dataset.act = p < 0.33 ? '0' : p < 0.66 ? '1' : '2';
       sec.dispatchEvent(new Event('xray:p'));
     }
-    function onScroll() { if (ticking || !sec.isConnected) return; ticking = true; requestAnimationFrame(update); }
+    function onScroll() {
+      if (!sec.isConnected) { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); return; }
+      if (ticking) return; ticking = true; requestAnimationFrame(update);
+    }
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll, { passive: true });
     update();
