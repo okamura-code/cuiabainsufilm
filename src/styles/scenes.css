@@ -453,8 +453,10 @@
 .opening__stage { display: contents; }
 .opening__veil { display: none; }
 .opening__brand { order: 1; } .opening__shot--34 { order: 2; } .opening__text { order: 3; } .opening__shot--lat { order: 4; } .opening__panel { order: 5; }
-.opening__brand { padding: clamp(48px, 12vh, 120px) 0 clamp(24px, 5vh, 56px); }
-.opening__text, .opening__panel { padding: 1.4rem var(--gutter) 2.2rem; }
+.opening__brand { padding: clamp(48px, 12vh, 120px) 0 clamp(24px, 5vh, 56px); aspect-ratio: auto; overflow: visible; }
+.opening__brand .opening__sheen { display: none; }
+.opening__text { padding: 1.4rem var(--gutter) 2.2rem; }
+.opening__panel { padding: 1.4rem var(--gutter) 5.5rem; } /* the quick-quote card overlaps the next section by 56px */
 .opening__shot--34 { margin-top: 0.5rem; }
 @media (prefers-reduced-motion: no-preference) {
   .opening__brand img { animation: op-logo 1.2s var(--ease) both; }
@@ -475,7 +477,9 @@
   /* the side view keeps its own aspect inside a cover box, so the glass layer (placed in image fractions) stays on the windows */
   #topo.opening[data-op] .opening__frame { position: absolute; left: 56%; top: 58%; translate: -50% -58%; width: max(100%, calc(100vh * 1.7768)); height: auto; } /* car a touch right: the panel sits on the left */
   #topo.opening[data-op] .opening__frame img.opening__base { position: static; object-fit: fill; }
-  #topo.opening[data-op] .opening__brand { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; padding: 0; transform-origin: center; will-change: transform, opacity; }
+  #topo.opening[data-op] .opening__brand { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; padding: 0; aspect-ratio: 1; overflow: hidden; transform-origin: center; will-change: transform, opacity; }
+  #topo.opening[data-op] .opening__brand .opening__sheen { display: block; }
+  #topo.opening[data-op] .opening__panel { padding-bottom: 1.3rem; }
   #topo.opening[data-op] .opening__text { position: absolute; left: var(--gutter); bottom: 14vh; padding: 0; opacity: 0; will-change: transform, opacity; }
   #topo.opening[data-op] .opening__panel { position: absolute; left: var(--gutter); bottom: 7vh; padding: 1.3rem 1.4rem; max-width: 30rem; background: rgba(0, 0, 0, 0.58); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: var(--radius); opacity: 0; visibility: hidden; will-change: transform, opacity; }
   #topo.opening[data-op] .opening__panel h2 { font-size: clamp(1.8rem, 2.8vw, 2.5rem); }
