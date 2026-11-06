@@ -94,7 +94,7 @@
 .heat { background: var(--asphalt); color: var(--fog); position: relative; overflow: hidden; }
 .heat__facts { list-style: none; padding: 0; margin: clamp(24px, 4vw, 40px) 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .heat__facts li { padding: 1.3rem 1.2rem 1.2rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 0.3rem; align-content: start; }
-.heat__num { font-family: var(--cond); font-weight: 800; font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: 0.9; color: var(--fog); font-variant-numeric: tabular-nums; }
+.heat__num { font-family: var(--cond); font-weight: 800; font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: 0.9; color: var(--fog); font-variant-numeric: tabular-nums; min-width: 2.2ch; contain: layout paint; }
 .heat__num sup { font-size: 0.4em; vertical-align: top; color: var(--lime); margin-left: 0.1em; }
 .heat__facts strong { font-family: var(--cond); font-weight: 700; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.05; }
 .heat__facts small { color: var(--mist); font-size: 0.85rem; line-height: 1.4; }
@@ -110,10 +110,10 @@
   .xray__stage { order: 1; } .xray__text { order: 2; } .xray .heat__facts { order: 3; margin-top: 0; } .xray .heat__src { order: 4; margin-top: 0; } .xray .actions { order: 5; }
 }
 .xray__text { display: grid; gap: 0.7rem; margin: 0 0 0.4rem; }
-.xray__line { margin: 0; font-family: var(--cond); font-weight: 700; font-size: clamp(1.15rem, 1.7vw, 1.45rem); text-transform: uppercase; line-height: 1.1; display: flex; gap: 0.8rem; align-items: baseline; transition: opacity 0.4s; }
+.xray__line { margin: 0; font-family: var(--cond); font-weight: 700; font-size: clamp(1.15rem, 1.7vw, 1.45rem); text-transform: uppercase; line-height: 1.1; display: flex; gap: 0.8rem; align-items: baseline; transition: color 0.4s; }
 .xray__line .mono { color: var(--lime); font-size: 0.7rem; }
-.xray-scene:not([data-no-gl])[data-act] .xray__line { opacity: 0.45; }
-.xray-scene[data-act="0"] .xray__line[data-act="0"], .xray-scene[data-act="1"] .xray__line[data-act="1"], .xray-scene[data-act="2"] .xray__line[data-act="2"] { opacity: 1; }
+.xray-scene:not([data-no-gl])[data-act] .xray__line { color: var(--mist); }
+.xray-scene[data-act="0"] .xray__line[data-act="0"], .xray-scene[data-act="1"] .xray__line[data-act="1"], .xray-scene[data-act="2"] .xray__line[data-act="2"] { color: var(--fog); }
 .xray__stage { position: relative; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--ink); aspect-ratio: 3 / 2; overflow: hidden; }
 .xray__stage svg, .xray__3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity 0.6s; }
 .xray__3d { opacity: 0; pointer-events: none; }

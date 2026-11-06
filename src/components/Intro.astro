@@ -15,7 +15,8 @@
     if (!ok) { el.remove(); return; }
     el.hidden = false; document.getElementById('intro-skip').focus({ preventScroll: true }); document.documentElement.classList.add('has-intro');
     var n = document.getElementById('intro-n'), t0 = performance.now(), done = false;
-    function tick(now) { var k = Math.min(1, (now - t0) / 1600); n.textContent = String(Math.round(28 + 13 * k)); if (k < 1 && !done) requestAnimationFrame(tick); }
+    var shown = 28; // 13 text writes in 1.6 s, not one per frame: each write relayouts the giant number
+    function tick(now) { var k = Math.min(1, (now - t0) / 1600); var v = Math.round(28 + 13 * k); if (v !== shown) { shown = v; n.textContent = String(v); } if (k < 1 && !done) requestAnimationFrame(tick); }
     requestAnimationFrame(tick);
     function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') out(); }
     function out() { if (done) return; done = true; removeEventListener('keydown', onKey); el.classList.add('is-out'); document.documentElement.classList.remove('has-intro'); setTimeout(function () { el.remove(); }, 700); }

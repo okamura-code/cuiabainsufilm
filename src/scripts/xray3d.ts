@@ -118,6 +118,13 @@ async function start() {
   addEventListener('resize', () => { resize(); dirty(); }, { passive: true, signal });
   resize(); draw(); cv.classList.add('is-on');
 }
-if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
+// Three.js only when the section is within ~1.5 screens: keeps it off the load window (TBT on mobile).
+function arm() {
+  const sec = document.getElementById('calor');
+  if (!sec) return;
+  const near = new IntersectionObserver((e) => { if (e.some((x) => x.isIntersecting)) { near.disconnect(); start(); } }, { rootMargin: '150% 0px' });
+  near.observe(sec);
+}
+if (document.readyState === 'complete') arm(); else addEventListener('load', arm, { once: true });
 // astro:page-load also fires on first load, before `load`: only act on it once the page is complete.
-document.addEventListener('astro:page-load', () => { if (document.readyState === 'complete') start(); });
+document.addEventListener('astro:page-load', () => { if (document.readyState === 'complete') arm(); });
