@@ -1,6 +1,6 @@
 ---
-/* Trust: real photo of the cutting plotter, the shop's verifiable differentials and the official Window Blue seal
-   (authenticity mark only; not the warranty certificate). Real reviews follow in Reviews.astro. */
+/* Trust: real photo of the cutting plotter, the shop's verifiable differentials and a Window Blue card: the lifetime-warranty
+   seal and logo supplied by the owner, manufacturer figures attributed as such. Real reviews follow in Reviews.astro. */
 import Icons from './Icons.astro';
 const items = [
   ['sparkle', 'Corte computadorizado', 'Recorte preciso para qualquer modelo, com atenção ao acabamento.'],
@@ -22,10 +22,19 @@ const items = [
       <ul class="trust__list">
         {items.map(([icon, t, d]) => <li><Icons name={icon} /><div><strong>{t}</strong><span>{d}</span></div></li>)}
       </ul>
-      <figure class="trust__seal">
-        <img src="/media/selo-window-blue.jpg" alt="Selo de originalidade Window Blue" width="600" height="400" loading="lazy" decoding="async" />
-        <figcaption>Selo de originalidade Window Blue. O certificado de garantia é entregue na aplicação, com as condições da linha.</figcaption>
-      </figure>
+      <aside class="wb">
+        <img class="wb__seal" src="/media/trust/selo-garantia-vitalicia.webp" alt="Selo Garantia Vitalícia, 100% original product" width="800" height="790" loading="lazy" decoding="async" />
+        <div class="wb__body">
+          <span class="wb__logo"><img src="/media/trust/windowblue-logo.webp" alt="Window blue Infrared Control" width="800" height="285" loading="lazy" decoding="async" /></span>
+          <h3>Película Window Blue, com garantia vitalícia</h3>
+          <ul>
+            <li>Retém de 93 % a 100 % dos raios infravermelhos</li>
+            <li>Bloqueia mais de 99 % dos raios UV (UVA e UVB)</li>
+            <li>Transparências disponíveis: VLT 05, 20, 35, 50 e 75</li>
+          </ul>
+          <p class="wb__note">Dados do fabricante (Bluetech Window Films). O certificado de garantia é entregue na aplicação, com as condições da linha.</p>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

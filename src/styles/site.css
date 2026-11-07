@@ -176,9 +176,14 @@
 .trust__list .ico { width: 26px; height: 26px; color: var(--lime-deep); flex: none; margin-top: 0.15rem; }
 .trust__list strong { display: block; font-family: var(--cond); font-size: 1.25rem; text-transform: uppercase; line-height: 1; margin-bottom: 0.25rem; }
 .trust__list span { color: var(--muted); font-size: 0.95rem; }
-.trust__seal { margin: 1.6rem 0 0; display: flex; gap: 1rem; align-items: center; }
-.trust__seal img { width: min(260px, 45%); height: auto; border-radius: 6px; flex: none; }
-.trust__seal figcaption { font-size: 0.9rem; color: var(--muted); max-width: 40ch; }
+.wb { margin-top: clamp(24px, 3vw, 36px); background: var(--ink); color: var(--fog); border-radius: var(--radius); padding: clamp(20px, 3vw, 32px); display: grid; gap: 1.4rem; align-items: center; }
+@media (min-width: 640px) { .wb { grid-template-columns: minmax(150px, 220px) 1fr; } }
+.wb__seal { width: 100%; max-width: 220px; height: auto; justify-self: center; }
+.wb__logo { display: inline-block; background: #fff; border-radius: 6px; padding: 6px 12px; }
+.wb__logo img { width: 170px; height: auto; display: block; }
+.wb h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); margin: 0.9rem 0 0.6rem; }
+.wb ul { margin: 0; padding-left: 1.1rem; color: var(--mist); display: grid; gap: 0.25rem; }
+.wb__note { margin: 0.9rem 0 0; font-size: 0.85rem; color: var(--faint); }
 
 /* ---------- REVIEWS (extra) ---------- */
 .reviews { padding-top: 0; }
