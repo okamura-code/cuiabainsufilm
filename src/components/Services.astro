@@ -4,8 +4,6 @@
 import Icons from './Icons.astro';
 import { services, wa } from '../data/site';
 const cards = services.filter((s) => s.image);
-const extra = services.slice(1).filter((s) => !s.image);
-const icons = { 'teto-solar': 'sunlow', 'start-stop': 'wrench' };
 ---
 <section class="section services" id="servicos">
   <div class="wrap">
@@ -25,18 +23,6 @@ const icons = { 'teto-solar': 'sunlow', 'start-stop': 'wrench' };
         </article>
       ))}
     </div>
-    <div class="svc-cards svc-cards--small">
-      {extra.map((s) => (
-        <article class="svc-card svc-card--icon">
-          <Icons name={icons[s.slug]} class="svc-card__ico" />
-          <div class="svc-card__body">
-            <h3>{s.title}</h3>
-            <p>{s.short}</p>
-            <a class="link-arrow" href={wa(s.wa)} target="_blank" rel="noopener">Consultar no WhatsApp ↗</a>
-          </div>
-        </article>
-      ))}
-    </div>
-    <p class="svc-note muted">Também aplicamos insulfilme residencial.</p>
+    <p class="svc-note"><Icons name="window" /><span>Também aplicamos insulfilme <b>residencial</b>.</span><a class="link-arrow" href={wa('Olá! Quero um orçamento de insulfilme residencial.')} target="_blank" rel="noopener">Consultar ↗</a></p>
   </div>
 </section>

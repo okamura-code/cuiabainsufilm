@@ -157,11 +157,10 @@
 .svc-card__body { padding: 1.2rem 1.4rem 1.4rem; display: grid; gap: 0.5rem; justify-items: start; }
 .svc-card h3 { margin: 0; }
 .svc-card p { margin: 0; color: var(--mist); }
-.svc-cards--small { margin-top: 1rem; }
-.svc-card--icon { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 0.2rem 1.1rem; padding: 1.4rem 1.4rem 1.4rem 1.3rem; }
-.svc-card__ico { width: 40px; height: 40px; color: var(--lime); margin-top: 0.1rem; }
-.svc-card--icon .svc-card__body { padding: 0; }
-.svc-note { margin: 1.2rem 0 0; font-size: 0.95rem; }
+.svc-note { margin: 1rem 0 0; display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; padding: 0.9rem 1.2rem; border: 1px dashed var(--line-2); border-radius: var(--radius); color: var(--mist); font-size: 0.95rem; }
+.svc-note .ico { width: 22px; height: 22px; color: var(--lime); flex: none; }
+.svc-note span { flex: 1; min-width: 200px; }
+.svc-note b { color: var(--fog); font-weight: 600; }
 
 /* ---------- TRUST ---------- */
 .trust__grid { display: grid; gap: clamp(24px, 4vw, 56px); align-items: start; }
