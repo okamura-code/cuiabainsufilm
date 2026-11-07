@@ -2,7 +2,7 @@
 /* Real results: two vertical videos from the shop (one plays at a time, muted by default, poster, no autoplay),
    three real photos, compact quote call. Videos are SDR already; no filters. */
 import Icons from './Icons.astro';
-import { wa } from '../data/site';
+import { site, wa } from '../data/site';
 const videos = [
   { id: 'resultado-hatch', title: 'Veja em um carro de verdade.', text: 'Confira a visão por dentro e a aparência por fora nas condições desta gravação.', label: 'Vídeo: hatch preto com película, visão interna e externa' },
   { id: 'cuidado-interior', title: 'O cuidado também está nos detalhes.', text: 'Proteção do interior durante o serviço e atenção ao acabamento.', label: 'Vídeo: forros de proteção no interior de um SUV durante o serviço' },
@@ -15,7 +15,11 @@ const photos = [
 ---
 <section class="section results" id="resultados">
   <div class="wrap">
-    <p class="mono">Resultados reais</p>
+    <div class="results__head">
+      <p class="mono">Trabalhos da loja</p>
+      <h2>Resultados reais<span class="dot">.</span></h2>
+      <p class="lead">Vídeos e fotos de carros que passaram pela loja, sem retoque.</p>
+    </div>
     {videos.map((v, i) => (
       <div class:list={['result', { 'result--flip': i % 2 }]}>
         <div class="result__media">
@@ -31,6 +35,10 @@ const photos = [
     ))}
     <ul class="results__photos">
       {photos.map((p) => <li><img src={p.src} alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" /></li>)}
+      <li class="results__insta">
+        <h3>Confira mais trabalhos no nosso Instagram<span class="dot">.</span></h3>
+        <a class="btn btn--dark" href={site.instagram} target="_blank" rel="noopener"><Icons name="ig" /> Conferir no Instagram</a>
+      </li>
     </ul>
     <div class="results__cta">
       <h2>Gostou do resultado? Vamos cuidar do seu carro.</h2>

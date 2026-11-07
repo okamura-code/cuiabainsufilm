@@ -125,7 +125,9 @@
 
 /* ---------- RESULTS ---------- */
 .results { background: var(--ink); }
-.results > .wrap > .mono { margin-bottom: 1.6rem; }
+.results__head { margin-bottom: clamp(16px, 2vw, 24px); }
+.results__head h2 { font-size: clamp(2.6rem, 6vw, 5rem); margin: 0.2rem 0 0.4rem; }
+.results__head .lead { margin: 0; }
 .result { display: grid; gap: clamp(20px, 4vw, 48px); align-items: center; padding: clamp(24px, 4vw, 48px) 0; border-top: 1px solid var(--line); }
 .result__media video { display: block; width: 100%; max-width: 360px; margin: 0 auto; aspect-ratio: 9 / 16; height: auto; border-radius: var(--radius); background: var(--asphalt); object-fit: contain; }
 .result__text h2 { font-size: clamp(2rem, 3.6vw, 3.2rem); max-width: 14ch; }
@@ -134,11 +136,16 @@
   .result { grid-template-columns: minmax(280px, 400px) 1fr; }
   .result--flip .result__media { order: 2; }
 }
-.results__photos { list-style: none; padding: 0; margin: clamp(24px, 4vw, 48px) 0 0; display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
+.results__photos { list-style: none; padding: 0; margin: clamp(24px, 4vw, 48px) 0 0; display: grid; gap: 12px; grid-template-columns: repeat(4, 1fr); }
 .results__photos img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+.results__insta { background: var(--lime); color: var(--ink); border-radius: var(--radius); padding: clamp(18px, 2.4vw, 28px); display: grid; align-content: space-between; gap: 1rem; }
+.results__insta h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); margin: 0; }
+.results__insta .dot { color: var(--ink); }
+.results__insta .btn { justify-self: start; }
 .results__cta { margin-top: clamp(32px, 5vw, 64px); display: grid; gap: 1.2rem; justify-items: start; }
 .results__cta h2 { font-size: clamp(1.8rem, 3.4vw, 3rem); max-width: 20ch; margin: 0; }
-@media (max-width: 599px) { .results__photos { grid-template-columns: 1fr 1fr; } .results__photos li:first-child { grid-column: 1 / -1; } .results__photos li:first-child img { aspect-ratio: 16 / 10; } }
+@media (max-width: 899px) { .results__photos { grid-template-columns: 1fr 1fr; } .results__insta { grid-column: 1 / -1; } }
+@media (max-width: 599px) { .results__photos li:first-child { grid-column: 1 / -1; } .results__photos li:first-child img { aspect-ratio: 16 / 10; } }
 
 /* ---------- SERVICES ---------- */
 .services { background: var(--asphalt); }
@@ -180,11 +187,6 @@
 /* ---------- REVIEWS (extra) ---------- */
 .reviews { padding-top: 0; }
 .reviews-head .lead { margin: 0.6rem 0 0; }
-
-/* ---------- INSTAGRAM ---------- */
-.insta { background: var(--ink); border-top: 1px solid var(--line); }
-.insta__inner { display: grid; gap: 1.4rem; justify-items: center; text-align: center; }
-.insta h2 { font-size: clamp(1.8rem, 3.4vw, 3rem); max-width: 20ch; margin: 0; }
 
 /* ---------- CONTACT ---------- */
 .contact-s { background: var(--asphalt); }
