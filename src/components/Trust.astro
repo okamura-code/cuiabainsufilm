@@ -1,0 +1,31 @@
+---
+/* Trust: real photo of the cutting plotter, the shop's verifiable differentials and the official Window Blue seal
+   (authenticity mark only; not the warranty certificate). Real reviews follow in Reviews.astro. */
+import Icons from './Icons.astro';
+const items = [
+  ['sparkle', 'Corte computadorizado', 'Precisão no recorte e atenção ao acabamento. Consulte disponibilidade para o seu modelo.'],
+  ['shieldcheck', 'Revenda autorizada Window Blue', 'Películas com certificado de garantia vitalícia, conforme as condições e a cobertura da linha aplicada.'],
+  ['car', 'Interior protegido', 'Forros de proteção no interior enquanto o serviço acontece, como nos vídeos acima.'],
+  ['pin', 'Atendimento que cabe na sua rotina', 'Na loja ou a domicílio em Cuiabá e região, mediante agendamento.'],
+  ['calendar', 'Também aos sábados', 'Segunda a sexta, 8h às 18h. Sábado, 8h às 12h.'],
+];
+---
+<section class="section light trust" id="confianca">
+  <div class="wrap trust__grid">
+    <figure class="trust__photo">
+      <img src="/media/trust/corte-computadorizado.webp" alt="Máquina de corte computadorizado de película na loja" width="720" height="858" loading="lazy" decoding="async" />
+      <figcaption class="mono">Máquina de corte da loja</figcaption>
+    </figure>
+    <div>
+      <p class="mono">Confiança</p>
+      <h2>Tecnologia no corte<span class="dot">.</span> Cuidado em cada detalhe<span class="dot">.</span></h2>
+      <ul class="trust__list">
+        {items.map(([icon, t, d]) => <li><Icons name={icon} /><div><strong>{t}</strong><span>{d}</span></div></li>)}
+      </ul>
+      <figure class="trust__seal">
+        <img src="/media/selo-window-blue.jpg" alt="Selo de originalidade Window Blue" width="600" height="400" loading="lazy" decoding="async" />
+        <figcaption>Selo de originalidade Window Blue. O certificado de garantia é entregue na aplicação, com as condições da linha.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

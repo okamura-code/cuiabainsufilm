@@ -1,0 +1,46 @@
+---
+/* Real results: two vertical videos from the shop (one plays at a time, muted by default, poster, no autoplay),
+   three real photos, compact quote call. Videos are SDR already; no filters. */
+import Icons from './Icons.astro';
+import { wa } from '../data/site';
+const videos = [
+  { id: 'resultado-hatch', title: 'Veja em um carro de verdade.', text: 'Confira a visão por dentro e a aparência por fora nas condições desta gravação.', label: 'Vídeo: hatch preto com película, visão interna e externa' },
+  { id: 'cuidado-interior', title: 'O cuidado também está nos detalhes.', text: 'Proteção do interior durante o serviço e atenção ao acabamento.', label: 'Vídeo: forros de proteção no interior de um SUV durante o serviço' },
+];
+const photos = [
+  { src: '/media/results/haval-oficina.webp', alt: 'SUV Haval cinza dentro da oficina da Cuiabá Insulfilm', w: 624, h: 900 },
+  { src: '/media/results/hatch-resultado.webp', alt: 'Lateral de um hatch preto com película aplicada, na frente da loja', w: 506, h: 900 },
+  { src: '/media/results/interior-protegido.webp', alt: 'Forro de proteção com a identidade da loja sobre o interior do carro', w: 506, h: 900 },
+];
+---
+<section class="section results" id="resultados">
+  <div class="wrap">
+    <p class="mono">Resultados reais</p>
+    {videos.map((v, i) => (
+      <div class:list={['result', { 'result--flip': i % 2 }]}>
+        <div class="result__media">
+          <video preload="none" controls muted playsinline poster={`/media/results/${v.id}-poster.webp`} width="720" height="1280" aria-label={v.label}>
+            <source src={`/media/results/${v.id}.mp4`} type="video/mp4" />
+          </video>
+        </div>
+        <div class="result__text">
+          <h2>{v.title}</h2>
+          <p class="lead">{v.text}</p>
+        </div>
+      </div>
+    ))}
+    <ul class="results__photos">
+      {photos.map((p) => <li><img src={p.src} alt={p.alt} width={p.w} height={p.h} loading="lazy" decoding="async" /></li>)}
+    </ul>
+    <div class="results__cta">
+      <h2>Gostou do resultado? Vamos cuidar do seu carro.</h2>
+      <a class="btn" href={wa('Olá! Vi os resultados no site e quero um orçamento para meu carro.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento pelo WhatsApp</a>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  // one video at a time
+  document.querySelectorAll('.result video').forEach(function (v) {
+    v.addEventListener('play', function () { document.querySelectorAll('.result video').forEach(function (o) { if (o !== v) o.pause(); }); });
+  });
+</script>

@@ -1,0 +1,44 @@
+---
+/* Confirmed services only (src/data/site.ts). Película first. PPF and accessories carry candidate images (generated,
+   never described as the shop's own work). One quiet line for residential. */
+import Icons from './Icons.astro';
+import { services, wa } from '../data/site';
+const main = services[0];
+const cards = services.filter((s) => s.image);
+const list = services.slice(1).filter((s) => !s.image);
+---
+<section class="section services" id="servicos">
+  <div class="wrap">
+    <p class="mono">Serviços</p>
+    <h2>Mais cuidado<span class="dot">.</span> Mais possibilidades para seu carro<span class="dot">.</span></h2>
+    <div class="svc-main">
+      <h3>{main.title}</h3>
+      <p>{main.short}</p>
+      <div class="actions">
+        <a class="btn" href={wa(main.wa)} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a>
+        <a class="btn btn--ghost" href="#simulador">Ver tonalidades na Porsche</a>
+      </div>
+    </div>
+    <div class="svc-cards">
+      {cards.map((s) => (
+        <article class="svc-card">
+          <img src={s.image} alt={s.alt} width="1536" height="1024" loading="lazy" decoding="async" />
+          <div class="svc-card__body">
+            <h3>{s.title}</h3>
+            <p>{s.short}</p>
+            <a class="link-arrow" href={wa(s.wa)} target="_blank" rel="noopener">Consultar no WhatsApp ↗</a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <ul class="svc-list">
+      {list.map((s) => (
+        <li>
+          <div><h3>{s.title}</h3><p>{s.short}</p></div>
+          <a class="link-arrow" href={wa(s.wa)} target="_blank" rel="noopener">Consultar ↗</a>
+        </li>
+      ))}
+    </ul>
+    <p class="svc-note muted">Também aplicamos insulfilme residencial.</p>
+  </div>
+</section>

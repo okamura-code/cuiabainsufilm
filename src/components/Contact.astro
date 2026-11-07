@@ -1,0 +1,25 @@
+---
+/* Contact and location. WhatsApp only (no form, no e-mail). "Como chegar" searches the confirmed address;
+   the exact pin is still to be validated by the owner. */
+import Icons from './Icons.astro';
+import { site, wa, mapsLink } from '../data/site';
+const a = site.address;
+---
+<section class="section contact-s" id="contato">
+  <div class="wrap contact-s__grid">
+    <div>
+      <p class="mono">Contato</p>
+      <h2>Vamos conversar sobre o seu carro<span class="dot">?</span></h2>
+      <div class="actions">
+        <a class="btn" href={wa('Olá! Quero um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento pelo WhatsApp</a>
+        <a class="btn btn--ghost" href={mapsLink} target="_blank" rel="noopener"><Icons name="pin" /> Como chegar</a>
+      </div>
+    </div>
+    <ul class="nap">
+      <li class="nap__row"><Icons name="pin" /><p>{a.street}<br />{a.neighborhood}, {a.city}–{a.state}</p></li>
+      <li class="nap__row"><Icons name="clock" /><p>Segunda a sexta: 8h às 18h<br />Sábado: 8h às 12h</p></li>
+      <li class="nap__row"><Icons name="phone" /><p><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp {site.phoneDisplay}</a><br />Atendimento e orçamento somente pelo WhatsApp</p></li>
+      <li class="nap__row"><Icons name="ig" /><p><a href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a></p></li>
+    </ul>
+  </div>
+</section>

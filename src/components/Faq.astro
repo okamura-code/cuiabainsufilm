@@ -8,9 +8,9 @@ const { split = false } = Astro.props as { split?: boolean };
 <section class:list={['section light-2 faq', { 'faq--split': split }]} id="duvidas">
   <div class:list={['wrap', { 'faq-grid': split }]}>
     <div class="faq-side">
-      <SceneHead idx="09" eyebrow="Dúvidas frequentes">
+      <SceneHead eyebrow="Dúvidas frequentes">
         Antes de decidir<span class="dot">.</span>
-        <Fragment slot="lead">Lei, garantia, prazo, pagamento. Respostas curtas, sem rodeio.</Fragment>
+        <Fragment slot="lead">Agendamento, prazo, garantia e cuidados depois da aplicação.</Fragment>
       </SceneHead>
       {split && (
         <div class="faq-card">

@@ -1,6 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import Stage from '../components/Stage.astro';
+import Results from '../components/Results.astro';
+import Services from '../components/Services.astro';
+import Trust from '../components/Trust.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import InstagramCta from '../components/InstagramCta.astro';
+import Contact from '../components/Contact.astro';
 import { site, faq } from '../data/site';
 
 const faqLd = {
@@ -12,4 +19,11 @@ const faqLd = {
 <Base title={site.name} path="" jsonLd={[faqLd]}>
   <Fragment slot="head"><link rel="preload" as="image" href="/media/hero/logo.webp" fetchpriority="high" /></Fragment>
   <Stage />
+  <Results />
+  <Services />
+  <Trust />
+  <Reviews />
+  <Faq split />
+  <InstagramCta />
+  <Contact />
 </Base>
