@@ -65,6 +65,7 @@
 /* ---------- STAGE: logo → facade + Porsche → simulator ---------- */
 .stage { background: #000; color: var(--fog); }
 .stage__brand { position: relative; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--header-h) + 16px) var(--gutter) 72px; }
+.stage__brand picture { display: contents; }
 .stage__brand img { width: min(84vw, 760px); height: auto; mix-blend-mode: screen; }
 .stage__cue { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); text-decoration: none; color: var(--mist); white-space: nowrap; }
 .stage__cue:hover { color: var(--lime); }

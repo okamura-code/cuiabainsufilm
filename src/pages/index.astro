@@ -17,7 +17,7 @@ const faqLd = {
 };
 ---
 <Base title={site.name} path="" jsonLd={[faqLd]}>
-  <Fragment slot="head"><link rel="preload" as="image" href="/media/hero/logo.webp" fetchpriority="high" /></Fragment>
+  <Fragment slot="head"><link rel="preload" as="image" media="(min-width: 768px)" href="/media/hero/logo.webp" fetchpriority="high" /><link rel="preload" as="image" media="(max-width: 767px)" href="/media/hero/logo-640.webp" fetchpriority="high" /></Fragment>
   <Stage />
   <Results />
   <Services />
