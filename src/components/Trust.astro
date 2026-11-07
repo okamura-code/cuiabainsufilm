@@ -3,7 +3,7 @@
    (authenticity mark only; not the warranty certificate). Real reviews follow in Reviews.astro. */
 import Icons from './Icons.astro';
 const items = [
-  ['sparkle', 'Corte computadorizado', 'Precisão no recorte e atenção ao acabamento. Consulte disponibilidade para o seu modelo.'],
+  ['sparkle', 'Corte computadorizado', 'Recorte preciso para qualquer modelo, com atenção ao acabamento.'],
   ['shieldcheck', 'Revenda autorizada Window Blue', 'Películas com certificado de garantia vitalícia, conforme as condições e a cobertura da linha aplicada.'],
   ['car', 'Interior protegido', 'Forros de proteção no interior enquanto o serviço acontece, como nos vídeos acima.'],
   ['pin', 'Atendimento que cabe na sua rotina', 'Na loja ou a domicílio em Cuiabá e região, mediante agendamento.'],
@@ -17,8 +17,8 @@ const items = [
       <figcaption class="mono">Máquina de corte da loja</figcaption>
     </figure>
     <div>
-      <p class="mono">Confiança</p>
-      <h2>Tecnologia no corte<span class="dot">.</span> Cuidado em cada detalhe<span class="dot">.</span></h2>
+      <h2>Confiança<span class="dot">.</span></h2>
+      <p class="lead">Tecnologia no corte. Cuidado em cada detalhe.</p>
       <ul class="trust__list">
         {items.map(([icon, t, d]) => <li><Icons name={icon} /><div><strong>{t}</strong><span>{d}</span></div></li>)}
       </ul>

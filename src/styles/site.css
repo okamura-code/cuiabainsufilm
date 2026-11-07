@@ -125,9 +125,10 @@
 
 /* ---------- RESULTS ---------- */
 .results { background: var(--ink); }
-.results__head { margin-bottom: clamp(16px, 2vw, 24px); }
-.results__head h2 { font-size: clamp(2.6rem, 6vw, 5rem); margin: 0.2rem 0 0.4rem; }
-.results__head .lead { margin: 0; }
+/* big section title + one-line lead, shared by Resultados, Serviços, Confiança */
+.results__head, .sec-head { margin-bottom: clamp(20px, 3vw, 36px); }
+.results__head h2, .sec-head h2 { font-size: clamp(2.6rem, 6vw, 5rem); margin: 0.2rem 0 0.4rem; }
+.results__head .lead, .sec-head .lead { margin: 0; font-size: clamp(1.15rem, 1.8vw, 1.4rem); }
 .result { display: grid; gap: clamp(20px, 4vw, 48px); align-items: center; padding: clamp(24px, 4vw, 48px) 0; border-top: 1px solid var(--line); }
 .result__media video { display: block; width: 100%; max-width: 360px; margin: 0 auto; aspect-ratio: 9 / 16; height: auto; border-radius: var(--radius); background: var(--asphalt); object-fit: contain; }
 .result__text h2 { font-size: clamp(2rem, 3.6vw, 3.2rem); max-width: 14ch; }
@@ -149,11 +150,6 @@
 
 /* ---------- SERVICES ---------- */
 .services { background: var(--asphalt); }
-.services > .wrap > h2 { max-width: 16ch; margin-bottom: clamp(24px, 4vw, 40px); }
-.svc-main { background: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 3vw, 32px); margin-bottom: 1rem; }
-.svc-main h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); color: var(--lime); }
-.svc-main p { margin: 0; color: var(--mist); max-width: 60ch; }
-.svc-main .actions { margin-top: 1.2rem; }
 .svc-cards { display: grid; gap: 1rem; }
 @media (min-width: 700px) { .svc-cards { grid-template-columns: 1fr 1fr; } }
 .svc-card { background: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
@@ -161,11 +157,10 @@
 .svc-card__body { padding: 1.2rem 1.4rem 1.4rem; display: grid; gap: 0.5rem; justify-items: start; }
 .svc-card h3 { margin: 0; }
 .svc-card p { margin: 0; color: var(--mist); }
-.svc-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
-.svc-list li { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
-.svc-list h3 { font-size: 1.25rem; margin: 0 0 0.2rem; }
-.svc-list p { margin: 0; color: var(--mist); font-size: 0.95rem; }
-.svc-list .link-arrow { flex: none; }
+.svc-cards--small { margin-top: 1rem; }
+.svc-card--icon { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 0.2rem 1.1rem; padding: 1.4rem 1.4rem 1.4rem 1.3rem; }
+.svc-card__ico { width: 40px; height: 40px; color: var(--lime); margin-top: 0.1rem; }
+.svc-card--icon .svc-card__body { padding: 0; }
 .svc-note { margin: 1.2rem 0 0; font-size: 0.95rem; }
 
 /* ---------- TRUST ---------- */
@@ -174,14 +169,15 @@
 .trust__photo { margin: 0; }
 .trust__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
 .trust__photo figcaption { margin-top: 0.6rem; }
-.trust h2 { max-width: 14ch; }
+.trust h2 { font-size: clamp(2.6rem, 6vw, 5rem); margin: 0 0 0.4rem; }
+.trust .lead { margin: 0; font-size: clamp(1.15rem, 1.8vw, 1.4rem); max-width: none; }
 .trust__list { list-style: none; padding: 0; margin: clamp(20px, 3vw, 32px) 0 0; display: grid; gap: 0; border-top: 1px solid var(--line-dark); }
 .trust__list li { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line-dark); }
 .trust__list .ico { width: 26px; height: 26px; color: var(--lime-deep); flex: none; margin-top: 0.15rem; }
 .trust__list strong { display: block; font-family: var(--cond); font-size: 1.25rem; text-transform: uppercase; line-height: 1; margin-bottom: 0.25rem; }
 .trust__list span { color: var(--muted); font-size: 0.95rem; }
 .trust__seal { margin: 1.6rem 0 0; display: flex; gap: 1rem; align-items: center; }
-.trust__seal img { width: 150px; height: auto; border-radius: 6px; flex: none; }
+.trust__seal img { width: min(260px, 45%); height: auto; border-radius: 6px; flex: none; }
 .trust__seal figcaption { font-size: 0.9rem; color: var(--muted); max-width: 40ch; }
 
 /* ---------- REVIEWS (extra) ---------- */
