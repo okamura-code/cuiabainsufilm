@@ -139,7 +139,7 @@ a.btn--wa, .nav a.btn--wa { display: inline-flex; align-items: center; gap: 8px;
 
 /* header: fixed, transparent over the hero, solid once the page scrolls (class set by Base.astro sentinel) */
 .header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; color: var(--fog); background: rgba(11, 13, 16, 0.6); border-bottom: 1px solid transparent; transition: background 0.3s ease, border-color 0.3s ease; }
-.header.is-solid, .header--solid { background: rgba(11, 13, 16, 0.86); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom-color: var(--line); }
+.header.is-solid, .header--solid { background: var(--ink); border-bottom-color: var(--line); } /* opaque: the screen-blended logo needs a black backdrop */
 .header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: var(--header-h); position: relative; }
 /* brand = the official logo (black-background bitmap, screen-blended so the black disappears on the dark header) */
 .brand { display: block; height: 44px; padding: 0; text-decoration: none; transition: opacity 0.4s; }
