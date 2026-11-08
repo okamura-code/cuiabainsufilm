@@ -1,6 +1,6 @@
 ---
-/* Contact and location. WhatsApp only (no form, no e-mail). Static map (scripts/map.mjs) recoloured to the brand, pin at
-   the Google Maps place of the shop; the card and the "Como chegar" button open Google Maps. */
+/* Contact and location. WhatsApp only (no form, no e-mail). Google Maps embed of the shop's place (no API key needed);
+   "Como chegar" opens the same search in Google Maps. */
 import Icons from './Icons.astro';
 import { site, wa, mapsLink } from '../data/site';
 const a = site.address;
@@ -21,18 +21,8 @@ const a = site.address;
       <li class="nap__row"><Icons name="phone" /><p><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp {site.phoneDisplay}</a><br />Atendimento e orçamento somente pelo WhatsApp</p></li>
       <li class="nap__row"><Icons name="ig" /><p><a href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a></p></li>
     </ul>
-    <figure class="map" id="como-chegar">
-      <picture>
-        <source media="(max-width: 767px)" srcset="/media/contact/mapa-900.webp" />
-        <img src="/media/contact/mapa.webp" width="1536" height="1024" alt="Mapa do bairro Dom Aquino, em Cuiabá, com a localização da loja" loading="lazy" decoding="async" />
-      </picture>
-      <span class="map__pin" style="left:44.1%;top:55.19%" aria-hidden="true"><Icons name="pin" /></span>
-      <figcaption class="map__card">
-        <strong>Cuiabá Insulfilm</strong>
-        <span>{a.street}, {a.neighborhood}<br />{a.city}–{a.state}</span>
-        <a class="btn" href={mapsLink} target="_blank" rel="noopener"><Icons name="pin" /> Abrir no Maps</a>
-      </figcaption>
-      <small class="map__credit">© OpenStreetMap</small>
-    </figure>
+    <div class="map" id="como-chegar">
+      <iframe src={`https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuery)}&z=16&hl=pt-BR&output=embed`} title="Mapa com a localização da Cuiabá Insulfilm no Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
   </div>
 </section>
