@@ -80,10 +80,12 @@ const business = {
       (function () {
         if (!matchMedia('(prefers-reduced-motion: no-preference)').matches || !('IntersectionObserver' in window)) return;
         document.querySelectorAll('main :is(h1, h2), .results__insta h3, .wb__head h3').forEach(function (h) {
+          if (h.closest('.stage__sim')) return; // simulator head is driven by the stage timeline
           h.innerHTML = h.innerHTML.split(/<br[^>]*>/i).map(function (l, i) { return '<span class="ln"><span style="--i:' + i + '">' + l + '</span></span>'; }).join('');
           h.classList.add('is-split');
         });
         document.querySelectorAll('main .lead, main .mono, .svc-card, .review, .results__photos li, .trust__list li, .faq details, .results__cta .btn').forEach(function (el) {
+          if (el.closest('#topo')) return;
           el.classList.add('reveal'); el.style.setProperty('--i', Array.prototype.indexOf.call(el.parentNode.children, el) % 6);
         });
         var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }); }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
