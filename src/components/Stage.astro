@@ -1,7 +1,7 @@
 ---
-/* v8 opening, hero v2 (approved preview, 08/11): one pinned stage. Logo on black → hero: copy on the left, the real facade
-   on the right (sky keyed to graphite, feathered edges) with the Porsche layer cut from the simulator's own frontal frame
-   parked in the garage → hold → the car travels to the simulator photo (same pixels, exact overlay) → tint demo on scroll.
+/* v8 opening, hero v2 (approved preview, 08/11): one pinned stage. Logo on black → hero: copy on the left over the owner's
+   composition hero-composicao.webp (facade + Porsche on the right, soft edges baked in) → hold → simulator and tint demo on scroll.
+   The layered plate (facade + car cutout) is kept in the DOM but hidden until the travel animation is rebuilt on the new image.
    Reduced motion or no JS: the same blocks stacked, simulator manual only.
    Car rectangle = the full 1500x750 frame canvas, placed so the car matches the approved composition on the hero plate. */
 import Icons from './Icons.astro';
@@ -24,7 +24,11 @@ const car = { left: 30.15, top: 62.14, width: 47.71 };
         <a class="btn" href={site.whatsapp} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a>
         <a class="stage__explore mono" href="#simulador"><span aria-hidden="true">⌄</span> Role para explorar</a>
       </div>
-      <div class="stage__frame">
+      <picture class="stage__hero">
+        <source media="(max-width: 767px)" srcset="/media/hero/hero-composicao-1200.webp" />
+        <img src="/media/hero/hero-composicao.webp" width="1915" height="821" alt="Fachada da Cuiabá Insulfilm em Dom Aquino, com a Porsche branca dentro da garagem" decoding="async" />
+      </picture>
+      <div class="stage__frame" hidden>
         <div class="stage__plate">
           <picture>
             <source media="(max-width: 767px)" srcset="/media/hero/fachada-hero-900.webp" />
@@ -49,7 +53,7 @@ const car = { left: 30.15, top: 62.14, width: 47.71 };
     if (!sec || !matchMedia('(prefers-reduced-motion: no-preference)').matches) return; // stacked fallback stays
     sec.dataset.stage = '';
     var q = function (s) { return sec.querySelector(s); };
-    var brand = q('.stage__brand'), facade = q('.stage__facade'), shadow = q('.stage__shadow'), text = q('.stage__text');
+    var brand = q('.stage__brand'), facade = q('.stage__facade'), shadow = q('.stage__shadow'), text = q('.stage__text'), hero = q('.stage__hero');
     var car = q('.stage__car'), dark = q('.stage__car-dark'), sim = q('.stage__sim'), simEl = document.getElementById('simulador');
     var photo = q('.vlt__photo'), target = document.getElementById('vlt-base');
     var ui = sim.querySelectorAll('.scene-head, .vlt__views, .vlt__caption, .vlt__panel');
@@ -68,7 +72,7 @@ const car = { left: 30.15, top: 62.14, width: 47.71 };
       var b = 1 - seg(p, 0.06, 0.14);
       brand.style.opacity = b; brand.style.visibility = b > 0 ? 'visible' : 'hidden';
       var fIn = seg(p, 0.1, 0.2), fOut = seg(p, 0.42, 0.6), f = fIn * (1 - fOut);
-      facade.style.opacity = f; shadow.style.opacity = f;
+      facade.style.opacity = f; shadow.style.opacity = f; hero.style.opacity = f; // hero-composicao.webp already carries the car: the layered plate stays hidden until the travel layers are rebuilt
       var tOut = seg(p, 0.4, 0.46), t = fIn - tOut; // hero copy: in with the facade, out just before the car leaves
       text.style.opacity = t; text.style.visibility = t > 0 ? 'visible' : 'hidden';
       text.style.transform = 'translateX(' + (-(1 - fIn) * 24 - tOut * 24).toFixed(1) + 'px)';

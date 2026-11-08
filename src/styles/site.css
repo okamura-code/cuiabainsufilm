@@ -63,7 +63,7 @@
 .line > span { display: block; }
 
 /* ---------- STAGE: logo → hero (copy left, facade + Porsche right) → simulator ---------- */
-.stage { background: #0f1114; color: var(--fog); }
+.stage { background: #0a0a0c; color: var(--fog); } /* edge colour of hero-composicao.webp */
 .stage__brand { position: relative; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--header-h) + 16px) var(--gutter) 72px; background: #000; }
 .stage__brand picture { display: contents; }
 .stage__brand img { width: min(84vw, 760px); height: auto; mix-blend-mode: screen; }
@@ -80,7 +80,12 @@
 .stage__explore { display: inline-flex; align-items: center; gap: 0.7rem; margin-top: 2rem; text-decoration: none; color: var(--fog); text-transform: none; letter-spacing: 0.02em; font-family: var(--display); font-size: 0.95rem; }
 .stage__explore span { color: var(--lime); font-size: 1.3rem; line-height: 0; }
 .stage__explore:hover { color: var(--lime); }
-/* facade plate: already feathered into #0f1114 inside the image; no box, no border */
+/* owner's hero composition: full-bleed layer behind the copy, anchored right; soft edges live in the image */
+.stage__hero { position: absolute; inset: 0; z-index: 0; }
+.stage__hero img { width: 100%; height: 100%; object-fit: contain; object-position: right center; display: block; }
+.stage__shop { position: relative; }
+.stage__text { position: relative; z-index: 1; }
+/* facade plate (layered facade + car cutout) — hidden for now, kept for the travel animation */
 .stage__frame { position: relative; }
 .stage__plate { position: relative; aspect-ratio: 1030 / 942; width: 100%; }
 .stage__plate picture, .stage__facade { display: block; width: 100%; height: 100%; }
@@ -91,12 +96,16 @@
 .stage__sim { padding: clamp(48px, 8vw, 96px) 0; }
 @media (min-width: 900px) {
   /* centred container so ultrawide screens keep copy and facade together, as in the preview */
-  .stage__shop { display: grid; grid-template-columns: minmax(320px, 36%) 1fr; align-items: end; min-height: 100svh; max-width: 1600px; margin: 0 auto; }
+  .stage__shop { display: grid; grid-template-columns: minmax(320px, 36%) 1fr; align-items: end; min-height: 100svh; }
+  .stage__text { grid-column: 1; max-width: 560px; margin-left: max(0px, calc((100vw - 1600px) / 2)); }
   .stage__text { align-self: center; padding: calc(var(--header-h) + 24px) 0 48px var(--gutter); }
   .stage__frame { display: flex; justify-content: flex-end; align-items: flex-end; height: 100svh; padding-top: var(--header-h); }
   .stage__plate { width: auto; height: 100%; max-width: 100%; }
 }
 @media (max-width: 899px) {
+  .stage__shop { min-height: 100svh; }
+  .stage__hero { top: auto; bottom: 0; height: 52svh; }
+  .stage__hero img { object-fit: cover; object-position: 72% 100%; }
   .stage__text { padding-top: calc(var(--header-h) + 24px); }
   .stage__text h1 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
   /* phones: show the middle ~72 % of the plate (sign, door, car) instead of a tiny whole facade */
@@ -111,7 +120,7 @@
 .stage[data-stage] .stage__shop { pointer-events: none; z-index: 3; min-height: 0; }
 .stage[data-stage] .stage__text { pointer-events: auto; opacity: 0; visibility: hidden; }
 .stage[data-stage] .stage__frame { overflow: visible; }
-.stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car { opacity: 0; }
+.stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car, .stage[data-stage] .stage__hero { opacity: 0; }
 .stage[data-stage] .stage__car { transform-origin: 0 0; will-change: transform; }
 .stage[data-stage] .stage__sim { z-index: 2; visibility: hidden; padding: var(--header-h) 0 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .stage[data-stage] .stage__sim .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; }
@@ -200,8 +209,7 @@
 .wb__line { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem 1.2rem; display: grid; gap: 0.9rem; align-content: start; }
 .wb__logo { display: inline-flex; align-items: center; justify-self: start; background: #fff; border-radius: 6px; padding: 6px 12px; min-height: 44px; }
 .wb__logo img { width: 170px; height: auto; display: block; }
-.wb__logo--text { font-family: var(--display); font-weight: 800; font-size: 1.25rem; color: #4a4a4a; letter-spacing: -0.01em; }
-.wb__logo--text sup { font-size: 0.55em; margin-left: 2px; }
+.wb__logo--dark { background: #2a2a2a; } /* the Premium mark is white with a grey outline: needs a dark chip */
 .wb__line ul { margin: 0; padding-left: 1.1rem; color: var(--mist); display: grid; gap: 0.3rem; font-size: 0.95rem; }
 .wb__note { margin: 0; font-size: 0.85rem; color: var(--faint); max-width: 80ch; }
 
