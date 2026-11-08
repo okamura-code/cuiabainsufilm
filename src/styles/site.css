@@ -80,19 +80,15 @@
 .stage__explore { display: inline-flex; align-items: center; gap: 0.7rem; margin-top: 2rem; text-decoration: none; color: var(--fog); text-transform: none; letter-spacing: 0.02em; font-family: var(--display); font-size: 0.95rem; }
 .stage__explore span { color: var(--lime); font-size: 1.3rem; line-height: 0; }
 .stage__explore:hover { color: var(--lime); }
-/* owner's hero composition: full-bleed layer behind the copy, anchored right; soft edges live in the image */
+/* hero composition: hero-vazio.webp (owner's image with the garage emptied) + the car cut from the same image.
+   The plate box equals the contained image box, so the car's % position is exact and never clipped by object-fit. */
 .stage__hero { position: absolute; inset: 0; z-index: 0; }
-.stage__hero img { width: 100%; height: 100%; object-fit: contain; object-position: right center; display: block; }
-.stage__shop { position: relative; }
-.stage__text { position: relative; z-index: 1; }
-/* facade plate (layered facade + car cutout) — hidden for now, kept for the travel animation */
-.stage__frame { position: relative; }
-.stage__plate { position: relative; aspect-ratio: 1030 / 942; width: 100%; }
+.stage__plate { position: absolute; right: 0; top: 50%; transform: translateY(-50%); height: min(100%, calc(100vw / 2.3325)); aspect-ratio: 1915 / 821; }
 .stage__plate picture, .stage__facade { display: block; width: 100%; height: 100%; }
 .stage__car { position: absolute; }
 .stage__car img { display: block; width: 100%; height: auto; }
-.stage__car-dark { position: absolute; inset: 0; } /* darker copy with the garage-dark cabin: fades out as the car leaves */
-.stage__shadow { position: absolute; left: 44.7%; top: 84.2%; width: 30.8%; height: 3.4%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0) 70%); }
+.stage__shop { position: relative; }
+.stage__text { position: relative; z-index: 1; }
 .stage__sim { padding: clamp(48px, 8vw, 96px) 0; }
 @media (min-width: 900px) {
   /* centred container so ultrawide screens keep copy and facade together, as in the preview */
@@ -100,18 +96,16 @@
   /* copy sits in the empty left part of the composition: a fixed 560px column, pushed right on ultrawide so it stays near the facade */
   .stage__text { grid-column: 1; width: min(560px, 42vw); max-width: none; margin-left: max(0px, calc((100vw - 1600px) / 2)); }
   .stage__text { align-self: center; padding: calc(var(--header-h) + 24px) 0 48px var(--gutter); }
-  .stage__frame { display: flex; justify-content: flex-end; align-items: flex-end; height: 100svh; padding-top: var(--header-h); }
   .stage__plate { width: auto; height: 100%; max-width: 100%; }
 }
 @media (max-width: 899px) {
   .stage__shop { min-height: 100svh; }
+  /* phones: a 52svh strip at the bottom showing the facade (72 % point of the image); the plate stays unclipped so the car can travel */
   .stage__hero { top: auto; bottom: 0; height: 52svh; }
-  .stage__hero img { object-fit: cover; object-position: 72% 100%; }
+  .stage__plate { right: auto; top: 0; transform: none; height: 100%; left: calc(0.72 * (100vw - 52svh * 2.3325)); }
+  .stage__facade { clip-path: inset(0 calc(0.28 * (52svh * 2.3325 - 100vw)) 0 calc(0.72 * (52svh * 2.3325 - 100vw))); }
   .stage__text { padding-top: calc(var(--header-h) + 24px); }
   .stage__text h1 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
-  /* phones: show the middle ~72 % of the plate (sign, door, car) instead of a tiny whole facade */
-  .stage__frame { overflow: hidden; }
-  .stage__plate { width: 139%; margin-left: -19.5%; }
 }
 /* pinned timeline (JS sets data-stage when motion is allowed): one sticky viewport, three stacked layers */
 .stage[data-stage] { height: 350vh; }
@@ -120,8 +114,7 @@
 .stage[data-stage] .stage__brand { min-height: 0; background: #000; } /* the logo bitmap is black-backed: the whole first frame stays black */
 .stage[data-stage] .stage__shop { pointer-events: none; z-index: 3; min-height: 0; }
 .stage[data-stage] .stage__text { pointer-events: auto; opacity: 0; visibility: hidden; }
-.stage[data-stage] .stage__frame { overflow: visible; }
-.stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car, .stage[data-stage] .stage__hero { opacity: 0; }
+.stage[data-stage] .stage__facade, .stage[data-stage] .stage__car { opacity: 0; }
 .stage[data-stage] .stage__car { transform-origin: 0 0; will-change: transform; }
 .stage[data-stage] .stage__sim { z-index: 2; visibility: hidden; padding: var(--header-h) 0 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .stage[data-stage] .stage__sim .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; }
@@ -134,9 +127,6 @@
   .stage[data-stage] .stage__text h1 { font-size: clamp(1.7rem, 7.2vw, 2.2rem); margin-bottom: 0.7rem; }
   .stage[data-stage] .stage__text .lead { margin-bottom: 1rem; }
   .stage[data-stage] .stage__explore { display: none; }
-  .stage[data-stage] .stage__frame { flex: 1; min-height: 0; }
-  .stage[data-stage] .stage__plate { position: absolute; left: 50%; bottom: 0; height: 100%; width: auto; margin-left: 0; transform: translateX(-50%); } /* fits under the copy; never overlaps the button */
-  .stage[data-stage] .stage__facade { clip-path: inset(0 8%); } /* trims the side fades, without clipping the travelling car */
   .stage[data-stage] .stage__sim { overflow: auto; } /* small phones may need to scroll the panel */
   .stage[data-stage] .stage__sim .scene-head .lead, .stage[data-stage] .vlt__ticks { display: none; }
   .stage[data-stage] .stage__sim .scene-head { margin-bottom: 0.5rem; }
