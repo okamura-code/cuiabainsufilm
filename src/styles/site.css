@@ -189,14 +189,21 @@
 .trust__list .ico { width: 26px; height: 26px; color: var(--lime-deep); flex: none; margin-top: 0.15rem; }
 .trust__list strong { display: block; font-family: var(--cond); font-size: 1.25rem; text-transform: uppercase; line-height: 1; margin-bottom: 0.25rem; }
 .trust__list span { color: var(--muted); font-size: 0.95rem; }
-.wb { margin-top: clamp(24px, 3vw, 36px); background: var(--ink); color: var(--fog); border-radius: var(--radius); padding: clamp(20px, 3vw, 32px); display: grid; gap: 1.4rem; align-items: center; }
-@media (min-width: 640px) { .wb { grid-template-columns: minmax(150px, 220px) 1fr; } }
-.wb__seal { width: 100%; max-width: 220px; height: auto; justify-self: center; }
-.wb__logo { display: inline-block; background: #fff; border-radius: 6px; padding: 6px 12px; }
+.wb { margin-top: clamp(24px, 3vw, 36px); background: var(--ink); color: var(--fog); border-radius: var(--radius); padding: clamp(20px, 3vw, 32px); display: grid; gap: 1.4rem; }
+.wb__head { display: grid; gap: 1.2rem; align-items: center; }
+@media (min-width: 640px) { .wb__head { grid-template-columns: 150px 1fr; } }
+.wb__seal { width: 150px; height: auto; justify-self: center; }
+.wb h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); margin: 0 0 0.5rem; }
+.wb__head p { margin: 0; color: var(--mist); }
+.wb__lines { display: grid; gap: 1rem; }
+@media (min-width: 760px) { .wb__lines { grid-template-columns: 1fr 1fr; } }
+.wb__line { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.2rem 1.2rem; display: grid; gap: 0.9rem; align-content: start; }
+.wb__logo { display: inline-flex; align-items: center; justify-self: start; background: #fff; border-radius: 6px; padding: 6px 12px; min-height: 44px; }
 .wb__logo img { width: 170px; height: auto; display: block; }
-.wb h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); margin: 0.9rem 0 0.6rem; }
-.wb ul { margin: 0; padding-left: 1.1rem; color: var(--mist); display: grid; gap: 0.25rem; }
-.wb__note { margin: 0.9rem 0 0; font-size: 0.85rem; color: var(--faint); }
+.wb__logo--text { font-family: var(--display); font-weight: 800; font-size: 1.25rem; color: #4a4a4a; letter-spacing: -0.01em; }
+.wb__logo--text sup { font-size: 0.55em; margin-left: 2px; }
+.wb__line ul { margin: 0; padding-left: 1.1rem; color: var(--mist); display: grid; gap: 0.3rem; font-size: 0.95rem; }
+.wb__note { margin: 0; font-size: 0.85rem; color: var(--faint); max-width: 80ch; }
 
 /* ---------- REVIEWS (extra) ---------- */
 .reviews { padding-top: 0; }

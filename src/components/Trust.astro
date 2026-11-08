@@ -23,17 +23,32 @@ const items = [
         {items.map(([icon, t, d]) => <li><Icons name={icon} /><div><strong>{t}</strong><span>{d}</span></div></li>)}
       </ul>
       <aside class="wb">
-        <img class="wb__seal" src="/media/trust/selo-garantia-vitalicia.webp" alt="Selo Garantia Vitalícia, 100% original product" width="800" height="790" loading="lazy" decoding="async" />
-        <div class="wb__body">
-          <span class="wb__logo"><img src="/media/trust/windowblue-logo.webp" alt="Window blue Infrared Control" width="800" height="285" loading="lazy" decoding="async" /></span>
-          <h3>Película Window Blue, com garantia vitalícia</h3>
-          <ul>
-            <li>Retém de 93 % a 100 % dos raios infravermelhos</li>
-            <li>Bloqueia mais de 99 % dos raios UV (UVA e UVB)</li>
-            <li>Transparências disponíveis: VLT 05, 20, 35, 50 e 75</li>
-          </ul>
-          <p class="wb__note">Dados do fabricante (Bluetech Window Films). O certificado de garantia é entregue na aplicação, com as condições da linha.</p>
+        <div class="wb__head">
+          <img class="wb__seal" src="/media/trust/selo-garantia-vitalicia.webp" alt="Selo Garantia Vitalícia, 100% original product" width="800" height="790" loading="lazy" decoding="async" />
+          <div>
+            <h3>Películas Window Blue e Window Premium</h3>
+            <p>Duas linhas da mesma fabricante, com acabamentos e desempenhos diferentes. Na loja, você vê as amostras e escolhe pelo seu carro.</p>
+          </div>
         </div>
+        <div class="wb__lines">
+          <article class="wb__line">
+            <span class="wb__logo"><img src="/media/trust/windowblue-logo.webp" alt="Window blue Infrared Control" width="800" height="173" loading="lazy" decoding="async" /></span>
+            <ul>
+              <li>99 % de bloqueio dos raios ultravioleta</li>
+              <li>92 % de rejeição dos raios infravermelhos</li>
+              <li>Transparências de VLT 05 a 75</li>
+            </ul>
+          </article>
+          <article class="wb__line">
+            <span class="wb__logo wb__logo--text">Window premium<sup>®</sup></span>
+            <ul>
+              <li>Linha mais clara, com alta rejeição de calor e visual discreto</li>
+              <li>Variante Premium Clear: 99 % UV e 90 % IR (só essa variante)</li>
+              <li>Demais tonalidades: dados da ficha de cada película</li>
+            </ul>
+          </article>
+        </div>
+        <p class="wb__note">Dados do fabricante (sommafilms.windowblue.com). Rejeição de infravermelho não é o mesmo que redução total do calor. Garantia vitalícia na linha automotiva conforme o certificado e as condições da linha aplicada: desbotamento, descascamento e perda das características técnicas.</p>
       </aside>
     </div>
   </div>
