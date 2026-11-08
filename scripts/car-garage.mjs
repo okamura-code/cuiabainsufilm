@@ -1,39 +1,35 @@
-// Garage-lit copy of the simulator car, geometry untouched. node scripts/car-garage.mjs
-// Deterministic relight of porsche-frente.webp: vertical falloff (brighter roof, darker sills and wheels), slightly cooler and
-// less saturated, both windows filled with the garage's darkness (seats and dash kept), soft side falloff. Same alpha, same pixels
-// positions, so the hand-over to frente/g70 stays exact.
+// Parked-car layer = the owner's garage-lit Porsche (hero-porsche-simulador-v2), cut with a ChatGPT alpha and placed on the
+// simulator frame's 1500x750 canvas so its bbox matches the frame car (width and wheel line). node scripts/car-garage.mjs
+// It sits on top of porsche-frente.webp while parked and fades out during the travel; the two renders differ a little, so the
+// fade is where that difference is absorbed. Output: public/media/hero/porsche-frente-escuro.webp
 import sharp from 'sharp';
-const SRC = 'public/media/hero/porsche-frente.webp', OUT = 'public/media/hero/porsche-frente-escuro.webp';
-const { data: px, info } = await sharp(SRC).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-const W = info.width, H = info.height;
-const inside = (x, y, pg) => { let c = false; for (let i = 0, j = pg.length - 1; i < pg.length; j = i++) { const [xi, yi] = pg[i], [xj, yj] = pg[j]; if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c; } return c; };
-const windshield = [[495, 88], [1040, 88], [1075, 228], [455, 228]], rear = [[640, 122], [885, 122], [892, 180], [632, 180]];
-const G = [0x14, 0x15, 0x17]; // garage back wall
-const CAR = { top: 46, bottom: 689, cx: 750 };
-for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-  const i = (y * W + x) * 4; if (px[i + 3] === 0) continue;
-  let R = px[i], Gr = px[i + 1], B = px[i + 2];
-  const lum = 0.2126 * R + 0.7152 * Gr + 0.0722 * B, sat = Math.max(R, Gr, B) - Math.min(R, Gr, B);
-  // windows: what shows through becomes garage-dark; seats/dash (already dark or saturated) stay
-  if (inside(x, y, rear) && lum > 40 && sat < 70) { const k = Math.min(1, (lum - 40) / 30); R = R * (1 - k) + G[0] * k; Gr = Gr * (1 - k) + G[1] * k; B = B * (1 - k) + G[2] * k; }
-  else if (inside(x, y, windshield) && lum > 95 && sat < 60) { const k = Math.min(1, (lum - 95) / 45) * 0.85; R = R * (1 - k) + G[0] * k; Gr = Gr * (1 - k) + G[1] * k; B = B * (1 - k) + G[2] * k; }
-  // vertical falloff: downlights hit the roof and hood, sills and wheels sit in shade
-  const v = Math.min(1, Math.max(0, (y - CAR.top) / (CAR.bottom - CAR.top)));
-  let f = 0.86 - 0.34 * v * v; // 0.86 at the roof → 0.52 at the tyres
-  const side = Math.abs(x - CAR.cx) / 500; f *= 1 - 0.08 * Math.min(1, side * side); // edges a touch darker
-  // slight desaturation and a cool cast, like the grey concrete room
-  const g = 0.2126 * R + 0.7152 * Gr + 0.0722 * B;
-  R = (R * 0.85 + g * 0.15) * f * 0.98; Gr = (Gr * 0.85 + g * 0.15) * f; B = (B * 0.85 + g * 0.15) * f * 1.04;
-  px[i] = Math.max(0, Math.min(255, Math.round(R))); px[i + 1] = Math.max(0, Math.min(255, Math.round(Gr))); px[i + 2] = Math.max(0, Math.min(255, Math.round(B)));
-}
-const img = sharp(px, { raw: { width: W, height: H, channels: 4 } });
-await img.clone().webp({ quality: 88, alphaQuality: 95 }).toFile(OUT);
-// proof: over the real garage window, with the ChatGPT v2 beside for comparison
+const HERO = 'raw/pacote-2026-11-06/imagens/hero/hero-novo-carro-v2.webp', GPT = 'raw/porsche/hero2-car-cutout-gpt.png';
+const CROP = { left: 960, top: 420, width: 480, height: 340 }, W = 1500, H = 750, FRAME = { x0: 252, x1: 1247, bottom: 689 };
+const rgb = await sharp(HERO).resize(1915, 821, { fit: 'fill' }).extract(CROP).removeAlpha().raw().toBuffer();
+const g = await sharp(GPT).resize(CROP.width, CROP.height, { fit: 'fill' }).ensureAlpha().raw().toBuffer();
+let x0 = 1e9, x1 = 0, y0 = 1e9, y1 = 0, diff = 0, n = 0;
+for (let y = 0; y < CROP.height; y++) for (let x = 0; x < CROP.width; x++) { const i = (y * CROP.width + x) * 4; if (g[i + 3] > 8) { x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); } if (g[i + 3] > 250) { const j = (y * CROP.width + x) * 3; diff += Math.abs(g[i] - rgb[j]) + Math.abs(g[i + 1] - rgb[j + 1]) + Math.abs(g[i + 2] - rgb[j + 2]); n++; } }
+console.log('alpha bbox in crop', { x0, y0, x1, y1 }, 'gpt rgb vs original mean diff', (diff / n / 3).toFixed(2));
+// RGBA cutout (original pixels + gpt alpha), then scale/translate into the frame canvas
+const cut = Buffer.alloc(CROP.width * CROP.height * 4);
+for (let i = 0, j = 0; i < cut.length; i += 4, j += 3) { cut[i] = rgb[j]; cut[i + 1] = rgb[j + 1]; cut[i + 2] = rgb[j + 2]; cut[i + 3] = g[i + 3]; }
+const s = (FRAME.x1 - FRAME.x0) / (x1 - x0);
+const sw = Math.round(CROP.width * s), sh = Math.round(CROP.height * s);
+const left = Math.round(FRAME.x0 - x0 * s), top = Math.round(FRAME.bottom - (y1 + 1) * s);
+console.log('scale', s.toFixed(4), 'placed at', { left, top, sw, sh });
+const scaledFull = sharp(cut, { raw: { width: CROP.width, height: CROP.height, channels: 4 } }).resize(sw, sh, { kernel: 'lanczos3' });
+const cl = Math.max(0, -left), ct = Math.max(0, -top), cw = Math.min(sw - cl, W - Math.max(0, left)), ch = Math.min(sh - ct, H - Math.max(0, top));
+const scaled = await scaledFull.extract({ left: cl, top: ct, width: cw, height: ch }).png().toBuffer(); // keep only what falls inside the canvas
+const layer = sharp({ create: { width: W, height: H, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } }).composite([{ input: scaled, left: Math.max(0, left), top: Math.max(0, top) }]);
+await layer.clone().webp({ quality: 88, alphaQuality: 95 }).toFile('public/media/hero/porsche-frente-escuro.webp');
+// proofs (composite first, then crop): parked car over the garage window; and the garage car (45 %) over the dimmed frame car
 const win = { left: 970, top: 481, width: 469, height: 234 };
-const bg = await sharp('public/media/hero/hero-vazio.webp').extract(win).resize(1500, 750).toBuffer();
-const comp = await sharp(bg).composite([{ input: await img.clone().png().toBuffer() }]).png().toBuffer();
-const mine = await sharp(comp).extract({ left: 187, top: 0, width: 1125, height: 750 }).toBuffer();
-const gpt = await sharp('raw/porsche/relight-gpt-v2.png').resize(1125, 750).toBuffer();
-await sharp({ create: { width: 2270, height: 750, channels: 3, background: '#333' } }).composite([{ input: mine, left: 0, top: 0 }, { input: gpt, left: 1145, top: 0 }]).jpeg({ quality: 88 }).toFile('raw/review-v8/carro-garagem-processado-x-chatgpt.jpg');
-await sharp(comp).extract({ left: 400, top: 60, width: 700, height: 240 }).resize(1400).jpeg({ quality: 90 }).toFile('raw/review-v8/carro-garagem-cabine-2x.jpg');
+const bg = await sharp('public/media/hero/hero-vazio.webp').extract(win).resize(W, H).toBuffer();
+const layerPng = await layer.clone().png().toBuffer();
+const c1 = await sharp(bg).composite([{ input: layerPng }]).png().toBuffer();
+await sharp(c1).extract({ left: 187, top: 0, width: 1125, height: 750 }).jpeg({ quality: 90 }).toFile('raw/review-v8/carro-garagem-dono.jpg');
+const frame = await sharp('public/media/hero/porsche-frente.webp').modulate({ brightness: 0.6 }).png().toBuffer();
+const half = await sharp(layerPng).composite([{ input: Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><rect width="100%" height="100%" fill="#000" fill-opacity=".45"/></svg>`), blend: 'dest-in' }]).png().toBuffer();
+const c2 = await sharp(bg).composite([{ input: frame }, { input: half }]).png().toBuffer();
+await sharp(c2).extract({ left: 187, top: 0, width: 1125, height: 750 }).jpeg({ quality: 88 }).toFile('raw/review-v8/carro-garagem-dono-x-frame.jpg');
 console.log('ok');
