@@ -71,6 +71,7 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
       facade.style.opacity = fIn * (1 - fOut); shadow.style.opacity = fIn * (1 - fOut);
       var tOut = seg(p, 0.4, 0.46), t = fIn - tOut; // hero copy: in with the facade, out just before the car leaves
       text.style.opacity = t; text.style.visibility = t > 0 ? 'visible' : 'hidden';
+      if (fIn > 0.5) text.classList.add('is-in'); // hero h1 lines rise once the copy is on (split in Base.astro)
       text.style.transform = 'translateX(' + (-(1 - fIn) * 24 - tOut * 24).toFixed(1) + 'px)';
       var R = rects(), S = R.S, T = R.T, k = seg(p, 0.4, 0.6), s = T.w / S.w; // car: garage → photo rect (position and size lerp)
       car.style.transform = 'translate(' + ((T.l - S.l) * k).toFixed(1) + 'px,' + ((T.t - S.t) * k).toFixed(1) + 'px) scale(' + (1 + (s - 1) * k).toFixed(4) + ')';
