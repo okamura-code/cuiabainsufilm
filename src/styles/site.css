@@ -87,6 +87,8 @@
 .stage__plate picture, .stage__facade { display: block; width: 100%; height: 100%; }
 .stage__car { position: absolute; }
 .stage__car img { display: block; width: 100%; height: auto; }
+.stage__car-dark { position: absolute; inset: 0; } /* darker copy with the garage-dark cabin: fades out as the car leaves */
+.stage__shadow { position: absolute; left: 55%; top: 83.2%; width: 16%; height: 2.6%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 70%); }
 .stage__shop { position: relative; }
 .stage__text { position: relative; z-index: 1; }
 .stage__sim { padding: clamp(48px, 8vw, 96px) 0; }
@@ -114,7 +116,7 @@
 .stage[data-stage] .stage__brand { min-height: 0; background: #000; } /* the logo bitmap is black-backed: the whole first frame stays black */
 .stage[data-stage] .stage__shop { pointer-events: none; z-index: 3; min-height: 0; }
 .stage[data-stage] .stage__text { pointer-events: auto; opacity: 0; visibility: hidden; }
-.stage[data-stage] .stage__facade, .stage[data-stage] .stage__car { opacity: 0; }
+.stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car { opacity: 0; }
 .stage[data-stage] .stage__car { transform-origin: 0 0; will-change: transform; }
 .stage[data-stage] .stage__sim { z-index: 2; visibility: hidden; padding: var(--header-h) 0 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .stage[data-stage] .stage__sim .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; }

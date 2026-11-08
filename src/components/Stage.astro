@@ -2,12 +2,13 @@
 /* v8 opening, hero v2 (approved 08/11): one pinned stage. Logo on black → hero: copy on the left over the owner's
    composition (facade on the right, soft edges baked in) → hold → the Porsche, cut from that same image, travels to the
    simulator photo while the facade fades → simulator UI and tint demo on scroll.
-   hero-vazio.webp = the owner's image with the garage emptied (scripts/hero-empty.mjs); porsche-hero.webp = the car layer
-   on a 2:1 canvas placed like the simulator frame (scripts/hero-car.mjs). Reduced motion / no JS: blocks stacked, car parked. */
+   hero-vazio.webp = the owner's image with the garage emptied (scripts/hero-empty.mjs). The car is the simulator's own frontal
+   frame cut out (porsche-frente.webp, 1500x750 canvas) placed where the owner's car stood, so the hand-over to frente/g70 is
+   pixel-exact; the darker copy (garage-dark cabin) sits on top while parked. Reduced motion / no JS: blocks stacked, car parked. */
 import Icons from './Icons.astro';
 import VltSimulator from './VltSimulator.astro';
 import { site } from '../data/site';
-// car layer window inside the 1915x821 composition (printed by scripts/hero-car.mjs)
+// frame canvas (1500x750) inside the 1915x821 composition: the frame car (x 252–1247) lands on the owner's car (x 1049–1360)
 const car = { left: 50.653, top: 58.587, width: 24.491 };
 ---
 <section class="stage" id="topo" aria-label="Abertura">
@@ -30,8 +31,10 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
             <source media="(max-width: 767px)" srcset="/media/hero/hero-vazio-1200.webp" />
             <img class="stage__facade" src="/media/hero/hero-vazio.webp" width="1915" height="821" alt="Fachada da Cuiabá Insulfilm em Dom Aquino, com a garagem aberta" decoding="async" />
           </picture>
+          <i class="stage__shadow" aria-hidden="true"></i>
           <div class="stage__car" style={`left:${car.left}%;top:${car.top}%;width:${car.width}%`}>
-            <img src="/media/hero/porsche-hero.webp" width="938" height="468" alt="Porsche 911 branco dentro da garagem" decoding="async" />
+            <img src="/media/hero/porsche-frente.webp" width="1500" height="750" alt="Porsche 911 branco dentro da garagem" decoding="async" />
+            <img class="stage__car-dark" src="/media/hero/porsche-frente-escuro.webp" width="1500" height="750" alt="" decoding="async" />
           </div>
         </div>
       </div>
@@ -47,8 +50,8 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
     if (!sec || !matchMedia('(prefers-reduced-motion: no-preference)').matches) return; // stacked fallback stays
     sec.dataset.stage = '';
     var q = function (s) { return sec.querySelector(s); };
-    var brand = q('.stage__brand'), facade = q('.stage__facade'), text = q('.stage__text');
-    var car = q('.stage__car'), plate = q('.stage__plate'), sim = q('.stage__sim'), simEl = document.getElementById('simulador');
+    var brand = q('.stage__brand'), facade = q('.stage__facade'), shadow = q('.stage__shadow'), text = q('.stage__text');
+    var car = q('.stage__car'), dark = q('.stage__car-dark'), plate = q('.stage__plate'), sim = q('.stage__sim'), simEl = document.getElementById('simulador');
     var photo = q('.vlt__photo'), target = document.getElementById('vlt-base');
     var ui = sim.querySelectorAll('.scene-head, .vlt__views, .vlt__caption, .vlt__panel');
     var pct = { l: parseFloat(car.style.left) / 100, t: parseFloat(car.style.top) / 100, w: parseFloat(car.style.width) / 100 };
@@ -66,13 +69,14 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
       var b = 1 - seg(p, 0.06, 0.14);
       brand.style.opacity = b; brand.style.visibility = b > 0 ? 'visible' : 'hidden';
       var fIn = seg(p, 0.1, 0.2), fOut = seg(p, 0.42, 0.6);
-      facade.style.opacity = fIn * (1 - fOut);
+      facade.style.opacity = fIn * (1 - fOut); shadow.style.opacity = fIn * (1 - fOut);
       var tOut = seg(p, 0.4, 0.46), t = fIn - tOut; // hero copy: in with the facade, out just before the car leaves
       text.style.opacity = t; text.style.visibility = t > 0 ? 'visible' : 'hidden';
       text.style.transform = 'translateX(' + (-(1 - fIn) * 24 - tOut * 24).toFixed(1) + 'px)';
       var R = rects(), S = R.S, T = R.T, k = seg(p, 0.4, 0.6), s = T.w / S.w; // car: garage → photo rect (position and size lerp)
       car.style.transform = 'translate(' + ((T.l - S.l) * k).toFixed(1) + 'px,' + ((T.t - S.t) * k).toFixed(1) + 'px) scale(' + (1 + (s - 1) * k).toFixed(4) + ')';
-      car.style.opacity = fIn * (1 - seg(p, 0.56, 0.62)); // hands over to the simulator frame once it is underneath
+      dark.style.opacity = 1 - k; // garage lighting fades as the car leaves
+      car.style.opacity = fIn * (1 - seg(p, 0.56, 0.62)); // the identical frame is underneath by then
       sim.style.visibility = p >= 0.5 ? 'visible' : 'hidden';
       photo.style.opacity = seg(p, 0.52, 0.6);
       var u = seg(p, 0.56, 0.66);
