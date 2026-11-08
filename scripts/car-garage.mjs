@@ -1,6 +1,6 @@
 // Parked-car layer = the owner's transparent Porsche PNG (raw/porsche/porsche-dono-frontal.png), placed on the simulator
 // frame's 1500x750 canvas so its bbox matches the frame car (width and wheel line). node scripts/car-garage.mjs
-// It sits on top of porsche-frente.webp while parked and fades out during the travel into the frame render.
+// Single car layer of the stage: travels from the garage and dissolves into the frame render on arrival.
 import sharp from 'sharp';
 const SRC = 'raw/porsche/porsche-dono-frontal.png', W = 1500, H = 750, FRAME = { x0: 252, x1: 1247, bottom: 689 };
 const { data: g, info } = await sharp(SRC).ensureAlpha().raw().toBuffer({ resolveWithObject: true });

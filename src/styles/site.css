@@ -87,7 +87,6 @@
 .stage__plate picture, .stage__facade { display: block; width: 100%; height: 100%; }
 .stage__car { position: absolute; }
 .stage__car img { display: block; width: 100%; height: auto; }
-.stage__car-dark { position: absolute; inset: 0; } /* darker copy with the garage-dark cabin: fades out as the car leaves */
 .stage__shadow { position: absolute; left: 55%; top: 83.2%; width: 16%; height: 2.6%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0) 70%); }
 .stage__shop { position: relative; }
 .stage__text { position: relative; z-index: 1; }
