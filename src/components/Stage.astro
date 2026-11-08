@@ -55,11 +55,11 @@ const car = { left: 30.15, top: 62.14, width: 47.71 };
     var ui = sim.querySelectorAll('.scene-head, .vlt__views, .vlt__caption, .vlt__panel');
     var clamp = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
     var seg = function (p, a, b) { var t = clamp((p - a) / (b - a)); return t * t * (3 - 2 * t); };
-    var S, T, lastQ = -2, ticking = false;
-    function measure() { // rest rect of the car layer and its destination (the simulator photo), both in viewport px
-      car.style.transform = '';
-      var r = car.getBoundingClientRect(), t = target.getBoundingClientRect();
-      S = { l: r.left, t: r.top, w: r.width }; T = { l: t.left, t: t.top, w: t.width };
+    var plate = q('.stage__plate'), pct = { l: parseFloat(car.style.left) / 100, t: parseFloat(car.style.top) / 100, w: parseFloat(car.style.width) / 100 };
+    var lastQ = -2, ticking = false;
+    function rects() { // rest rect of the car (from the plate, so transforms never pollute it) and its destination (the simulator photo), live
+      var P = plate.getBoundingClientRect(), t = target.getBoundingClientRect();
+      return { S: { l: P.left + P.width * pct.l, t: P.top + P.height * pct.t, w: P.width * pct.w }, T: { l: t.left, t: t.top, w: t.width } };
     }
     function draw() {
       ticking = false;
@@ -72,7 +72,7 @@ const car = { left: 30.15, top: 62.14, width: 47.71 };
       var tOut = seg(p, 0.4, 0.46), t = fIn - tOut; // hero copy: in with the facade, out just before the car leaves
       text.style.opacity = t; text.style.visibility = t > 0 ? 'visible' : 'hidden';
       text.style.transform = 'translateX(' + (-(1 - fIn) * 24 - tOut * 24).toFixed(1) + 'px)';
-      var k = seg(p, 0.4, 0.6), s = T.w / S.w; // car: rest rect (right column) → photo rect (position and size lerp)
+      var R = rects(), S = R.S, T = R.T, k = seg(p, 0.4, 0.6), s = T.w / S.w; // car: rest rect (right column) → photo rect (position and size lerp)
       car.style.transform = 'translate(' + ((T.l - S.l) * k).toFixed(1) + 'px,' + ((T.t - S.t) * k).toFixed(1) + 'px) scale(' + (1 + (s - 1) * k).toFixed(4) + ')';
       dark.style.opacity = 1 - k;
       car.style.opacity = fIn * (1 - seg(p, 0.55, 0.6)); // appears with the facade, leaves once the identical frame is underneath
@@ -84,14 +84,13 @@ const car = { left: 30.15, top: 62.14, width: 47.71 };
       if (tint !== lastQ) { lastQ = tint; simEl.dispatchEvent(new CustomEvent('stage:tint', { detail: tint })); }
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }
-    function onResize() { measure(); draw(); }
     addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onResize, { passive: true });
-    addEventListener('load', onResize);
+    addEventListener('resize', onScroll, { passive: true });
+    addEventListener('load', onScroll);
     // "Simulador" links land on the simulator state, not on the start of the pinned section
     document.querySelectorAll('a[href="#simulador"]').forEach(function (a) {
       a.addEventListener('click', function (e) { e.preventDefault(); scrollTo({ top: sec.offsetTop + 0.66 * (sec.offsetHeight - innerHeight), behavior: 'smooth' }); });
     });
-    measure(); draw();
+    draw();
   })();
 </script>

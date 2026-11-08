@@ -90,7 +90,8 @@
 .stage__shadow { position: absolute; left: 44.7%; top: 84.2%; width: 30.8%; height: 3.4%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0) 70%); }
 .stage__sim { padding: clamp(48px, 8vw, 96px) 0; }
 @media (min-width: 900px) {
-  .stage__shop { display: grid; grid-template-columns: minmax(320px, 36%) 1fr; align-items: end; min-height: 100svh; }
+  /* centred container so ultrawide screens keep copy and facade together, as in the preview */
+  .stage__shop { display: grid; grid-template-columns: minmax(320px, 36%) 1fr; align-items: end; min-height: 100svh; max-width: 1600px; margin: 0 auto; }
   .stage__text { align-self: center; padding: calc(var(--header-h) + 24px) 0 48px var(--gutter); }
   .stage__frame { display: flex; justify-content: flex-end; align-items: flex-end; height: 100svh; padding-top: var(--header-h); }
   .stage__plate { width: auto; height: 100%; max-width: 100%; }
@@ -106,14 +107,14 @@
 .stage[data-stage] { height: 350vh; }
 .stage[data-stage] .stage__pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 .stage[data-stage] .stage__brand, .stage[data-stage] .stage__shop, .stage[data-stage] .stage__sim { position: absolute; inset: 0; }
-.stage[data-stage] .stage__brand { min-height: 0; background: transparent; }
+.stage[data-stage] .stage__brand { min-height: 0; background: #000; } /* the logo bitmap is black-backed: the whole first frame stays black */
 .stage[data-stage] .stage__shop { pointer-events: none; z-index: 3; min-height: 0; }
 .stage[data-stage] .stage__text { pointer-events: auto; opacity: 0; visibility: hidden; }
 .stage[data-stage] .stage__frame { overflow: visible; }
 .stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car { opacity: 0; }
 .stage[data-stage] .stage__car { transform-origin: 0 0; will-change: transform; }
-.stage[data-stage] .stage__sim { z-index: 2; visibility: hidden; padding: var(--header-h) 0 0; display: flex; align-items: center; overflow: auto; }
-.stage[data-stage] .stage__sim .wrap { width: 100%; }
+.stage[data-stage] .stage__sim { z-index: 2; visibility: hidden; padding: var(--header-h) 0 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.stage[data-stage] .stage__sim .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; }
 .stage[data-stage] .vlt__photo, .stage[data-stage] .stage__sim .scene-head, .stage[data-stage] .vlt__views, .stage[data-stage] .vlt__caption, .stage[data-stage] .vlt__panel { opacity: 0; }
 .stage[data-stage] .vlt__hint { display: inline; color: var(--lime); }
 @media (max-width: 899px) {
@@ -124,8 +125,9 @@
   .stage[data-stage] .stage__text .lead { margin-bottom: 1rem; }
   .stage[data-stage] .stage__explore { display: none; }
   .stage[data-stage] .stage__frame { flex: 1; min-height: 0; }
-  .stage[data-stage] .stage__plate { position: absolute; left: -19.5%; bottom: 0; width: 139%; height: auto; }
-  .stage[data-stage] .stage__facade { clip-path: inset(0 14%); } /* same middle crop, without clipping the travelling car */
+  .stage[data-stage] .stage__plate { position: absolute; left: 50%; bottom: 0; height: 100%; width: auto; margin-left: 0; transform: translateX(-50%); } /* fits under the copy; never overlaps the button */
+  .stage[data-stage] .stage__facade { clip-path: inset(0 8%); } /* trims the side fades, without clipping the travelling car */
+  .stage[data-stage] .stage__sim { overflow: auto; } /* small phones may need to scroll the panel */
   .stage[data-stage] .stage__sim .scene-head .lead, .stage[data-stage] .vlt__ticks { display: none; }
   .stage[data-stage] .stage__sim .scene-head { margin-bottom: 0.5rem; }
   .stage[data-stage] .stage__sim .scene-head h2 { font-size: 1.7rem; }
