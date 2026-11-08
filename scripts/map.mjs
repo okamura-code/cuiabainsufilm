@@ -1,5 +1,5 @@
 // Static map for "Como chegar": OpenStreetMap tiles around the shop (pin read from the Google Maps place page, 08/11/2026),
-// stitched once at build time and recoloured to the site's graphite (roads light, blocks dark). node scripts/map.mjs
+// stitched once at build time, standard OSM colours (owner asked for a normal map). node scripts/map.mjs
 // Output: public/media/contact/mapa.webp (+ -900) and the pin position in %, printed for Contact.astro.
 import sharp from 'sharp';
 import { mkdirSync } from 'node:fs';
@@ -13,15 +13,9 @@ for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
   tiles.push({ input: Buffer.from(await res.arrayBuffer()), left: c * T, top: r * T });
 }
 const W = COLS * T, H = ROWS * T;
-const raw = await sharp({ create: { width: W, height: H, channels: 3, background: '#fff' } }).composite(tiles).greyscale().raw().toBuffer();
-// levels: OSM background (~242) → graphite 0x1b, roads (255) → 0x6a; darker features (text, buildings, parks) → near black
-const out = Buffer.alloc(W * H * 3);
-for (let i = 0; i < W * H; i++) {
-  const v = raw[i], t = Math.min(1, Math.max(0, (v - 226) / 29)), g = 0x14 + t * (0x6a - 0x14);
-  out[i * 3] = Math.round(g * 0.96); out[i * 3 + 1] = Math.round(g); out[i * 3 + 2] = Math.round(g * 1.06); // cool graphite
-}
+const base = sharp({ create: { width: W, height: H, channels: 3, background: '#fff' } }).composite(tiles);
 mkdirSync('public/media/contact', { recursive: true });
-const img = sharp(out, { raw: { width: W, height: H, channels: 3 } }).resize(W * 2, H * 2, { kernel: 'lanczos3' });
+const img = sharp(await base.png().toBuffer()).resize(W * 2, H * 2, { kernel: 'lanczos3' });
 await img.clone().webp({ quality: 82 }).toFile('public/media/contact/mapa.webp');
 await img.clone().resize(900).webp({ quality: 80 }).toFile('public/media/contact/mapa-900.webp');
 console.log('pin % left/top', (((xf - x0) * T) / W * 100).toFixed(2), (((yf - y0) * T) / H * 100).toFixed(2), '| size', W * 2, H * 2);

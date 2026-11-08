@@ -215,7 +215,7 @@
 @media (min-width: 860px) { .contact-s__grid { grid-template-columns: 1fr 1fr; } }
 .contact-s h2 { max-width: 14ch; }
 /* static map card (Contact.astro): image + pin + info card, like a Maps embed in the brand's colours */
-.map { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #141618; }
+.map { position: relative; margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #e9e5dc; }
 .map img { display: block; width: 100%; height: auto; }
 .map__pin { position: absolute; width: 44px; height: 44px; transform: translate(-50%, -100%); color: var(--lime); filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6)); }
 .map__pin svg { width: 100%; height: 100%; }
@@ -224,7 +224,7 @@
 .map__card strong { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
 .map__card span { color: var(--mist); }
 .map__card .btn { justify-self: start; margin-top: 0.3rem; padding: 0.6rem 1rem; font-size: 0.9rem; }
-.map__credit { position: absolute; right: 10px; bottom: 6px; color: var(--mist); font-size: 0.65rem; }
+.map__credit { position: absolute; right: 10px; bottom: 6px; color: #333; font-size: 0.65rem; }
 @media (min-width: 860px) { .map { grid-column: 1 / -1; } }
 @media (max-width: 599px) { .map img { aspect-ratio: 4 / 3; object-fit: cover; } .map__card { position: static; border: 0; border-radius: 0; max-width: none; } .map__pin { left: 43.35% !important; } } /* 4:3 cover crops 5.56 % on each side */
 .contact-s .nap { list-style: none; padding: 0; margin: 0; }
