@@ -1,13 +1,14 @@
 ---
-/* v8 opening: one pinned stage. Logo on black → real facade (approved colours) with the Porsche layer cut from the
-   simulator's own frontal frame → the car travels to the simulator photo (same pixels, exact overlay) → the tint
-   demo runs on scroll. Reduced motion or no JS: the same three blocks stacked, simulator manual only.
-   Car rectangle = the full 1500x750 frame canvas scaled so the car matches the approved composition. */
+/* v8 opening, hero v2 (approved preview, 08/11): one pinned stage. Logo on black → hero: copy on the left, the real facade
+   on the right (sky keyed to graphite, feathered edges) with the Porsche layer cut from the simulator's own frontal frame
+   parked in the garage → hold → the car travels to the simulator photo (same pixels, exact overlay) → tint demo on scroll.
+   Reduced motion or no JS: the same blocks stacked, simulator manual only.
+   Car rectangle = the full 1500x750 frame canvas, placed so the car matches the approved composition on the hero plate. */
 import Icons from './Icons.astro';
 import VltSimulator from './VltSimulator.astro';
-import { wa } from '../data/site';
-// measured: approved car (plate diff) x 713–1039, roof y 597, wheels y 811; layer alpha bbox x 252–1247, y 46–689
-const car = { left: 37.75, top: 62.14, width: 29.43 };
+import { site } from '../data/site';
+// hero plate = approved plate cropped to x 320–1350 (1030x942). Approved car: x 713–1039, wheels y 811 → canvas left 630.5 px, top 585.3 px, width 491.4 px
+const car = { left: 30.15, top: 62.14, width: 47.71 };
 ---
 <section class="stage" id="topo" aria-label="Abertura">
   <div class="stage__pin">
@@ -16,25 +17,24 @@ const car = { left: 37.75, top: 62.14, width: 29.43 };
       <a class="stage__cue mono" href="#loja">Role para conhecer a loja <span aria-hidden="true">↓</span></a>
     </div>
     <div class="stage__shop" id="loja">
+      <div class="stage__text">
+        <p class="stage__eyebrow mono">Cuiabá Insulfilm</p>
+        <h1>Mais conforto.<br />Mais proteção.<br /><span class="accent">Seu carro,</span><br />do seu jeito.</h1>
+        <p class="lead">Películas, PPF e acessórios para cuidar do seu carro.</p>
+        <a class="btn" href={site.whatsapp} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento</a>
+        <a class="stage__explore mono" href="#simulador"><span aria-hidden="true">⌄</span> Role para explorar</a>
+      </div>
       <div class="stage__frame">
         <div class="stage__plate">
           <picture>
-            <source media="(max-width: 767px)" srcset="/media/hero/fachada-1200.webp" />
-            <img class="stage__facade" src="/media/hero/fachada.webp" width="1670" height="942" alt="Fachada da Cuiabá Insulfilm em Dom Aquino, com a garagem aberta" decoding="async" />
+            <source media="(max-width: 767px)" srcset="/media/hero/fachada-hero-900.webp" />
+            <img class="stage__facade" src="/media/hero/fachada-hero.webp" width="1030" height="942" alt="Fachada da Cuiabá Insulfilm em Dom Aquino, com a garagem aberta" decoding="async" />
           </picture>
           <i class="stage__shadow" aria-hidden="true"></i>
           <div class="stage__car" style={`left:${car.left}%;top:${car.top}%;width:${car.width}%`}>
             <img src="/media/hero/porsche-frente.webp" width="1500" height="750" alt="" decoding="async" />
             <img class="stage__car-dark" src="/media/hero/porsche-frente-escuro.webp" width="1500" height="750" alt="" decoding="async" />
           </div>
-        </div>
-      </div>
-      <div class="stage__text">
-        <p class="mono">Cuiabá Insulfilm Som e Acessórios · Dom Aquino, Cuiabá–MT</p>
-        <h1>Películas, PPF e acessórios para cuidar do seu carro.</h1>
-        <div class="actions">
-          <a class="btn" href={wa('Olá! Quero pedir um orçamento.')} target="_blank" rel="noopener"><Icons name="wa" /> Pedir orçamento pelo WhatsApp</a>
-          <a class="btn btn--ghost" href="#simulador">Experimentar tonalidades <span aria-hidden="true">↓</span></a>
         </div>
       </div>
     </div>
@@ -65,17 +65,17 @@ const car = { left: 37.75, top: 62.14, width: 29.43 };
       ticking = false;
       var span = sec.offsetHeight - innerHeight; if (span <= 0) return;
       var p = clamp(-sec.getBoundingClientRect().top / span);
-      var b = 1 - seg(p, 0.04, 0.12);
+      var b = 1 - seg(p, 0.06, 0.14);
       brand.style.opacity = b; brand.style.visibility = b > 0 ? 'visible' : 'hidden';
-      var f = seg(p, 0.08, 0.18) * (1 - seg(p, 0.42, 0.6));
+      var fIn = seg(p, 0.1, 0.2), fOut = seg(p, 0.42, 0.6), f = fIn * (1 - fOut);
       facade.style.opacity = f; shadow.style.opacity = f;
-      var tIn = seg(p, 0.16, 0.24), tOut = seg(p, 0.34, 0.4), t = tIn - tOut;
+      var tOut = seg(p, 0.4, 0.46), t = fIn - tOut; // hero copy: in with the facade, out just before the car leaves
       text.style.opacity = t; text.style.visibility = t > 0 ? 'visible' : 'hidden';
-      text.style.transform = 'translateY(' + ((1 - tIn) * 24 - tOut * 20).toFixed(1) + 'px)';
-      var k = seg(p, 0.38, 0.6), s = T.w / S.w; // car: rest rect → photo rect (position and size lerp)
+      text.style.transform = 'translateX(' + (-(1 - fIn) * 24 - tOut * 24).toFixed(1) + 'px)';
+      var k = seg(p, 0.4, 0.6), s = T.w / S.w; // car: rest rect (right column) → photo rect (position and size lerp)
       car.style.transform = 'translate(' + ((T.l - S.l) * k).toFixed(1) + 'px,' + ((T.t - S.t) * k).toFixed(1) + 'px) scale(' + (1 + (s - 1) * k).toFixed(4) + ')';
       dark.style.opacity = 1 - k;
-      car.style.opacity = seg(p, 0.08, 0.18) * (1 - seg(p, 0.55, 0.6)); // appears with the facade, leaves once the identical frame is underneath
+      car.style.opacity = fIn * (1 - seg(p, 0.55, 0.6)); // appears with the facade, leaves once the identical frame is underneath
       sim.style.visibility = p >= 0.5 ? 'visible' : 'hidden';
       photo.style.opacity = seg(p, 0.5, 0.58);
       var u = seg(p, 0.56, 0.66);

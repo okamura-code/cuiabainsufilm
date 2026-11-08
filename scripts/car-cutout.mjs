@@ -37,3 +37,30 @@ const diff = Buffer.alloc(W * H * 3); let dsum = 0, dn = 0;
 for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const i = (y * W + x) * 4, j = (y * W + x) * 3; if (g[i + 3] < 250) { diff[j] = diff[j + 1] = diff[j + 2] = 0; continue; } const d = (Math.abs(g[i] - frame[j]) + Math.abs(g[i + 1] - frame[j + 1]) + Math.abs(g[i + 2] - frame[j + 2])) / 3; dsum += d; dn++; const v = Math.min(255, d * 4); diff[j] = v; diff[j + 1] = v; diff[j + 2] = v; }
 await sharp(diff, { raw: { width: W, height: H, channels: 3 } }).jpeg({ quality: 80 }).toFile('raw/porsche/grid/gpt-vs-frame-diff.jpg');
 console.log('GPT RGB vs frame (opaque area, no shift) mean diff', (dsum / dn).toFixed(2));
+
+// ---- darker copy for the garage (hero v2): the slatted wall seen through the cabin becomes garage-dark ----
+{
+  const src = sharp(OUT).ensureAlpha(); // porsche-frente.webp (frame RGB + GPT alpha)
+  const { data: px, info } = await src.raw().toBuffer({ resolveWithObject: true });
+  const poly = [[495, 88], [1040, 88], [1075, 228], [455, 228]]; // inside the windshield glass, pillars excluded
+  const rear = [[640, 122], [885, 122], [892, 180], [632, 180]]; // rear window seen between the headrests: the slatted wall
+  const inside2 = (x, y, pg) => { let c = false; for (let i = 0, j = pg.length - 1; i < pg.length; j = i++) { const [xi, yi] = pg[i], [xj, yj] = pg[j]; if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c; } return c; };
+  const inside = (x, y) => inside2(x, y, poly);
+  const G = [0x1a, 0x1c, 0x1f];
+  for (let y = 80; y < 240; y++) for (let x = 440; x < 1090; x++) {
+    if (!inside(x, y)) continue;
+    const i = (y * W + x) * 4, R = px[i], Gr = px[i + 1], B = px[i + 2];
+    const lum = 0.2126 * R + 0.7152 * Gr + 0.0722 * B, sat = Math.max(R, Gr, B) - Math.min(R, Gr, B);
+    const inRear = inside2(x, y, rear);
+    const lo = inRear ? 55 : 110, span = inRear ? 35 : 50;
+    if (lum < lo || sat > 60) continue; // seats, dash, wheel and tinted reflections stay
+    const k = Math.min(1, (lum - lo) / span);
+    px[i] = Math.round(R * (1 - k) + G[0] * k); px[i + 1] = Math.round(Gr * (1 - k) + G[1] * k); px[i + 2] = Math.round(B * (1 - k) + G[2] * k);
+  }
+  const dark = sharp(px, { raw: { width: info.width, height: info.height, channels: 4 } }).modulate({ brightness: 0.84 });
+  await dark.clone().webp({ quality: 88, alphaQuality: 95 }).toFile('public/media/hero/porsche-frente-escuro.webp');
+  const bg = { r: 24, g: 24, b: 23, alpha: 1 };
+  const zoom = async (name, img) => sharp({ create: { width: 700, height: 180, channels: 4, background: bg } }).composite([{ input: await img.extract({ left: 420, top: 70, width: 700, height: 180 }).png().toBuffer() }]).resize(1400, 360, { kernel: 'nearest' }).png().toFile(`raw/porsche/grid/cabin-${name}.png`);
+  await zoom('before', sharp(OUT)); await zoom('after', dark.clone());
+  console.log('ok dark copy with cabin patch');
+}

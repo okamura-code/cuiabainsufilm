@@ -62,48 +62,54 @@
 .line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 .line > span { display: block; }
 
-/* ---------- STAGE: logo → facade + Porsche → simulator ---------- */
-.stage { background: #000; color: var(--fog); }
-.stage__brand { position: relative; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--header-h) + 16px) var(--gutter) 72px; }
+/* ---------- STAGE: logo → hero (copy left, facade + Porsche right) → simulator ---------- */
+.stage { background: #0f1114; color: var(--fog); }
+.stage__brand { position: relative; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--header-h) + 16px) var(--gutter) 72px; background: #000; }
 .stage__brand picture { display: contents; }
 .stage__brand img { width: min(84vw, 760px); height: auto; mix-blend-mode: screen; }
 .stage__cue { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); text-decoration: none; color: var(--mist); white-space: nowrap; }
 .stage__cue:hover { color: var(--lime); }
-.stage__frame { overflow: hidden; background: #000; }
-.stage__plate { position: relative; aspect-ratio: 1670 / 942; width: 100%; }
+/* hero copy (Montserrat here only: the approved preview uses a geometric face, not the condensed one) */
+.stage__text { padding: calc(var(--header-h) + 32px) var(--gutter) 32px; max-width: 560px; }
+.stage__eyebrow { margin: 0 0 1.2rem; color: var(--fog); letter-spacing: 0.22em; }
+.stage__eyebrow::after { content: ''; display: block; width: 64px; height: 3px; background: var(--lime); margin-top: 0.9rem; border-radius: 2px; }
+.stage__text h1 { font-family: var(--display); font-weight: 700; text-transform: none; letter-spacing: -0.02em; line-height: 1.08; font-size: clamp(2.2rem, 3.9vw, 3.6rem); margin: 0 0 1.2rem; }
+.stage__text h1 .accent { color: var(--lime); }
+.stage__text .lead { font-family: var(--display); font-weight: 400; font-size: clamp(1.05rem, 1.4vw, 1.3rem); color: var(--fog); margin: 0 0 1.6rem; max-width: 30ch; }
+.stage__text .btn { font-family: var(--display); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 1.15rem; padding: 0.95rem 1.8rem; }
+.stage__explore { display: inline-flex; align-items: center; gap: 0.7rem; margin-top: 2rem; text-decoration: none; color: var(--fog); text-transform: none; letter-spacing: 0.02em; font-family: var(--display); font-size: 0.95rem; }
+.stage__explore span { color: var(--lime); font-size: 1.3rem; line-height: 0; }
+.stage__explore:hover { color: var(--lime); }
+/* facade plate: already feathered into #0f1114 inside the image; no box, no border */
+.stage__frame { position: relative; }
+.stage__plate { position: relative; aspect-ratio: 1030 / 942; width: 100%; }
 .stage__plate picture, .stage__facade { display: block; width: 100%; height: 100%; }
 .stage__car { position: absolute; }
 .stage__car img { display: block; width: 100%; height: auto; }
-.stage__car-dark { position: absolute; inset: 0; } /* darker copy on top: fades out as the car leaves the garage */
-.stage__shadow { position: absolute; left: 43%; top: 84.2%; width: 19%; height: 3.4%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0) 70%); }
-.stage__text { max-width: var(--maxw); margin: 0 auto; padding: 28px var(--gutter) 56px; }
-.stage__text h1 { font-size: clamp(2rem, 4.2vw, 3.6rem); max-width: 18ch; }
-.stage__text .mono { margin: 0 0 1rem; }
-.stage__text .actions { margin-top: 1.4rem; }
+.stage__car-dark { position: absolute; inset: 0; } /* darker copy with the garage-dark cabin: fades out as the car leaves */
+.stage__shadow { position: absolute; left: 44.7%; top: 84.2%; width: 30.8%; height: 3.4%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0) 70%); }
 .stage__sim { padding: clamp(48px, 8vw, 96px) 0; }
 @media (min-width: 900px) {
-  .stage__shop { padding-top: var(--header-h); }
-  .stage__frame { display: grid; place-items: center; }
-  .stage__plate { width: auto; height: calc(100svh - var(--header-h) - 150px); max-width: 100%; }
-  .stage__text { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 1rem 3rem; padding: 22px var(--gutter) 40px; }
-  .stage__text .mono { grid-column: 1 / -1; margin: 0; }
-  .stage__text h1 { font-size: clamp(1.8rem, 2.6vw, 2.6rem); margin: 0; }
-  .stage__text .actions { margin: 0; }
+  .stage__shop { display: grid; grid-template-columns: minmax(320px, 36%) 1fr; align-items: end; min-height: 100svh; }
+  .stage__text { align-self: center; padding: calc(var(--header-h) + 24px) 0 48px var(--gutter); }
+  .stage__frame { display: flex; justify-content: flex-end; align-items: flex-end; height: 100svh; padding-top: var(--header-h); }
+  .stage__plate { width: auto; height: 100%; max-width: 100%; }
 }
 @media (max-width: 899px) {
-  /* phones: show the middle 62 % of the plate (door + car) instead of a 16:9 strip with a tiny car */
-  .stage__frame { aspect-ratio: 1035 / 942; }
-  .stage__plate { width: 161.3%; margin-left: -30.65%; }
-  .stage__brand { min-height: 72svh; padding-bottom: 64px; }
+  .stage__text { padding-top: calc(var(--header-h) + 24px); }
+  .stage__text h1 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
+  /* phones: show the middle ~72 % of the plate (sign, door, car) instead of a tiny whole facade */
+  .stage__frame { overflow: hidden; }
+  .stage__plate { width: 139%; margin-left: -19.5%; }
 }
 /* pinned timeline (JS sets data-stage when motion is allowed): one sticky viewport, three stacked layers */
 .stage[data-stage] { height: 350vh; }
 .stage[data-stage] .stage__pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 .stage[data-stage] .stage__brand, .stage[data-stage] .stage__shop, .stage[data-stage] .stage__sim { position: absolute; inset: 0; }
-.stage[data-stage] .stage__brand { min-height: 0; }
-.stage[data-stage] .stage__shop { padding-top: var(--header-h); pointer-events: none; z-index: 3; }
+.stage[data-stage] .stage__brand { min-height: 0; background: transparent; }
+.stage[data-stage] .stage__shop { pointer-events: none; z-index: 3; min-height: 0; }
 .stage[data-stage] .stage__text { pointer-events: auto; opacity: 0; visibility: hidden; }
-.stage[data-stage] .stage__frame { overflow: visible; background: transparent; } /* the shop layer sits above the simulator */
+.stage[data-stage] .stage__frame { overflow: visible; }
 .stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car { opacity: 0; }
 .stage[data-stage] .stage__car { transform-origin: 0 0; will-change: transform; }
 .stage[data-stage] .stage__sim { z-index: 2; visibility: hidden; padding: var(--header-h) 0 0; display: flex; align-items: center; overflow: auto; }
@@ -112,8 +118,14 @@
 .stage[data-stage] .vlt__hint { display: inline; color: var(--lime); }
 @media (max-width: 899px) {
   .stage[data-stage] { height: 300vh; }
-  .stage[data-stage] .stage__facade { clip-path: inset(0 19.2%); } /* same middle-62 % crop, without clipping the travelling car */
-  .stage[data-stage] .stage__text h1 { font-size: 1.6rem; }
+  .stage[data-stage] .stage__shop { display: flex; flex-direction: column; justify-content: flex-start; }
+  .stage[data-stage] .stage__text { padding-bottom: 8px; }
+  .stage[data-stage] .stage__text h1 { font-size: clamp(1.7rem, 7.2vw, 2.2rem); margin-bottom: 0.7rem; }
+  .stage[data-stage] .stage__text .lead { margin-bottom: 1rem; }
+  .stage[data-stage] .stage__explore { display: none; }
+  .stage[data-stage] .stage__frame { flex: 1; min-height: 0; }
+  .stage[data-stage] .stage__plate { position: absolute; left: -19.5%; bottom: 0; width: 139%; height: auto; }
+  .stage[data-stage] .stage__facade { clip-path: inset(0 14%); } /* same middle crop, without clipping the travelling car */
   .stage[data-stage] .stage__sim .scene-head .lead, .stage[data-stage] .vlt__ticks { display: none; }
   .stage[data-stage] .stage__sim .scene-head { margin-bottom: 0.5rem; }
   .stage[data-stage] .stage__sim .scene-head h2 { font-size: 1.7rem; }
