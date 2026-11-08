@@ -252,7 +252,7 @@ a.btn--wa, .nav a.btn--wa { display: inline-flex; align-items: center; gap: 8px;
 .footer__legal { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 1.2rem; font-size: 0.8rem; margin: 0; }
 
 /* whatsapp float */
-.wa-float { position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 60; width: 58px; height: 58px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.45); text-decoration: none; }
+.wa-float { position: fixed; right: 18px; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 60; width: 58px; height: 58px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.45); text-decoration: none; transition: opacity 0.25s; }
 .wa-float svg { width: 30px; height: 30px; }
 .wa-float:hover { background: #1ebe5a; }
 @media (max-width: 767px) { .wa-float { width: 52px; height: 52px; right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); } .wa-float svg { width: 27px; height: 27px; } }

@@ -128,14 +128,20 @@
   .stage[data-stage] .stage__text h1 { font-size: clamp(1.7rem, 7.2vw, 2.2rem); margin-bottom: 0.7rem; }
   .stage[data-stage] .stage__text .lead { margin-bottom: 1rem; }
   .stage[data-stage] .stage__explore { display: none; }
-  .stage[data-stage] .stage__sim { overflow: auto; } /* small phones may need to scroll the panel */
-  .stage[data-stage] .stage__sim .scene-head .lead, .stage[data-stage] .vlt__ticks { display: none; }
-  .stage[data-stage] .stage__sim .scene-head { margin-bottom: 0.5rem; }
-  .stage[data-stage] .stage__sim .scene-head h2 { font-size: 1.7rem; }
-  .stage[data-stage] .vlt__caption { margin-top: 0.4rem; font-size: 0.62rem; }
-  .stage[data-stage] .vlt__desc { font-size: 1.15rem; padding-bottom: 0.5rem; }
-  .stage[data-stage] .vlt__readout output { font-size: 3rem; }
-  .stage[data-stage] .vlt__panel { padding: 16px; gap: 0.6rem; }
+  /* pinned simulator must fit 100svh on phones (iPhone 15 Pro with Safari bars = 393x660): top-aligned under the header,
+     caption hidden, one row of views, tighter panel */
+  .stage[data-stage] .stage__sim { overflow: auto; align-items: flex-start; }
+  .stage[data-stage] .stage__sim .scene-head .lead, .stage[data-stage] .vlt__ticks, .stage[data-stage] .vlt__caption { display: none; }
+  .stage[data-stage] .stage__sim .scene-head { margin-bottom: 0.4rem; }
+  .stage[data-stage] .stage__sim .scene-head h2 { font-size: 1.4rem; }
+  .stage[data-stage] .vlt__views { display: flex; flex-wrap: nowrap; gap: 3px; margin-bottom: 0.6rem; }
+  .stage[data-stage] .vlt__views button { flex: 1; padding: 0.45rem 0.3rem; font-size: 0.6rem; letter-spacing: 0.06em; white-space: nowrap; }
+  .stage[data-stage] .vlt__photo { margin-bottom: 0.5rem; }
+  .stage[data-stage] .vlt__desc { font-size: 1rem; padding-bottom: 0.3rem; }
+  .stage[data-stage] .vlt__readout output { font-size: 2.4rem; }
+  .stage[data-stage] .vlt__panel { padding: 10px 14px; gap: 0.4rem; }
+  .stage[data-stage] .vlt__panel .btn { padding: 0.7rem 1rem; }
+  .stage-sim-on .wa-float { opacity: 0; pointer-events: none; } /* the panel has its own WhatsApp button while pinned */
 }
 
 /* ---------- RESULTS ---------- */
