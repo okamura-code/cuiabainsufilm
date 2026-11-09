@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cuiaba-insulfilm.vercel.app/sitemap-index.xml
+Sitemap: https://cuiaba-insulfilm.pages.dev/sitemap-index.xml

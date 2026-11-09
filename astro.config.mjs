@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 
 // directory format + absolute links: clean URLs on Vercel (the Claude Artifact preview is retired)
 export default defineConfig({
-  site: 'https://cuiaba-insulfilm.vercel.app',
+  site: 'https://cuiaba-insulfilm.pages.dev',
   build: { format: 'directory', inlineStylesheets: 'always' },
   integrations: [sitemap()],
 });
