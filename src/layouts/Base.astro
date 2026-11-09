@@ -55,6 +55,20 @@ const business = {
     <link rel="preload" as="font" type="font/woff2" href="/fonts/barlow-condensed-800.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/open-sans.woff2" crossorigin />
     <script type="application/ld+json" set:html={JSON.stringify([business, ...jsonLd])} />
+    <script is:inline>
+      // opening intro (logo sweep in Stage): once per session, motion allowed, page at the top. Decided before first paint.
+      (function () {
+        var h = document.documentElement, run = false;
+        try { run = !sessionStorage.getItem('intro') && matchMedia('(prefers-reduced-motion: no-preference)').matches; sessionStorage.setItem('intro', '1'); } catch (e) {}
+        h.classList.add(run ? 'intro' : 'intro-seen');
+        addEventListener('DOMContentLoaded', function () {
+          if (!run) return;
+          if (scrollY > 0) return h.classList.replace('intro', 'intro-seen');
+          var img = document.querySelector('.logo-intro__w img'), go = function () { h.classList.add('intro-go'); };
+          (img && img.decode ? img.decode().catch(function () {}) : Promise.resolve()).then(go); setTimeout(go, 1500); // start on decode, never stuck
+        });
+      })();
+    </script>
     <slot name="head" />
   </head>
   <body>

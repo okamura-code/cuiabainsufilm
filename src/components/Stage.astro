@@ -14,7 +14,11 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
 <section class="stage" id="topo" aria-label="Abertura">
   <div class="stage__pin">
     <div class="stage__brand">
-      <picture><source media="(max-width: 767px)" srcset="/media/hero/logo-640.webp" /><img src="/media/hero/logo.webp" alt="Cuiabá Insulfilm Som e Acessórios" width="1196" height="729" fetchpriority="high" decoding="async" /></picture>
+      <div class="logo-intro"><!-- two alpha layers (scripts/logo-layers.mjs) so the opening intro can sweep the white and light the lime -->
+        <picture class="logo-intro__w"><source media="(max-width: 767px)" srcset="/media/hero/logo-branca-640.webp" /><img src="/media/hero/logo-branca.webp" alt="Cuiabá Insulfilm Som e Acessórios" width="1196" height="729" fetchpriority="high" decoding="async" /></picture>
+        <picture class="logo-intro__l"><source media="(max-width: 767px)" srcset="/media/hero/logo-lima-640.webp" /><img src="/media/hero/logo-lima.webp" alt="" width="1196" height="729" decoding="async" /></picture>
+        <span class="logo-intro__beam" aria-hidden="true"></span>
+      </div>
       <a class="stage__cue mono" href="#loja">Role para conhecer a loja <span aria-hidden="true">↓</span></a>
     </div>
     <div class="stage__shop" id="loja">
