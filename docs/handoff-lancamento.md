@@ -2,7 +2,13 @@
 
 Contexto para continuar em outra máquina (notebook) ou em uma sessão nova do Claude. Guia passo a passo com fontes oficiais: `docs/guia-lancamento.pdf` (também `.html`).
 
-## Onde estamos
+## Atualização 09/11, 09:40
+- Passos 3 e 6 feitos: conta Cloudflare do cliente criada e projeto Pages `cuiabainsufilm` no ar em **https://cuiabainsufilm.pages.dev**, ligado ao GitHub.
+- Projeto da demo (`cuiaba-insulfilm.pages.dev`, conta okamuraextra) apagado: a Cloudflare só deixa o repo ligado a uma conta.
+- Endereço nos 3 arquivos agora é `https://cuiabainsufilm.pages.dev` até o domínio sair.
+- Domínio ainda NÃO comprado. Falta: passos 2, 4, 5, 7, 8 (trocar pelo domínio), 9, 10, 11 e apagar a Vercel antiga.
+
+## Onde estamos (texto original)
 - Site aprovado pelo dono. Código em `okamura-code/cuiabainsufilm`, branch `main`.
 - **Demonstração no ar:** https://cuiaba-insulfilm.pages.dev — Cloudflare Pages na conta pessoal do dev (`okamuraextra@gmail.com`). **Essa conta é só para demonstração ao cliente.**
 - Vercel antiga (`cuiaba-insulfilm.vercel.app`, conta okamuraextra-8814) ainda mostra o site velho.
