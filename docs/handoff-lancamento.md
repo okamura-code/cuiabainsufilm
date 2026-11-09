@@ -2,6 +2,11 @@
 
 Contexto para continuar em outra máquina (notebook) ou em uma sessão nova do Claude. Guia passo a passo com fontes oficiais: `docs/guia-lancamento.pdf` (também `.html`).
 
+## Atualização 09/11, 12:45 — NO AR
+- Domínio `cuiabainsulfilm.com.br` registrado (Registro.br, em nome do cliente), DNS na Cloudflare do cliente (frank/olga), custom domain ligado ao projeto Pages. Endereço nos 3 arquivos = `https://cuiabainsulfilm.com.br`.
+- Search Console verificado (TXT na Cloudflare, não apagar).
+- Falta: `www` (conferir se ligou), enviar sitemap + solicitar indexação, Perfil da Empresa (campo Site), apagar Vercel antiga.
+
 ## Atualização 09/11, 09:40
 - Passos 3 e 6 feitos: conta Cloudflare do cliente criada e projeto Pages `cuiabainsufilm` no ar em **https://cuiabainsufilm.pages.dev**, ligado ao GitHub.
 - Projeto da demo (`cuiaba-insulfilm.pages.dev`, conta okamuraextra) apagado: a Cloudflare só deixa o repo ligado a uma conta.

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cuiabainsufilm.pages.dev/sitemap-index.xml
+Sitemap: https://cuiabainsulfilm.com.br/sitemap-index.xml

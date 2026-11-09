@@ -1,7 +1,7 @@
 export const site = {
   name: 'Cuiabá Insulfilm',
   legalName: 'Cuiabá Insulfilm Som e Acessórios',
-  url: 'https://cuiabainsufilm.pages.dev',
+  url: 'https://cuiabainsulfilm.com.br',
   description:
     'Película automotiva Window Blue com certificado de garantia, PPF, som e acessórios em Cuiabá-MT. Revenda autorizada em Dom Aquino. Orçamento pelo WhatsApp.',
   phoneDisplay: '(65) 99340-1663',
