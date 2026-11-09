@@ -14,7 +14,7 @@
 - Sem blog, sem Google Analytics; dono administra o perfil Google
 
 ## Pendente
-- Domínio: ainda não existe. `cuiabainsulfilm.com.br` é só placeholder no canonical/sitemap. Checar disponibilidade no registro.br e registrar.
+- ~~Domínio~~: `cuiabainsulfilm.com.br` registrado pelo cliente em 09/11/2026 (Registro.br), DNS na Cloudflare dele.
 - Logo em vetor (SVG/PDF): hoje o site usa um wordmark em HTML/CSS que imita a logo. Trocar pelo arquivo oficial.
 - Fotos e vídeos reais em alta resolução (existem, placas cobertas): enviar para substituir as imagens geradas em `public/media/`.
 - História da loja (fundação): dono não sabe. Página Sobre ficou sem data.

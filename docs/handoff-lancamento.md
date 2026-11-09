@@ -54,5 +54,5 @@ Login do git no notebook: o push pede login do GitHub pelo navegador (Git Creden
 ## O que o Claude não faz
 Não digita senhas, não cria contas, não paga, não aceita termos nem autoriza apps OAuth. O dono faz login/aprovação e avisa "logado"/"autorizado"; daí o Claude segue pelo navegador ou pelo terminal.
 
-## Pendências antigas do dono (não bloqueiam o lançamento)
-Uso comercial das capturas de vídeo da garagem; áudio dos vídeos; confirmar o pino do mapa; linha Window Blue aplicada; tonalidades Premium; teste em iPhone real (Safari).
+## Pendências antigas do dono — RESOLVIDAS em 09/11/2026
+Confirmado pelo dono (via Gabriel): uso comercial e áudio dos vídeos da garagem autorizados; pino do mapa certo; linha Window Blue e tonalidades Premium corretas; testado e aprovado em iPhone real. Teto solar: só película (insulfilme), não faz mais instalação/manutenção/borracha.
