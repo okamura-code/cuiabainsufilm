@@ -8,6 +8,8 @@
 import Icons from './Icons.astro';
 import VltSimulator from './VltSimulator.astro';
 import { site } from '../data/site';
+import { existsSync } from 'node:fs';
+const vertical = existsSync('public/media/hero/abertura-vertical.mp4'); // 9:16 cut for phones, when the owner supplies one (scripts/intro-video.mjs)
 // frame canvas (1500x750) inside the 1915x821 composition: the frame car (x 252–1247) lands on the owner's car (x 1049–1360)
 const car = { left: 50.653, top: 58.587, width: 24.491 };
 ---
@@ -15,7 +17,8 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
   <div class="stage__pin">
     <div class="stage__brand">
       <!-- brand animation (AI-made, not shop work): plays once, muted, rests on its last frame; the poster is the no-autoplay fallback -->
-      <video class="stage__video" autoplay muted playsinline preload="auto" poster="/media/hero/abertura-poster.webp" aria-label="Cuiabá Insulfilm Som e Acessórios" width="1280" height="720">
+      <video class:list={["stage__video", { "stage__video--v": vertical }]} autoplay muted playsinline preload="auto" poster="/media/hero/abertura-poster.webp" aria-label="Cuiabá Insulfilm Som e Acessórios" width="1280" height="720">
+        {vertical && <source src="/media/hero/abertura-vertical.mp4" media="(max-width: 767px) and (orientation: portrait)" type="video/mp4" />}
         <source src="/media/hero/abertura-celular.mp4" media="(max-width: 767px)" type="video/mp4" />
         <source src="/media/hero/abertura.mp4" type="video/mp4" />
       </video>

@@ -64,9 +64,11 @@
 
 /* ---------- STAGE: logo → hero (copy left, facade + Porsche right) → simulator ---------- */
 .stage { background: #0a0a0c; color: var(--fog); } /* edge colour of hero-composicao.webp */
-.stage__brand { position: relative; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--header-h) + 16px) var(--gutter) 72px; background: #000; }
-.stage__video { display: block; width: min(100%, 1280px); height: auto; max-height: calc(100svh - var(--header-h) - 96px); aspect-ratio: 16 / 9; object-fit: contain; background: #000; }
-@media (max-width: 767px) { .stage__video { width: 100%; aspect-ratio: 1150 / 1080; } } /* the phone source is cropped to the logo */
+.stage__brand { position: relative; min-height: 100svh; background: #000; }
+.stage__video { position: absolute; top: var(--header-h); left: 0; width: 100%; height: calc(100% - var(--header-h)); object-fit: cover; object-position: 50% 42%; background: #000; } /* logo sits at y 20-73 % of the frame: cover is safe up to ~3.2:1 */
+@media (min-aspect-ratio: 12/5) { .stage__video { object-position: 50% 46%; } } /* wide and short (21:9 minus browser chrome): keep the bottom of the logo clear of the scroll cue */
+@media (min-aspect-ratio: 16/5) { .stage__video { object-fit: contain; } } /* beyond 3.2:1 (32:9) cover would cut the logo; 21:9 minus browser chrome (~2.7:1) still covers */
+@media (max-width: 767px) and (orientation: portrait) { .stage__video:not(.stage__video--v) { object-fit: contain; } } /* landscape source on a phone: whole logo, black bands, until a 9:16 file exists */
 .stage__cue { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); text-decoration: none; color: var(--mist); white-space: nowrap; }
 .stage__cue:hover { color: var(--lime); }
 /* hero copy (Montserrat here only: the approved preview uses a geometric face, not the condensed one) */
@@ -112,7 +114,7 @@
 .stage[data-stage] { height: 350vh; }
 .stage[data-stage] .stage__pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
 .stage[data-stage] .stage__brand, .stage[data-stage] .stage__shop, .stage[data-stage] .stage__sim { position: absolute; inset: 0; }
-.stage[data-stage] .stage__brand { min-height: 0; background: #000; } /* the logo bitmap is black-backed: the whole first frame stays black */
+.stage[data-stage] .stage__brand { min-height: 0; background: #000; } /* black behind the video until its first frame */
 .stage[data-stage] .stage__shop { pointer-events: none; z-index: 3; min-height: 0; }
 .stage[data-stage] .stage__text { pointer-events: auto; opacity: 0; visibility: hidden; }
 .stage[data-stage] .stage__facade, .stage[data-stage] .stage__shadow, .stage[data-stage] .stage__car { opacity: 0; }
