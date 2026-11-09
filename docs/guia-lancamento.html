@@ -26,19 +26,20 @@
 </head>
 <body>
 <h1>Guia de lançamento — site Cuiabá Insulfilm</h1>
-<p class="sub">Roteiro do dia: domínio no Registro.br, hospedagem grátis no Cloudflare Pages, Google Search Console e Perfil da Empresa no Google. Preparado em 08/11/2026 a partir das páginas oficiais citadas em cada etapa.</p>
+<p class="sub">Roteiro do dia: domínio no Registro.br, hospedagem grátis no Cloudflare Pages, Google Search Console e Perfil da Empresa no Google. Preparado em 08/11/2026 e atualizado em 09/11/2026, a partir das páginas oficiais citadas em cada etapa.</p>
 
 <div class="box">
-<b>Ponto de partida.</b> Código no GitHub em <code>okamura-code/cuiabainsufilm</code>, branch padrão <code>main</code> (commit <code>4800f4f</code>). Site Astro estático: build <code>npm run build</code>, saída <code>dist</code>, Node 22 fixado em <code>.node-version</code>. Preview aprovado pelo cliente: deploy <code>ffeqg4ry4</code> (link compartilhável gerado na Vercel em 08/11).<br>
-<b>Decisões:</b> hospedagem <b>Cloudflare Pages (plano Free)</b>, domínio <b>.com.br no Registro.br</b> em nome do cliente (CPF ou CNPJ dele).
+<b>Site já no ar (09/11/2026):</b> <a href="https://cuiaba-insulfilm.pages.dev">https://cuiaba-insulfilm.pages.dev</a> — público, sem login, com a logo na miniatura do WhatsApp. É este o link para mostrar ao cliente.<br>
+<b>Como está montado:</b> Cloudflare Pages, conta <code>okamuraextra@gmail.com</code>, projeto <code>cuiaba-insulfilm</code>, ligado ao GitHub <code>okamura-code/cuiabainsufilm</code>, branch <code>main</code> (cada push publica sozinho). Build <code>npm run build</code>, saída <code>dist</code>, Node 22 fixado em <code>.node-version</code>.<br>
+<b>Falta:</b> domínio <b>.com.br no Registro.br</b> em nome do cliente (CPF ou CNPJ dele), apontar para a Cloudflare, Search Console e Perfil da Empresa.
 </div>
 
 <h3>Ordem recomendada (meia tarde é suficiente)</h3>
 <ol>
   <li>Registrar o domínio no Registro.br e pagar (Pix ativa na hora). <i>Cliente faz, você orienta.</i></li>
-  <li>Criar conta na Cloudflare, adicionar o domínio (zona), anotar os 2 servidores DNS.</li>
+  <li>Na Cloudflare (conta já existe), adicionar o domínio (zona), anotar os 2 servidores DNS.</li>
   <li>No Registro.br, trocar os servidores DNS do domínio para os da Cloudflare.</li>
-  <li>Criar o projeto Pages a partir do GitHub; primeiro deploy em <code>*.pages.dev</code>.</li>
+  <li><s>Criar o projeto Pages a partir do GitHub</s> — <b>feito</b>: <code>cuiaba-insulfilm.pages.dev</code>.</li>
   <li>Trocar o endereço do site no código (3 arquivos), push em <code>main</code>.</li>
   <li>Adicionar o domínio e o www ao projeto Pages; testar.</li>
   <li>Search Console: propriedade de Domínio, TXT no DNS da Cloudflare, sitemap.</li>
@@ -65,9 +66,9 @@
 <div class="box warn"><b>Atenção.</b> Não é possível renomear um domínio depois de registrado; conferir a grafia antes de pagar. Cobrança de renovação chega por e-mail 30 dias antes de vencer; o Registro.br não manda boleto pelo correio.</div>
 <p class="src">Fontes: <a href="https://registro.br/ajuda/pagamento-de-dominio/">registro.br/ajuda/pagamento-de-dominio/</a> · <a href="https://registro.br/ajuda/registro-de-novos-dominios/registrando-um-dominio/">registro.br/ajuda/registro-de-novos-dominios/</a> · <a href="https://registro.br/dominio/regras/">registro.br/dominio/regras/</a> · <a href="https://registro.br/ajuda/gerenciamento-de-conta/dns/">registro.br/ajuda/gerenciamento-de-conta/dns/</a> (lidas em 08/11/2026).</p>
 
-<h2 class="page">2. Conta na Cloudflare e domínio como zona</h2>
+<h2 class="page">2. Domínio como zona na Cloudflare</h2>
 <ol>
-  <li>Em <b>dash.cloudflare.com</b> → Sign up com o e-mail do cliente. Plano Free.</li>
+  <li>Entrar em <b>dash.cloudflare.com</b> com a conta que já hospeda o site (<code>okamuraextra@gmail.com</code>). Se o cliente quiser conta própria: Sign up com o e-mail dele (plano Free) e refazer a etapa 4 lá; leva 5 minutos.</li>
   <li>Menu <b>Domains</b> → <b>Onboard a domain</b> → digitar o domínio raiz (ex.: <code>cuiabainsulfilm.com.br</code>) → escolher "quick scan" dos registros DNS → <b>Continue</b> → selecionar o plano <b>Free</b> → revisar os registros → <b>Continue</b>.</li>
   <li>A Cloudflare mostra <b>dois servidores DNS</b> (algo como <code>ana.ns.cloudflare.com</code> e <code>bob.ns.cloudflare.com</code>). Copiar os dois exatamente. Eles também ficam na página <b>Overview</b> da zona.</li>
   <li>Se o domínio tiver DNSSEC ativo no Registro.br, desativar antes de trocar os servidores.</li>
@@ -83,28 +84,29 @@
 <div class="box">Quem pode fazer essa troca: contato do titular, administrativo ou técnico do domínio. Por isso vale cadastrar você como contato técnico.</div>
 <p class="src">Fontes: <a href="https://registro.br/ajuda/gerenciamento-de-conta/dns/">registro.br — item 5.5 "Como faço para alterar os servidores DNS"</a> · <a href="https://developers.cloudflare.com/dns/zone-setups/full-setup/setup/">Cloudflare — full setup</a></p>
 
-<h2>4. Projeto no Cloudflare Pages (hospedagem)</h2>
+<h2>4. Projeto no Cloudflare Pages (hospedagem) — feito em 09/11</h2>
+<p>Já está publicado em <a href="https://cuiaba-insulfilm.pages.dev">https://cuiaba-insulfilm.pages.dev</a>. Passos usados, para repetir na conta do cliente se ele preferir:</p>
 <ol>
-  <li>Antes: no GitHub, adicionar a conta do cliente como colaborador do repo <code>okamura-code/cuiabainsufilm</code> (Settings → Collaborators), ou importar com a sua conta GitHub mesmo e dar acesso ao cliente na Cloudflare depois.</li>
-  <li>Painel Cloudflare → <b>Workers &amp; Pages</b> → <b>Create application</b> → aba <b>Pages</b> → <b>Connect to Git</b> → <b>GitHub</b> → autorizar → escolher o repositório → <b>Install &amp; Authorize</b> → <b>Begin setup</b>.</li>
-  <li>Em "Set up builds and deployments": <b>Project name</b> = <code>cuiaba-insulfilm</code> (vira <code>cuiaba-insulfilm.pages.dev</code>); <b>Production branch</b> = <code>main</code>; <b>Framework preset</b> = <b>Astro</b> (preenche build <code>npm run build</code> e saída <code>dist</code>). Sem variáveis de ambiente (o Node 22 já vem do <code>.node-version</code>).</li>
-  <li><b>Save and Deploy</b>. Build leva 1 a 2 minutos. Abrir <code>https://cuiaba-insulfilm.pages.dev</code> e conferir: vídeo da abertura, simulador, botões de WhatsApp, mapa, <code>/robots.txt</code>, <code>/sitemap-index.xml</code>.</li>
+  <li>Painel Cloudflare → <b>Workers &amp; Pages</b> → <b>Create application</b> → <b>Pages</b> → <b>Import an existing Git repository</b> → <b>Connect GitHub</b> → instalar o app "Cloudflare Workers and Pages" na conta GitHub, só no repositório <code>cuiabainsufilm</code> → <b>Install &amp; Authorize</b>.</li>
+  <li>Selecionar o repositório → em "Set up builds and deployments": <b>Project name</b> <code>cuiaba-insulfilm</code>; <b>Production branch</b> <code>main</code>; <b>Build command</b> <code>npm run build</code>; <b>Build output directory</b> <code>dist</code> (ou preset Astro, que preenche os dois). Sem variáveis de ambiente.</li>
+  <li><b>Save and Deploy</b>. Build leva 1 a 2 minutos.</li>
+  <li>Conferido no ar: vídeo da abertura, <code>/robots.txt</code>, <code>/sitemap-index.xml</code>, imagem de prévia <code>/media/og.jpg</code> (logo 1200×630).</li>
 </ol>
 <div class="box warn">Projeto criado pela integração Git não pode virar "Direct Upload" depois. A Cloudflare já oferece "Workers com static assets" como sucessor do Pages; o Pages continua aceitando projetos novos (doc atualizada em 04/2026). Se um dia migrar, o Workers exige DNS na Cloudflare, que é justamente o que estamos fazendo.</div>
 <p class="src">Fontes: <a href="https://developers.cloudflare.com/pages/get-started/git-integration/">pages/get-started/git-integration/</a> · <a href="https://developers.cloudflare.com/pages/configuration/build-configuration/">pages/configuration/build-configuration/</a> · <a href="https://developers.cloudflare.com/pages/configuration/build-image/">pages/configuration/build-image/</a> (Node padrão 22.23.4; <code>.node-version</code> fixa a versão).</p>
 
 <h2 class="page">5. Trocar o endereço do site no código e publicar</h2>
-<p>Três lugares ainda apontam para <code>https://cuiaba-insulfilm.vercel.app</code>. Trocar pelo domínio final (sem barra no fim):</p>
+<p>Três lugares apontam hoje para <code>https://cuiaba-insulfilm.pages.dev</code>. Quando o domínio estiver ativo, trocar pelo domínio final (sem barra no fim):</p>
 <table>
   <tr><th>Arquivo</th><th>O que usa</th></tr>
   <tr><td><code>src/data/site.ts</code> (campo <code>url</code>)</td><td>canonical, Open Graph, JSON-LD do negócio</td></tr>
   <tr><td><code>astro.config.mjs</code> (campo <code>site</code>)</td><td>sitemap gerado no build</td></tr>
   <tr><td><code>public/robots.txt</code> (linha <code>Sitemap:</code>)</td><td>endereço do sitemap para os buscadores</td></tr>
 </table>
-<pre>grep -rn "cuiaba-insulfilm.vercel.app" src/data/site.ts astro.config.mjs public/robots.txt
+<pre>grep -rn "cuiaba-insulfilm.pages.dev" src/data/site.ts astro.config.mjs public/robots.txt
 # editar os 3, depois:
 git add -A && git commit -m "chore: production domain" && git push</pre>
-<p>O Pages publica sozinho em cada push na <code>main</code>. Conferir depois: <code>https://dominio/robots.txt</code>, <code>https://dominio/sitemap-index.xml</code>, e compartilhar o link no WhatsApp para ver a imagem de prévia.</p>
+<p>O Pages publica sozinho em cada push na <code>main</code>. Conferir depois: <code>https://dominio/robots.txt</code>, <code>https://dominio/sitemap-index.xml</code>, e compartilhar o link no WhatsApp para ver a imagem de prévia (se vier a miniatura antiga, mandar uma vez com <code>?v=2</code> no fim).</p>
 
 <h2>6. Domínio próprio no projeto Pages</h2>
 <ol>
@@ -139,12 +141,12 @@ git add -A && git commit -m "chore: production domain" && git push</pre>
 <h2>9. Checklist final e depois do lançamento</h2>
 <ul class="check">
   <li>Domínio registrado e pago; servidores DNS = Cloudflare; zona Active.</li>
-  <li>Pages publicado em <code>*.pages.dev</code>; domínio e www adicionados; HTTPS ativo.</li>
+  <li>Pages publicado em <code>cuiaba-insulfilm.pages.dev</code> (feito); domínio e www adicionados; HTTPS ativo.</li>
   <li>Código com o domínio final nos 3 arquivos; robots e sitemap abrindo no domínio.</li>
   <li>Search Console verificado, sitemap enviado, indexação da home pedida.</li>
   <li>Perfil da Empresa com o site, telefone e horário conferidos.</li>
   <li>Teste no celular do cliente (Safari): abertura, rolagem, simulador, WhatsApp.</li>
-  <li>Vercel antiga (<code>cuiaba-insulfilm.vercel.app</code>): manter 1 semana como backup, depois apagar o projeto para não duplicar no Google.</li>
+  <li>Vercel antiga (<code>cuiaba-insulfilm.vercel.app</code>, site velho): apagar o projeto depois do lançamento para não duplicar no Google. O endereço <code>pages.dev</code> continua existindo; o canonical aponta para o domínio, então não concorre.</li>
   <li>Guardar em lugar seguro do cliente: login Registro.br, login Cloudflare, conta Google usada. Renovação do domínio vence em 1 ano.</li>
 </ul>
 <div class="box"><b>Pendências antigas que continuam com o dono:</b> uso comercial das capturas de vídeo da garagem, áudio dos vídeos, confirmar o pino do mapa, linha Window Blue aplicada, tonalidades Premium.</div>

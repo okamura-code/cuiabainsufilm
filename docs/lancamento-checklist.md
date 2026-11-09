@@ -1,7 +1,7 @@
 # Lançamento — roteiro do dia (preparado em 08/11/2026)
 
 Estado: branch `site-v8`, commit `0f779c5`, no GitHub (`okamura-code/cuiabainsufilm`). Preview aprovado: ffeqg4ry4.
-Produção da Vercel atual (`cuiaba-insulfilm.vercel.app`, conta okamuraextra-8814) ainda é o site antigo. Hospedagem definitiva: Cloudflare Pages (conta do cliente), domínio no registro.br.
+No ar desde 09/11/2026: https://cuiaba-insulfilm.pages.dev (Cloudflare Pages, conta okamuraextra, ligado ao GitHub, branch `main`). Vercel antiga (`cuiaba-insulfilm.vercel.app`) ainda mostra o site velho. Falta domínio no registro.br.
 
 ## 1. Mostrar ao cliente
 Link público: gerado no painel Vercel (deploy ffeqg4ry4 → Share → Anyone with the link). Está na conversa de 08/11; não fica no repo porque o token dá acesso a quem tiver o link.
