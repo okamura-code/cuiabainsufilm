@@ -80,7 +80,12 @@
 .stage__text .lead { font-family: var(--display); font-weight: 400; font-size: clamp(1.05rem, 1.4vw, 1.3rem); color: var(--fog); margin: 0 0 1.6rem; max-width: 30ch; }
 .stage__text .btn { font-family: var(--display); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 1.15rem; padding: 0.95rem 1.8rem; }
 .stage__explore { display: inline-flex; align-items: center; gap: 0.7rem; margin-top: 2rem; text-decoration: none; color: var(--fog); text-transform: none; letter-spacing: 0.02em; font-family: var(--display); font-size: 0.95rem; }
-.stage__explore span { color: var(--lime); font-size: 1.3rem; line-height: 0; }
+.stage__explore span { display: inline-flex; color: var(--lime); }
+.stage__explore svg { width: 1.15em; height: 1.15em; }
+@media (prefers-reduced-motion: no-preference) {
+  .stage__explore span { animation: explore-bob 1.6s ease-in-out infinite; }
+  @keyframes explore-bob { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(4px); } }
+}
 .stage__explore:hover { color: var(--lime); }
 /* hero composition: hero-vazio.webp (owner's image with the garage emptied) + the car cut from the same image.
    The plate box equals the contained image box, so the car's % position is exact and never clipped by object-fit. */
