@@ -190,6 +190,11 @@
 .svc-card__body { padding: 1.2rem 1.4rem 1.4rem; display: grid; gap: 0.5rem; justify-items: start; }
 .svc-card h3 { margin: 0; }
 .svc-card p { margin: 0; color: var(--mist); }
+/* odd card count: the last card spans the row, photo left / text right, so no empty cell */
+@media (min-width: 700px) {
+  .svc-card:last-child:nth-child(odd) { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+  .svc-card:last-child:nth-child(odd) img { height: 100%; }
+}
 .svc-note { margin: 1rem 0 0; display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; padding: 0.9rem 1.2rem; border: 1px dashed var(--line-2); border-radius: var(--radius); color: var(--mist); font-size: 0.95rem; }
 .svc-note .ico { width: 22px; height: 22px; color: var(--lime); flex: none; }
 .svc-note span { flex: 1; min-width: 200px; }
