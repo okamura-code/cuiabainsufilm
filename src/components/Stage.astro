@@ -14,11 +14,11 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
 <section class="stage" id="topo" aria-label="Abertura">
   <div class="stage__pin">
     <div class="stage__brand">
-      <div class="logo-intro"><!-- two alpha layers (scripts/logo-layers.mjs) so the opening intro can sweep the white and light the lime -->
-        <picture class="logo-intro__w"><source media="(max-width: 767px)" srcset="/media/hero/logo-branca-640.webp" /><img src="/media/hero/logo-branca.webp" alt="Cuiabá Insulfilm Som e Acessórios" width="1196" height="729" fetchpriority="high" decoding="async" /></picture>
-        <picture class="logo-intro__l"><source media="(max-width: 767px)" srcset="/media/hero/logo-lima-640.webp" /><img src="/media/hero/logo-lima.webp" alt="" width="1196" height="729" decoding="async" /></picture>
-        <span class="logo-intro__beam" aria-hidden="true"></span>
-      </div>
+      <!-- brand animation (AI-made, not shop work): plays once, muted, rests on its last frame; the poster is the no-autoplay fallback -->
+      <video class="stage__video" autoplay muted playsinline preload="auto" poster="/media/hero/abertura-poster.webp" aria-label="Cuiabá Insulfilm Som e Acessórios" width="1280" height="720">
+        <source src="/media/hero/abertura-celular.mp4" media="(max-width: 767px)" type="video/mp4" />
+        <source src="/media/hero/abertura.mp4" type="video/mp4" />
+      </video>
       <a class="stage__cue mono" href="#loja">Role para conhecer a loja <span aria-hidden="true">↓</span></a>
     </div>
     <div class="stage__shop" id="loja">
@@ -50,7 +50,8 @@ const car = { left: 50.653, top: 58.587, width: 24.491 };
 <script is:inline>
   (function () {
     var sec = document.getElementById('topo');
-    if (!sec || !matchMedia('(prefers-reduced-motion: no-preference)').matches) return; // stacked fallback stays
+    if (!sec) return;
+    if (!matchMedia('(prefers-reduced-motion: no-preference)').matches) { var v = sec.querySelector('.stage__video'); if (v) { v.removeAttribute('autoplay'); v.pause(); } return; } // stacked fallback, poster only
     sec.dataset.stage = '';
     var q = function (s) { return sec.querySelector(s); };
     var brand = q('.stage__brand'), facade = q('.stage__facade'), shadow = q('.stage__shadow'), text = q('.stage__text');

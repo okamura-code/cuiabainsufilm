@@ -65,26 +65,8 @@
 /* ---------- STAGE: logo → hero (copy left, facade + Porsche right) → simulator ---------- */
 .stage { background: #0a0a0c; color: var(--fog); } /* edge colour of hero-composicao.webp */
 .stage__brand { position: relative; min-height: 100svh; display: grid; place-items: center; padding: calc(var(--header-h) + 16px) var(--gutter) 72px; background: #000; }
-.logo-intro { position: relative; width: min(84vw, 760px); }
-.logo-intro picture { display: contents; }
-.logo-intro img { display: block; width: 100%; height: auto; }
-.logo-intro__l img { position: absolute; inset: 0; }
-.logo-intro__beam { display: none; }
-/* opening intro: html.intro set in Base.astro before paint (1st visit of the session, motion allowed); html.intro-seen = short fade */
-.intro-seen .logo-intro { animation: brand-fade 0.4s ease-out both; }
-.intro .logo-intro__w img { clip-path: inset(0 100% 0 0); }
-.intro .logo-intro__l img, .intro .stage__cue { opacity: 0; } /* hidden until html.intro-go (white layer decoded), so the sweep never runs on a blank image */
-.intro-go .logo-intro__w img { animation: brand-wipe 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s both; }
-.intro-go .logo-intro__beam { display: block; position: absolute; top: -6%; bottom: -6%; width: 10%; left: 0; pointer-events: none; mix-blend-mode: screen;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.32) 50%, transparent); filter: blur(2px);
-  animation: brand-beam 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s both; }
-.intro-go .logo-intro__l img { animation: brand-light 0.5s ease-out 0.8s both; }
-.intro-go .stage__cue { animation: brand-cue 0.4s ease-out 1.3s both; }
-@keyframes brand-fade { from { opacity: 0; } }
-@keyframes brand-wipe { to { clip-path: inset(0 0 0 0); } }
-@keyframes brand-beam { from { transform: translateX(-100%); opacity: 1; } 85% { opacity: 1; } to { transform: translateX(1050%); opacity: 0; } }
-@keyframes brand-light { from { opacity: 0; filter: brightness(2.2); transform: scale(0.98); } 40% { opacity: 1; } to { opacity: 1; filter: brightness(1); transform: scale(1); } }
-@keyframes brand-cue { from { opacity: 0; transform: translate(-50%, 6px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.stage__video { display: block; width: min(100%, 1280px); height: auto; max-height: calc(100svh - var(--header-h) - 96px); aspect-ratio: 16 / 9; object-fit: contain; background: #000; }
+@media (max-width: 767px) { .stage__video { width: 100%; aspect-ratio: 1150 / 1080; } } /* the phone source is cropped to the logo */
 .stage__cue { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); text-decoration: none; color: var(--mist); white-space: nowrap; }
 .stage__cue:hover { color: var(--lime); }
 /* hero copy (Montserrat here only: the approved preview uses a geometric face, not the condensed one) */
