@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Guia de lançamento — Cuiabá Insulfilm</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  body { font: 11pt/1.45 "Segoe UI", Arial, sans-serif; color: #111; max-width: 180mm; margin: 0 auto; }
+  h1 { font-size: 22pt; margin: 0 0 4px; }
+  h2 { font-size: 15pt; margin: 26px 0 8px; padding-bottom: 4px; border-bottom: 2px solid #8bc34a; page-break-after: avoid; }
+  h3 { font-size: 12pt; margin: 16px 0 6px; page-break-after: avoid; }
+  .sub { color: #555; margin: 0 0 14px; }
+  ol, ul { padding-left: 22px; } li { margin: 4px 0; }
+  code, pre { font-family: Consolas, "Courier New", monospace; font-size: 9.5pt; background: #f3f3f3; border-radius: 3px; }
+  code { padding: 1px 4px; } pre { padding: 8px 10px; white-space: pre-wrap; }
+  .box { border: 1px solid #ccc; border-left: 4px solid #8bc34a; background: #f9fbf4; padding: 8px 12px; margin: 10px 0; }
+  .warn { border-left-color: #e0a800; background: #fff9e6; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 10pt; }
+  th, td { border: 1px solid #ccc; padding: 5px 7px; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  .src { font-size: 9pt; color: #555; }
+  .src a { color: #2a6; word-break: break-all; }
+  .check li { list-style: none; margin-left: -18px; } .check li::before { content: "☐ "; }
+  .page { page-break-before: always; }
+</style>
+</head>
+<body>
+<h1>Guia de lançamento — site Cuiabá Insulfilm</h1>
+<p class="sub">Roteiro do dia: domínio no Registro.br, hospedagem grátis no Cloudflare Pages, Google Search Console e Perfil da Empresa no Google. Preparado em 08/11/2026 a partir das páginas oficiais citadas em cada etapa.</p>
+
+<div class="box">
+<b>Ponto de partida.</b> Código no GitHub em <code>okamura-code/cuiabainsufilm</code>, branch padrão <code>main</code> (commit <code>4800f4f</code>). Site Astro estático: build <code>npm run build</code>, saída <code>dist</code>, Node 22 fixado em <code>.node-version</code>. Preview aprovado pelo cliente: deploy <code>ffeqg4ry4</code> (link compartilhável gerado na Vercel em 08/11).<br>
+<b>Decisões:</b> hospedagem <b>Cloudflare Pages (plano Free)</b>, domínio <b>.com.br no Registro.br</b> em nome do cliente (CPF ou CNPJ dele).
+</div>
+
+<h3>Ordem recomendada (meia tarde é suficiente)</h3>
+<ol>
+  <li>Registrar o domínio no Registro.br e pagar (Pix ativa na hora). <i>Cliente faz, você orienta.</i></li>
+  <li>Criar conta na Cloudflare, adicionar o domínio (zona), anotar os 2 servidores DNS.</li>
+  <li>No Registro.br, trocar os servidores DNS do domínio para os da Cloudflare.</li>
+  <li>Criar o projeto Pages a partir do GitHub; primeiro deploy em <code>*.pages.dev</code>.</li>
+  <li>Trocar o endereço do site no código (3 arquivos), push em <code>main</code>.</li>
+  <li>Adicionar o domínio e o www ao projeto Pages; testar.</li>
+  <li>Search Console: propriedade de Domínio, TXT no DNS da Cloudflare, sitemap.</li>
+  <li>Perfil da Empresa no Google: colocar o site, conferir telefone e horário.</li>
+</ol>
+
+<h2>1. Domínio no Registro.br</h2>
+<table>
+  <tr><th>Item</th><th>Dado oficial</th></tr>
+  <tr><td>Preço</td><td>R$ 40,00 por 1 ano (R$ 76 por 2 anos, R$ 112 por 3). Alterações de dados não custam nada.</td></tr>
+  <tr><td>Quem pode</td><td>Pessoa física maior de idade (CPF) ou jurídica (CNPJ) estabelecida no Brasil. Data de nascimento é exigida para validar o CPF.</td></tr>
+  <tr><td>Pagamento</td><td>Pix, cartão de crédito Visa ou MasterCard, ou boleto. Instruções chegam no e-mail de confirmação do registro.</td></tr>
+  <tr><td>Nome</td><td>2 a 26 caracteres antes do <code>.com.br</code>; letras, números, hífen e acentos; não pode começar nem terminar com hífen.</td></tr>
+  <tr><td>DNS no registro</td><td>São necessários 2 servidores DNS. Se não informar nenhum, o Registro.br usa os servidores dele e o domínio é registrado em até 5 minutos (sem outra pendência). Dá para trocar depois.</td></tr>
+</table>
+<h3>Passo a passo</h3>
+<ol>
+  <li>Em <b>registro.br</b>, pesquisar o nome desejado. Sugestões a testar, nesta ordem: <code>cuiabainsulfilm.com.br</code>, <code>cuiabainsulfilm.com</code> (se quiser os dois, o .com fica para depois), <code>insulfilmcuiaba.com.br</code>. Só registra se aparecer <b>"Domínio disponível para registro"</b>.</li>
+  <li>Clicar em <b>Registrar</b>. Criar a conta do cliente: nome completo da pessoa (não nome genérico), CPF ou CNPJ do titular, e-mail que ele acessa, endereço com CEP, data de nascimento. Dica: ativar o <b>Token</b> (verificação em duas etapas) em "Segurança" depois do registro.</li>
+  <li>Na tela de servidores DNS, <b>deixar os do Registro.br</b> por enquanto (o domínio ativa em minutos). Trocar para a Cloudflare na etapa 3.</li>
+  <li>Pagar com <b>Pix</b> (mais rápido). Guardar a fatura de Registro (não existe nota fiscal para esse serviço).</li>
+  <li>Anotar: usuário do Registro.br, e-mail, e quem é o contato do titular. O cliente é o dono; você pode ser cadastrado só como contato técnico, que basta para mexer em DNS.</li>
+</ol>
+<div class="box warn"><b>Atenção.</b> Não é possível renomear um domínio depois de registrado; conferir a grafia antes de pagar. Cobrança de renovação chega por e-mail 30 dias antes de vencer; o Registro.br não manda boleto pelo correio.</div>
+<p class="src">Fontes: <a href="https://registro.br/ajuda/pagamento-de-dominio/">registro.br/ajuda/pagamento-de-dominio/</a> · <a href="https://registro.br/ajuda/registro-de-novos-dominios/registrando-um-dominio/">registro.br/ajuda/registro-de-novos-dominios/</a> · <a href="https://registro.br/dominio/regras/">registro.br/dominio/regras/</a> · <a href="https://registro.br/ajuda/gerenciamento-de-conta/dns/">registro.br/ajuda/gerenciamento-de-conta/dns/</a> (lidas em 08/11/2026).</p>
+
+<h2 class="page">2. Conta na Cloudflare e domínio como zona</h2>
+<ol>
+  <li>Em <b>dash.cloudflare.com</b> → Sign up com o e-mail do cliente. Plano Free.</li>
+  <li>Menu <b>Domains</b> → <b>Onboard a domain</b> → digitar o domínio raiz (ex.: <code>cuiabainsulfilm.com.br</code>) → escolher "quick scan" dos registros DNS → <b>Continue</b> → selecionar o plano <b>Free</b> → revisar os registros → <b>Continue</b>.</li>
+  <li>A Cloudflare mostra <b>dois servidores DNS</b> (algo como <code>ana.ns.cloudflare.com</code> e <code>bob.ns.cloudflare.com</code>). Copiar os dois exatamente. Eles também ficam na página <b>Overview</b> da zona.</li>
+  <li>Se o domínio tiver DNSSEC ativo no Registro.br, desativar antes de trocar os servidores.</li>
+</ol>
+<p class="src">Fontes: <a href="https://developers.cloudflare.com/fundamentals/manage-domains/add-site/">developers.cloudflare.com/fundamentals/manage-domains/add-site/</a> · <a href="https://developers.cloudflare.com/dns/zone-setups/full-setup/setup/">developers.cloudflare.com/dns/zone-setups/full-setup/setup/</a></p>
+
+<h2>3. Trocar os servidores DNS no Registro.br</h2>
+<ol>
+  <li>Entrar em <b>registro.br</b> com a conta do cliente → clicar no nome do domínio.</li>
+  <li>Na tela do domínio, campos de <b>servidores DNS</b>: apagar os do Registro.br e colar os dois da Cloudflare (sem IP; só é preciso IP quando o servidor DNS está dentro do próprio domínio, o que não é o caso). Salvar.</li>
+  <li>Publicação do Registro.br acontece a cada 5 minutos; a Cloudflare diz para esperar até 24 h, na prática costuma levar de minutos a poucas horas. A zona na Cloudflare muda de "Pending Nameserver Update" para <b>Active</b> e chega um e-mail.</li>
+</ol>
+<div class="box">Quem pode fazer essa troca: contato do titular, administrativo ou técnico do domínio. Por isso vale cadastrar você como contato técnico.</div>
+<p class="src">Fontes: <a href="https://registro.br/ajuda/gerenciamento-de-conta/dns/">registro.br — item 5.5 "Como faço para alterar os servidores DNS"</a> · <a href="https://developers.cloudflare.com/dns/zone-setups/full-setup/setup/">Cloudflare — full setup</a></p>
+
+<h2>4. Projeto no Cloudflare Pages (hospedagem)</h2>
+<ol>
+  <li>Antes: no GitHub, adicionar a conta do cliente como colaborador do repo <code>okamura-code/cuiabainsufilm</code> (Settings → Collaborators), ou importar com a sua conta GitHub mesmo e dar acesso ao cliente na Cloudflare depois.</li>
+  <li>Painel Cloudflare → <b>Workers &amp; Pages</b> → <b>Create application</b> → aba <b>Pages</b> → <b>Connect to Git</b> → <b>GitHub</b> → autorizar → escolher o repositório → <b>Install &amp; Authorize</b> → <b>Begin setup</b>.</li>
+  <li>Em "Set up builds and deployments": <b>Project name</b> = <code>cuiaba-insulfilm</code> (vira <code>cuiaba-insulfilm.pages.dev</code>); <b>Production branch</b> = <code>main</code>; <b>Framework preset</b> = <b>Astro</b> (preenche build <code>npm run build</code> e saída <code>dist</code>). Sem variáveis de ambiente (o Node 22 já vem do <code>.node-version</code>).</li>
+  <li><b>Save and Deploy</b>. Build leva 1 a 2 minutos. Abrir <code>https://cuiaba-insulfilm.pages.dev</code> e conferir: vídeo da abertura, simulador, botões de WhatsApp, mapa, <code>/robots.txt</code>, <code>/sitemap-index.xml</code>.</li>
+</ol>
+<div class="box warn">Projeto criado pela integração Git não pode virar "Direct Upload" depois. A Cloudflare já oferece "Workers com static assets" como sucessor do Pages; o Pages continua aceitando projetos novos (doc atualizada em 04/2026). Se um dia migrar, o Workers exige DNS na Cloudflare, que é justamente o que estamos fazendo.</div>
+<p class="src">Fontes: <a href="https://developers.cloudflare.com/pages/get-started/git-integration/">pages/get-started/git-integration/</a> · <a href="https://developers.cloudflare.com/pages/configuration/build-configuration/">pages/configuration/build-configuration/</a> · <a href="https://developers.cloudflare.com/pages/configuration/build-image/">pages/configuration/build-image/</a> (Node padrão 22.23.4; <code>.node-version</code> fixa a versão).</p>
+
+<h2 class="page">5. Trocar o endereço do site no código e publicar</h2>
+<p>Três lugares ainda apontam para <code>https://cuiaba-insulfilm.vercel.app</code>. Trocar pelo domínio final (sem barra no fim):</p>
+<table>
+  <tr><th>Arquivo</th><th>O que usa</th></tr>
+  <tr><td><code>src/data/site.ts</code> (campo <code>url</code>)</td><td>canonical, Open Graph, JSON-LD do negócio</td></tr>
+  <tr><td><code>astro.config.mjs</code> (campo <code>site</code>)</td><td>sitemap gerado no build</td></tr>
+  <tr><td><code>public/robots.txt</code> (linha <code>Sitemap:</code>)</td><td>endereço do sitemap para os buscadores</td></tr>
+</table>
+<pre>grep -rn "cuiaba-insulfilm.vercel.app" src/data/site.ts astro.config.mjs public/robots.txt
+# editar os 3, depois:
+git add -A && git commit -m "chore: production domain" && git push</pre>
+<p>O Pages publica sozinho em cada push na <code>main</code>. Conferir depois: <code>https://dominio/robots.txt</code>, <code>https://dominio/sitemap-index.xml</code>, e compartilhar o link no WhatsApp para ver a imagem de prévia.</p>
+
+<h2>6. Domínio próprio no projeto Pages</h2>
+<ol>
+  <li>Workers &amp; Pages → projeto → aba <b>Custom domains</b> → <b>Set up a domain</b> → digitar <code>cuiabainsulfilm.com.br</code> → <b>Continue</b>. Como a zona já está na Cloudflare, ela cria o registro DNS sozinha. HTTPS automático.</li>
+  <li>Repetir para <code>www.cuiabainsulfilm.com.br</code>.</li>
+  <li>Opcional, redirecionar www → raiz: <b>Bulk Redirects</b> (lista com Source <code>www.dominio</code> → Target <code>https://dominio</code>, 301, marcando preservar query, subpath e path suffix) e, em DNS, registro A <code>www</code> → <code>192.0.2.1</code> com proxy ligado. Pode ficar para outro dia; sem isso, www e raiz servem o mesmo site, e o canonical já aponta para a raiz.</li>
+</ol>
+<div class="box warn">Não criar CNAME na mão antes de adicionar o domínio no painel do Pages (dá erro 522). Domínio raiz só funciona com a zona na Cloudflare, por isso a etapa 3 vem antes.</div>
+<p class="src">Fontes: <a href="https://developers.cloudflare.com/pages/configuration/custom-domains/">pages/configuration/custom-domains/</a> · <a href="https://developers.cloudflare.com/pages/how-to/www-redirect/">pages/how-to/www-redirect/</a></p>
+
+<h2>7. Google Search Console</h2>
+<ol>
+  <li>Entrar em <b>search.google.com/search-console</b> com a conta Google do cliente (a mesma do Perfil da Empresa, de preferência) → <b>Adicionar propriedade</b> → tipo <b>Domínio</b> → <code>cuiabainsulfilm.com.br</code>. O tipo Domínio cobre www, sem www, http e https de uma vez; só aceita verificação por DNS.</li>
+  <li>O Google mostra um registro <b>TXT</b> no formato <code>google-site-verification=...</code>. Copiar.</li>
+  <li>Na Cloudflare → zona do domínio → <b>DNS</b> → <b>Add record</b>: tipo <b>TXT</b>, nome <code>@</code>, conteúdo = a string copiada, TTL Auto → Save. Na Cloudflare costuma propagar em minutos (o Google avisa que pode levar até 2 ou 3 dias em outros provedores).</li>
+  <li>Voltar ao Search Console → <b>Verificar</b>. Se falhar, esperar alguns minutos e tentar de novo. <b>Não apagar</b> o registro TXT depois: ele mantém a verificação.</li>
+  <li>Menu <b>Sitemaps</b> → colar <code>https://cuiabainsulfilm.com.br/sitemap-index.xml</code> → <b>Enviar</b>. O Google aceita índice de sitemaps e segue os arquivos listados.</li>
+  <li>Menu <b>Inspeção de URL</b> → colar a home → <b>Solicitar indexação</b>. Há cota diária; pedir uma vez basta. Indexação leva de dias a semanas.</li>
+</ol>
+<p class="src">Fontes: <a href="https://support.google.com/webmasters/answer/34592?hl=pt-BR">Adicionar propriedade</a> · <a href="https://support.google.com/webmasters/answer/9008080?hl=pt-BR">Verificar propriedade (registro DNS)</a> · <a href="https://support.google.com/webmasters/answer/7451001?hl=pt-BR">Sitemaps</a> · <a href="https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl?hl=pt-BR">Pedir rastreamento</a></p>
+
+<h2 class="page">8. Perfil da Empresa no Google (Google Meu Negócio)</h2>
+<p>O perfil da loja já existe no Google Maps (31 avaliações, nota 5,0, endereço Carmindo de Campos, 75, Dom Aquino). Falta colocar o site e conferir os dados.</p>
+<ol>
+  <li>Logado na conta Google que administra o perfil, pesquisar no Google o nome da empresa ou "minha empresa" → aparece o painel do perfil → <b>Editar perfil</b>. Pelo app Google Maps: aba <b>Empresa</b> → Editar perfil.</li>
+  <li>Em <b>Informações comerciais</b> → campo <b>Site</b>: colar o endereço completo com <code>https://</code> (ex.: <code>https://cuiabainsulfilm.com.br</code>) → Salvar. Revisão do Google costuma levar até 10 minutos, em raros casos até 30 dias.</li>
+  <li>Conferir no mesmo lugar: telefone <b>(65) 99340-1663</b> igual ao do site, horário de funcionamento, categoria principal específica (ex.: "Loja de películas automotivas" ou equivalente disponível), descrição até 750 caracteres sem links, fotos da fachada e dos serviços.</li>
+  <li>Se o perfil ainda não for do cliente: <b>business.google.com/add</b> → digitar nome e endereço → escolher a empresa → <b>Solicitar acesso</b>. O dono atual tem 3 dias para responder; sem resposta, dá para reivindicar pelo e-mail de confirmação. Métodos de verificação possíveis: vídeo ao vivo, telefone/SMS, e-mail, cartão-postal (até 14 dias) ou, instantâneo, pelo Search Console já verificado.</li>
+</ol>
+<p class="src">Fontes: <a href="https://support.google.com/business/answer/3039617?hl=pt-BR">Editar informações do perfil</a> · <a href="https://support.google.com/business/answer/3038311?hl=pt-BR">Status das edições</a> · <a href="https://support.google.com/business/answer/7107242?hl=pt-BR">Verificar a empresa</a> · <a href="https://support.google.com/business/answer/4566671?hl=pt-BR">Solicitar acesso a um perfil</a></p>
+
+<h2>9. Checklist final e depois do lançamento</h2>
+<ul class="check">
+  <li>Domínio registrado e pago; servidores DNS = Cloudflare; zona Active.</li>
+  <li>Pages publicado em <code>*.pages.dev</code>; domínio e www adicionados; HTTPS ativo.</li>
+  <li>Código com o domínio final nos 3 arquivos; robots e sitemap abrindo no domínio.</li>
+  <li>Search Console verificado, sitemap enviado, indexação da home pedida.</li>
+  <li>Perfil da Empresa com o site, telefone e horário conferidos.</li>
+  <li>Teste no celular do cliente (Safari): abertura, rolagem, simulador, WhatsApp.</li>
+  <li>Vercel antiga (<code>cuiaba-insulfilm.vercel.app</code>): manter 1 semana como backup, depois apagar o projeto para não duplicar no Google.</li>
+  <li>Guardar em lugar seguro do cliente: login Registro.br, login Cloudflare, conta Google usada. Renovação do domínio vence em 1 ano.</li>
+</ul>
+<div class="box"><b>Pendências antigas que continuam com o dono:</b> uso comercial das capturas de vídeo da garagem, áudio dos vídeos, confirmar o pino do mapa, linha Window Blue aplicada, tonalidades Premium.</div>
+</body>
+</html>
